@@ -97,16 +97,18 @@ Bootstrap 5 HTML CSS Template
                         </li>
 
                         <li class="nav-item ms-lg-auto">
-                            <a class="nav-link" href="#">Register</a>
+                            <a class="nav-link" href="{{ route('account.register') }}">Register</a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link custom-btn btn" href="#">Login</a>
+                            <a class="nav-link custom-btn btn" href="{{ route('account.login') }}">Login</a>
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
+            <form action="{{ route('logout') }}" method="POST" style="display:inline">@csrf<button type="submit">Logout</button></form>
+            <span> ({{ auth()->user()->name }})</span>
         @yield('content')   
     </body>
     <footer class="site-footer">
@@ -251,4 +253,5 @@ Bootstrap 5 HTML CSS Template
         <script src="js/owl.carousel.min.js"></script>
         <script src="js/counter.js"></script>
         <script src="js/custom.js"></script>
+
     </html>
