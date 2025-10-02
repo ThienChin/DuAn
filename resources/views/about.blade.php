@@ -294,5 +294,6 @@
                 </div>
             </section>
         </main>
+        
 @endsection
 
