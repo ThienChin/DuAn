@@ -1,35 +1,34 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
-use App\Models\Account;
+use App\Http\Controllers\Controller;
+use App\Models\User;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules;
+use Illuminate\View\View;
 
-class AccountController extends Controller
+class RegisteredUserController extends Controller
 {
-    public function login()
+    /**
+     * Display the registration view.
+     */
+    public function create(): View
     {
-        return view('account.login');
+        return view('auth.register');
     }
 
-    public function post_login(Request $request)
+    /**
+     * Handle an incoming registration request.
+     *
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function store(Request $request): RedirectResponse
     {
-        // Handle login logic here
-        // Validate the request, authenticate the user, etc.
-        
-        // For now, just redirect back to the login page
-        return redirect()->route('index')->with('message', 'Login successful!');
-    }
-
-    public function register()
-    {
-        return view('account.register');
-        return redirect()->route('account.register')->with('message', 'Register successful!');
-    }
-
-    public function post_register(Request $request)
-    {
-    //    validate dữ liệu trên form
         $rules = [
             'name' => 'required|max:100',
             'email' => 'required|unique:accounts|max:100',
@@ -51,8 +50,8 @@ class AccountController extends Controller
             'password_confirmation.same' => 'Xác nhận mật khẩu chưa đúng',
         ];
         $request->validate($rules, $message);
-        // Lưu thông in vào bảng accounts
-        $add = Account::create([
+
+        $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
@@ -60,12 +59,11 @@ class AccountController extends Controller
             'gender' => $request->gender,
             'password' => bcrypt($request->password)
         ]);
-        // kiểm tra thêm mới thành công hay không
-        if(!$add){
-            return redirect()->back()->with('error','Đăng ký không thành công vui lòng thử lại');
-        }
-        return redirect()->route('account.login');
 
+        event(new Registered($user));
+
+        Auth::login($user);
+
+        return redirect(route('dashboard', absolute: false));
     }
-
 }
