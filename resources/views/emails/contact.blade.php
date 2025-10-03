@@ -1,7 +1,7 @@
 @extends('layouts.main')
 @section('content')
 
-        <main>
+            <main>
 
             <header class="site-header">
                 <div class="section-overlay"></div>
@@ -85,7 +85,8 @@
                         </div>
 
                         <div class="col-lg-8 col-12 mx-auto">
-                            <form class="custom-form contact-form" action="#" method="post" role="form">
+                             <form action="{{ route('contact.send') }}" method="POST">
+                                @csrf
                                 <h2 class="text-center mb-4">Project in mind? Let’s Talk</h2>
 
                                 <div class="row">

@@ -93,20 +93,36 @@ Bootstrap 5 HTML CSS Template
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('contact') }}">Contact</a>
+                            <a class="nav-link" href="{{ route('emails.contact') }}">Contact</a>
                         </li>
-                        @auth
-                            | <form action="{{ route('logout') }}" method="POST" style="display:inline">@csrf<button type="submit">Logout</button></form>
-                            <span> ({{ auth()->user()->name }})</span>
-                            @else
-                            | <li class="nav-item ms-lg-auto">
-                            <a class="nav-link" href="{{ route('register') }}">Register</a>
-                                </li>
+                    @auth
+                        <li class="nav-item dropdown ms-lg-auto d-flex align-items-center">
 
-                            <li class="nav-item">
-                                <a class="nav-link custom-btn btn" href="{{ route('login') }}">Login</a>
-                            </li>
-                        @endauth
+                            {{-- Avatar --}}
+                            <img src="{{ asset('images/avatar.png') }}" 
+                                alt="avatar" 
+                                class="rounded-circle me-2" 
+                                style="width:35px; height:35px; object-fit:cover;">
+
+                            {{-- Tên user --}}
+                            <span class="me-3">{{ auth()->user()->name }}</span>
+
+                            {{-- Logout button --}}
+                            <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                                @csrf
+                                <button type="submit" class="btn btn-sm btn-outline-danger">
+                                    Logout
+                                </button>
+                            </form>
+                        </li>
+                            @else
+                        <li class="nav-item ms-lg-auto">
+                            <a class="nav-link" href="{{ route('register') }}">Register</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link custom-btn btn" href="{{ route('login') }}">Login</a>
+                        </li>
+                    @endauth
                     </ul>
                 </div>
             </div>
@@ -163,7 +179,7 @@ Bootstrap 5 HTML CSS Template
 
                             <li class="footer-menu-item"><a href="#" class="footer-menu-link">Jobs</a></li>
 
-                            <li class="footer-menu-item"><a href="#" class="footer-menu-link">Contact</a></li>
+                            <li class="footer-menu-item"><a href="emails.contact" class="footer-menu-link">Contact</a></li>
                         </ul>
                     </div>
 
