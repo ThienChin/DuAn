@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\WelcomeMail;
 
 class RegisteredUserController extends Controller
 {
@@ -34,7 +36,7 @@ class RegisteredUserController extends Controller
             'email' => 'required|unique:accounts|max:100',
             'phone' => 'required|max:50',
             'address' => 'required|max:200',
-            'password' => 'required|min:6|max:12',
+            'password' => 'required|min:6|max:100',
             'password_confirmation' => 'required|same:password',
         ];
         $message = [
@@ -45,7 +47,7 @@ class RegisteredUserController extends Controller
             'address.required' => 'Địa chỉ không được để trống',
             'password.required' => 'Mật khẩu không được để trống',
             'password.min' => 'Mật khẩu phải có ít nhất 6 ký tự',
-            'password.max' => 'Mật khẩu chỉ được tối đa 12 ký tự',
+            'password.max' => 'Mật khẩu chỉ được tối đa 100 ký tự',
             'password_confirmation.required' => 'Xác nhận mật khẩu không được để trống',
             'password_confirmation.same' => 'Xác nhận mật khẩu chưa đúng',
         ];
@@ -59,6 +61,9 @@ class RegisteredUserController extends Controller
             'gender' => $request->gender,
             'password' => bcrypt($request->password)
         ]);
+
+        // 3️⃣ Gửi mail chào mừng
+        Mail::to($user->email)->send(new WelcomeMail($user));
 
         event(new Registered($user));
 
