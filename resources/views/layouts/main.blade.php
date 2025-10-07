@@ -93,7 +93,7 @@ Bootstrap 5 HTML CSS Template
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('emails.contact') }}">Contact</a>
+                            <a class="nav-link" href="{{ route('contact.send') }}">Contact</a>
                         </li>
                     @auth
                         <li class="nav-item dropdown ms-lg-auto d-flex align-items-center">

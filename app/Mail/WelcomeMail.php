@@ -3,48 +3,45 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Mail;
-
 use Illuminate\Mail\Mailables\Address;
-use Illuminate\Mail\Mailables\Attachment;
-
 
 class WelcomeMail extends Mailable
 {
     use Queueable, SerializesModels;
 
     public string $username;
-    public ?string $attachmentPahth = null; 
+    public ?string $attachmentPath = null;
+
     /**
-     * Create a new message instance.
+     * Tạo instance mới.
      */
-    public function __construct(string $username, ?string $attachmentPahth = null)
+    public function __construct(string $username, ?string $attachmentPath = null)
     {
         $this->username = $username;
-        $this->attachmentPahth = $attachmentPahth;
+        $this->attachmentPath = $attachmentPath;
     }
 
-
     /**
-     * Get the message envelope.
+     * Cấu hình phần envelope (thông tin người gửi & tiêu đề)
      */
     public function envelope(): Envelope
     {
+        // Fallback an toàn nếu .env chưa load
+        $fromAddress = env('MAIL_FROM_ADDRESS', 'no-reply@example.com');
+        $fromName = env('MAIL_FROM_NAME', config('app.name', 'Laravel App'));
+
         return new Envelope(
-            from:new Address(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME')),
-            subject: 'Welcome Mail'.config('app.name'),
-
-
+            from: new Address($fromAddress, $fromName),
+            subject: 'Welcome to ' . config('app.name', 'Our Website')
         );
     }
 
     /**
-     * Get the message content definition.
+     * Cấu hình nội dung email (view + dữ liệu)
      */
     public function content(): Content
     {
@@ -52,19 +49,21 @@ class WelcomeMail extends Mailable
             view: 'emails.welcome',
             with: [
                 'username' => $this->username,
-                
-            ],
-            
+            ]
         );
     }
 
     /**
-     * Get the attachments for the message.
-     *
-     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
+     * File đính kèm (nếu có)
      */
     public function attachments(): array
     {
-        return [];
+        $attachments = [];
+
+        if ($this->attachmentPath && file_exists($this->attachmentPath)) {
+            $attachments[] = \Illuminate\Mail\Mailables\Attachment::fromPath($this->attachmentPath);
+        }
+
+        return $attachments;
     }
 }
