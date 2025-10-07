@@ -12,21 +12,20 @@
         <!-- CSS FILES -->
         <!-- ...existing code... -->
             <!-- CSS FILES -->
-              @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
-                @vite([
-                    'resources/css/bootstrap-icons.css',
-                    'resources/css/bootstrap.min.css',
-                    'resources/css/owl.carousel.min.css',
-                    'resources/css/owl.theme.default.min.css',
-                    'resources/css/tooplate-gotto-job.css',
+              @vite([
+                        'resources/css/bootstrap-icons.css',
+                        'resources/css/bootstrap.min.css',
+                        'resources/css/owl.carousel.min.css',
+                        'resources/css/owl.theme.default.min.css',
+                        'resources/css/tooplate-gotto-job.css',
 
-                    'resources/js/bootstrap.min.js',
-                    'resources/js/counter.js',
-                    'resources/js/custom.js',
-                    'resources/js/jquery.min.js',
-                    'resources/js/owl.carousel.min.js'
-                ])
-            @endif
+                        'resources/js/bootstrap.min.js',
+                        'resources/js/counter.js',
+                        'resources/js/custom.js',
+                        'resources/js/jquery.min.js',
+                        'resources/js/owl.carousel.min.js'
+                    ])
+
         <!-- ...existing code... -->
 
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -59,7 +58,7 @@ Bootstrap 5 HTML CSS Template
 
         <nav class="navbar navbar-expand-lg">
             <div class="container">
-                <a class="navbar-brand d-flex align-items-center" href="index.html">
+                <a class="navbar-brand d-flex align-items-center" href="{{ route('index') }}">
                     <img src="images/logo.png" class="img-fluid logo-image">
 
                     <div class="d-flex flex-column">
