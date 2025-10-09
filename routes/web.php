@@ -6,11 +6,16 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\MailDemoController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\JobController;
 
 // Trang chủ
 Route::get('/', function () {
     return view('welcome');
 });
+
+// Trang Job
+Route::get('/list', [JobController::class, 'index'])->name('jobs.index');
+Route::get('/list/{id}', [JobController::class, 'show'])->name('jobs.show');
 
 // Các route yêu cầu đăng nhập
 Route::middleware('auth')->group(function () {
@@ -24,11 +29,10 @@ require __DIR__.'/auth.php';
 // Trang thông tin cơ bản
 Route::get('/home', [HomeController::class, 'index'])->name('index');
 Route::get('/about', [HomeController::class, 'about'])->name('about');
-Route::get('/list', [PageController::class, 'list'])->name('page.list');
 Route::get('/detail', [PageController::class, 'detail'])->name('page.detail');
 
 // Demo gửi mail
-Route::get('/send-mail', [MailController::class, 'send'])->name('send.mail');
+Route::get('/send-mail', [MailDemoController::class, 'send'])->name('send.mail');
 
 // Form liên hệ (Contact)
 Route::get('/contact', [ContactController::class, 'showForm'])->name('emails.contact');
