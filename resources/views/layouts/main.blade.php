@@ -107,8 +107,6 @@ Bootstrap 5 HTML CSS Template
                 </div>
             </div>
         </nav>
-            <form action="{{ route('logout') }}" method="POST" style="display:inline">@csrf<button type="submit">Logout</button></form>
-            <span> ({{ auth()->user()->name }})</span>
         @yield('content')   
     </body>
     <footer class="site-footer">
