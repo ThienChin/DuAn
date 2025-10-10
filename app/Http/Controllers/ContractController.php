@@ -33,7 +33,7 @@ class ContractController extends Controller
         ]);
 
         // ✅ LƯU VÀO DATABASE
-        Contract::create([
+       $contract = Contract::create([
             'first_name'  => $request->first_name,
             'last_name'   => $request->last_name,
             'city'        => $request->city,
@@ -42,6 +42,6 @@ class ContractController extends Controller
             'email'       => $request->email,
         ]);
 
-        return redirect()->back()->with('success', 'Contract created successfully!');
+        return redirect()->route('create_cv.experience');
     }
 }

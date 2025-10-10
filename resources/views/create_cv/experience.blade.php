@@ -50,7 +50,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <h2>Tell us about your experience</h2>
   <p>Start with your recent job.</p>
 
-  <form action="" method="POST">
+  <form action="{{ route('experience.store') }}" method="POST">
+    @csrf
+
     <label>Job Title (Mandatory)</label>
     <input type="text" name="job_title" placeholder="Software Engineer">
 
@@ -62,9 +64,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <label>End Date</label>
     <input type="date" name="end_date" >
-
-    <label>City</label>
-    <input type="text" name="city" placeholder="Ho Chi Minh City">
 
     <label>City</label>
     <input type="text" name="city" placeholder="Ho Chi Minh City">

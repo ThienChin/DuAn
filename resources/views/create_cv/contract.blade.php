@@ -46,8 +46,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   </div>
 
   <h2>Please enter your contact info</h2>
-  <form action="{{ route('') }}" method="POST">
-
+  <form action="{{ route('contract.store') }}" method="POST">
+    @csrf
+    
     <label>First Name (Mandatory)</label>
     <input type="text" name="first_name"  placeholder=" Nguyen">
 

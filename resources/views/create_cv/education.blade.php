@@ -49,7 +49,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <h2>Please enter your education information</h2>
   <p>Enter your last diploma first.</p>
 
-  <form method="POST">
+  <form action="{{ route('education.store') }}" method="POST">
+    @csrf
+
     <label>School</label>
     <input type="text" name="school" placeholder="Vietnam National University">
 
