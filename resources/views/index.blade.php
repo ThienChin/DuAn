@@ -1071,7 +1071,7 @@
                         <div class="col-lg-6 col-10">
                             <h2 class="text-white mb-2">Over 10k opening jobs</h2>
 
-                            <p class="text-white">If you are looking for free HTML templates, you may visit Tooplate website. If you need a collection of free templates, you can visit Too CSS website.</p>
+                            <p class="text-white">If you are looking for free job aplication form, you may visit Gotto website. If you need a list of corporate companies, you can visit Gotto Job Listings website.</p>
                         </div>
 
                         <div class="col-lg-4 col-12 ms-auto">
