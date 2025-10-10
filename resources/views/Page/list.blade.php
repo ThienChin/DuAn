@@ -42,9 +42,9 @@
                                     <div class="input-group">
                                         <span class="input-group-text" id="basic-addon1"><i class="bi-cash custom-icon"></i></span>
                                         <select class="form-select form-control" name="salary" id="job-salary" aria-label="Default select example">
-                                            <option value="" selected>Salary Range</option>
-                                            <option value="300000-500000" {{ request('salary') == '300000-500000' ? 'selected' : '' }}>$300k - $500k</option>
-                                            <option value="10000-45000" {{ request('salary') == '10000-45000' ? 'selected' : '' }}>$10000k - $45000k</option>
+                                            <option value="" selected>Salary Range (VNĐ)</option>
+                                            <option value="3000000-5000000" {{ request('salary') == '3000000-5000000' ? 'selected' : '' }}>3M - 5M</option>
+                                            <option value="10000000-45000000" {{ request('salary') == '10000000-45000000' ? 'selected' : '' }}>10M - 45M</option>
                                         </select>
                                     </div>
                                 </div>
@@ -71,15 +71,15 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-12 col-12">
-                                    <button type="submit" class="form-control">Search job</button>
+                                    <button type="submit" class="form-control btn btn-primary">Search job</button>
                                 </div>
                                 <div class="col-12">
                                     <div class="d-flex flex-wrap align-items-center mt-4 mt-lg-0">
                                         <span class="text-white mb-lg-0 mb-md-0 me-2">Popular keywords:</span>
                                         <div>
-                                            <a href="{{ route('jobs.index') }}?keyword=Web design" class="badge">Web design</a>
-                                            <a href="{{ route('jobs.index') }}?keyword=Marketing" class="badge">Marketing</a>
-                                            <a href="{{ route('jobs.index') }}?keyword=Customer support" class="badge">Customer support</a>
+                                            <a href="{{ route('jobs.index') }}?keyword=Web" class="badge bg-info text-white">Web</a>
+                                            <a href="{{ route('jobs.index') }}?keyword=Marketing" class="badge bg-info text-white">Marketing</a>
+                                            <a href="{{ route('jobs.index') }}?keyword=Design" class="badge bg-info text-white">Design</a>
                                         </div>
                                     </div>
                                 </div>
@@ -107,7 +107,7 @@
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownSortingButton">
                                 <li><a class="dropdown-item" href="{{ route('jobs.index') }}?sort=latest">Latest Jobs</a></li>
-                                <li><a class="dropdown-item" href="{{ route('jobs.index') }}?sort=salary">Highest Salary Jobs</a></li>
+                                <li><a class="dropdown-item" href="{{ route('jobs.index') }}?sort=salary">Highest Salary</a></li>
                                 <li><a class="dropdown-item" href="{{ route('jobs.index') }}?sort=internship">Internship Jobs</a></li>
                             </ul>
                         </div>
@@ -129,7 +129,7 @@
                                                 <a href="{{ route('jobs.index') }}?level={{ $job->category }}" class="badge badge-level">{{ $job->category }}</a>
                                             </p>
                                             <p class="mb-0">
-                                                <a href="#" class="badge">Full Time</a>
+                                                <a href="#" class="badge bg-secondary">Full Time</a> <!-- Placeholder, thay bằng remote nếu có -->
                                             </p>
                                         </div>
                                     </div>
@@ -166,7 +166,7 @@
                                 </div>
                             </div>
                         @empty
-                            <p>Không có công việc nào.</p>
+                            <p class="text-center">Không có công việc nào.</p>
                         @endforelse
                     </div>
                     <div class="col-lg-12 col-12">
@@ -209,5 +209,7 @@
         .custom-btn { background-color: #ff4500; color: white; }
         .custom-btn:hover { background-color: #e03a00; }
         .hero-form .form-control { background-color: #fff; }
+        .badge.bg-info { background-color: #17a2b8; }
+        .badge.bg-secondary { background-color: #6c757d; }
     </style>
 @endpush
