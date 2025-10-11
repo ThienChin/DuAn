@@ -14,7 +14,7 @@
 
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb justify-content-center">
-                                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                                    <li class="breadcrumb-item"><a href="{{ route('index') }}">Home</a></li>
 
                                     <li class="breadcrumb-item active" aria-current="page">About</li>
                                 </ol>
@@ -36,7 +36,7 @@
 
                                 <h4 class="mb-2">Get hired. Get your new job</h4>
 
-                                <p>Thank you for visiting our Gotto Job website. Are you looking for best HTML templates? Please visit Tooplate website to download free templates.</p>
+                                <p>Thank you for visiting our Gotto Job website. Are you looking for the right Job? Please visit Gotto website to get free job application form.</p>
 
                                 <div class="d-flex align-items-center mt-4">
                                     <a href="#services-section" class="custom-btn custom-border-btn btn me-4">Explore Services</a>
@@ -279,7 +279,7 @@
                         <div class="col-lg-6 col-10">
                             <h2 class="text-white mb-2">Over 10k opening jobs</h2>
 
-                            <p class="text-white">Lorem Ipsum dolor sit amet, consectetur adipsicing kengan omeg kohm tokito adipcingi elit eismuod larehai</p>
+                            <p class="text-white">If you are looking for free job aplication form, you may visit Gotto website. If you need a list of corporate companies, you can visit Gotto Job Listings website.</p>
                         </div>
 
                         <div class="col-lg-4 col-12 ms-auto">

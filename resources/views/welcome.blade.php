@@ -171,7 +171,7 @@
                             <div class="custom-text-block">
                                 <h2 class="text-white mb-2">Introduction Gotto</h2>
 
-                                <p class="text-white">Gotto Job is a free website template for job portals. This layout is based on Bootstrap 5 CSS framework. Thank you for visiting <a href="https://www.tooplate.com" target="_parent">Tooplate website</a>. Images are from <a href="https://www.freepik.com/" target="_blank">FreePik</a> website.</p>
+                                <p class="text-white">Gotto Job is a free aplication form for job portals. This layout is based on Bootstrap 5 CSS framework. Thank you for visiting <a href="https://www.tooplate.com" target="_parent">Tooplate website</a>. Images are from <a href="https://www.freepik.com/" target="_blank">FreePik</a> website.</p>
 
                                 <div class="custom-border-btn-wrap d-flex align-items-center mt-5">
                                     <a href="about.html" class="custom-btn custom-border-btn btn me-4">Get to know us</a>
@@ -531,7 +531,7 @@
                         <div class="col-lg-6 col-12 mb-4">
                             <h2>Recent Jobs</h2>
 
-                            <p><strong>Over 10k opening jobs</strong> Lorem Ipsum dolor sit amet, consectetur adipsicing kengan omeg kohm tokito adipcingi elit eismuod larehai</p>
+                            <p><strong>Over 10k opening jobs</strong> If you are looking for free job aplication form, you may visit Gotto website. If you need a list of corporate companies, you can visit Gotto Job Listings website.</p>
                         </div>
 
                         <div class="clearfix"></div>
@@ -1072,14 +1072,14 @@
                         <div class="col-lg-6 col-10">
                             <h2 class="text-white mb-2">Over 10k opening jobs</h2>
 
-                            <p class="text-white">If you are looking for free HTML templates, you may visit Tooplate website. If you need a collection of free templates, you can visit Too CSS website.</p>
+                            <p class="text-white">If you are looking for free job aplication form, you may visit Gotto website. If you need a list of corporate companies, you can visit Gotto Job Listings website.</p>
                         </div>
 
                         <div class="col-lg-4 col-12 ms-auto">
                             <div class="custom-border-btn-wrap d-flex align-items-center mt-lg-4 mt-2">
-                                <a href="#" class="custom-btn custom-border-btn btn me-4">Create an account</a>
+                                <a href="{{ route('create_cv.contract') }}" class="custom-btn custom-border-btn btn me-4">Create resume</a>
 
-                                <a href="#" class="custom-link">Post a job</a>
+                                <a href="#" class="custom-link">Post your CV</a>
                             </div>
                         </div>
 
