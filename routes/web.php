@@ -33,3 +33,8 @@ Route::get('/send-mail', [MailController::class, 'send'])->name('send.mail');
 // Form liên hệ (Contact)
 Route::get('/contact', [ContactController::class, 'showForm'])->name('emails.contact');
 Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
+
+// trang admin
+Route::get('/dashboard', function () {
+    return view('admin.dashboard');
+});
