@@ -9,6 +9,8 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ContractController;
 use App\Http\Controllers\ExperienceController;
 use App\Http\Controllers\EducationController;
+use App\Http\Controllers\AboutcvController;
+use App\Http\Controllers\ResumeController;
 
 
 // Trang chủ
@@ -39,13 +41,18 @@ Route::get('/contact', [ContactController::class, 'showForm'])->name('emails.con
 Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
 
 
-Route::get('/contract', [ContractController::class, 'index'])->name('create_cv.contract');
-Route::post('/contract', [ContractController::class, 'store'])->name('contract.store');
-Route::get('/experience', [ExperienceController::class, 'show'])->name('create_cv.experience');
-Route::post('/experience', [ExperienceController::class, 'store'])->name('experience.store');
-Route::get('/education', [EducationController::class, 'create'])->name('create_cv.education');
-Route::post('/education', [EducationController::class, 'store'])->name('education.store');
-Route::get('/aboutcv', [AboutController::class, 'aboutcv'])->name('create_cv.about');
-Route::post('/aboutcv', [AboutController::class, 'aboutcv'])->name('create_cv.about');
-Route::get('/resume', [ResumeController::class, 'resume'])->name('create_cv.resume');
-Route::post('/resume', [ResumeController::class, 'resume'])->name('create_cv.resume');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/about/create', [AboutController::class, 'create'])->name('about.create');
+    Route::post('/about/store', [AboutController::class, 'store'])->name('about.store');
+
+    Route::get('/education/create', [EducationController::class, 'create'])->name('education.create');
+    Route::post('/education/store', [EducationController::class, 'store'])->name('education.store');
+
+    Route::get('/experience/create', [ExperienceController::class, 'create'])->name('experience.create');
+    Route::post('/experience/store', [ExperienceController::class, 'store'])->name('experience.store');
+
+    Route::get('/contract/create', [ContractController::class, 'create'])->name('contract.create');
+    Route::post('/contract/store', [ContractController::class, 'store'])->name('contract.store');
+
+    Route::get('/resume/review', [ResumeController::class, 'review'])->name('resume.review');
+});

@@ -3,37 +3,30 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Experience;
 
 class ExperienceController extends Controller
 {
-    /**
-     * Hiển thị form nhập kinh nghiệm.
-     */
-    public function show()
+    public function create()
     {
-        return view('create_cv.experience'); // trỏ tới resources/views/experience.blade.php
+        return view('create_cv.experience');
     }
 
-    /**
-     * Xử lý và lưu dữ liệu kinh nghiệm vào database.
-     */
     public function store(Request $request)
     {
-        // ✅ Kiểm tra dữ liệu đầu vào
         $validated = $request->validate([
-            'job_title'   => 'required|string|max:255',
-            'employer'    => 'nullable|string|max:255',
-            'start_date'  => 'nullable|date',
-            'end_date'    => 'nullable|date|after_or_equal:start_date',
-            'city'        => 'nullable|string|max:100',
-            'description' => 'nullable|string|max:2000',
+            'company_name' => 'required|string|max:255',
+            'position'     => 'required|string|max:255',
+            'description'  => 'nullable|string',
+            'start_date'   => 'required|date',
+            'end_date'     => 'nullable|date',
         ]);
 
-        // ✅ Lưu vào database
+        $validated['user_id'] = Auth::id();
+
         Experience::create($validated);
 
-        // ✅ Chuyển hướng tới bước tiếp theo (ví dụ Education)
-        return redirect()->route('create_cv.education')->with('success', 'Experience saved successfully!');
+        return redirect()->route('contract.create')->with('success', 'Kinh nghiệm đã lưu!');
     }
 }

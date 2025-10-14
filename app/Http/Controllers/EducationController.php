@@ -3,36 +3,30 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Education;
 
 class EducationController extends Controller
 {
-    /**
-     * Hiển thị form nhập thông tin Education
-     */
     public function create()
     {
-        return view('create_cv.education'); // file: resources/views/education.blade.php
+        return view('create_cv.education');
     }
 
-    /**
-     * Lưu thông tin Education vào database
-     */
     public function store(Request $request)
     {
-        // Kiểm tra dữ liệu đầu vào
         $validated = $request->validate([
-            'school'      => 'required|string|max:255',
-            'degree'      => 'nullable|string|max:100',
-            'grad_date'   => 'nullable|date',
-            'city'        => 'nullable|string|max:255',
-            'description' => 'nullable|string',
+            'school_name' => 'required|string|max:255',
+            'degree'      => 'required|string|max:255',
+            'field'       => 'required|string|max:255',
+            'start_year'  => 'required|string|max:4',
+            'end_year'    => 'nullable|string|max:4',
         ]);
 
-        // Lưu vào DB
+        $validated['user_id'] = Auth::id();
+
         Education::create($validated);
 
-        // Sau khi lưu thành công, quay lại form kèm thông báo
-        return redirect()->route('create_cv.about')->with('success', 'Education information saved successfully!');
+        return redirect()->route('experience.create')->with('success', 'Học vấn đã lưu!');
     }
 }
