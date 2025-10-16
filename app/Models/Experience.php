@@ -14,6 +14,7 @@ class Experience extends Model
     protected $table = 'experiences'; // tên bảng trong database
 
     protected $fillable = [
+        'user_id',
         'job_title',
         'employer' ,
         'start_date',
@@ -22,4 +23,10 @@ class Experience extends Model
         'description' ,
     ];
     public $timestamps = false;
+
+    // ✅ đảm bảo Laravel không chặn field nào
+    protected $guarded = [];
+
+    // ✅ đảm bảo khóa chính hoạt động đúng
+    protected $primaryKey = 'id';
 }

@@ -57,7 +57,7 @@
     <h2>Write down your professional summary</h2>
     <p>Include up to 3 sentences that describe your general experience.</p>
 
-    <form action="{{ route('aboutcv.store') }}" method="POST">
+    <form action="{{ route('about.store') }}" method="POST">
       @csrf 
       <label>Summary</label>
       <textarea name="summary" placeholder="Highly skilled software engineer with over 5 years of experience in leading successful software projects."></textarea>

@@ -1077,7 +1077,7 @@
 
                         <div class="col-lg-4 col-12 ms-auto">
                             <div class="custom-border-btn-wrap d-flex align-items-center mt-lg-4 mt-2">
-                                <a href="{{ route('contract.create') }}" class="custom-btn custom-border-btn btn me-4">Create resume</a>
+                                <a href="{{ route('create_cv.contract') }}" class="custom-btn custom-border-btn btn me-4">Create resume</a>
 
                                 <a href="#" class="custom-link">Post your CV</a>
                             </div>

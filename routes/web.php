@@ -42,17 +42,17 @@ Route::post('/contact', [ContactController::class, 'send'])->name('contact.send'
 
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/about/create', [AboutController::class, 'create'])->name('about.create');
-    Route::post('/about/store', [AboutController::class, 'store'])->name('about.store');
+    Route::get('/about/create', [AboutcvController::class, 'create'])->name('create_cv.about');
+    Route::post('/about/store', [AboutcvController::class, 'store'])->name('about.store');
 
-    Route::get('/education/create', [EducationController::class, 'create'])->name('education.create');
+    Route::get('/education/create', [EducationController::class, 'create'])->name('create_cv.education');
     Route::post('/education/store', [EducationController::class, 'store'])->name('education.store');
 
-    Route::get('/experience/create', [ExperienceController::class, 'create'])->name('experience.create');
+    Route::get('/experience/create', [ExperienceController::class, 'create'])->name('create_cv.experience');
     Route::post('/experience/store', [ExperienceController::class, 'store'])->name('experience.store');
 
-    Route::get('/contract/create', [ContractController::class, 'create'])->name('contract.create');
+    Route::get('/contract/create', [ContractController::class, 'create'])->name('create_cv.contract');
     Route::post('/contract/store', [ContractController::class, 'store'])->name('contract.store');
 
-    Route::get('/resume/review', [ResumeController::class, 'review'])->name('resume.review');
+    Route::get('/resume/review', [ResumeController::class, 'review'])->name('create_cv.resume');
 });

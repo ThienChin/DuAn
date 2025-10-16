@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
-use App\Models\About;
+use App\Models\Aboutcv;
 use App\Models\Education;
 use App\Models\Experience;
 use App\Models\Contract;
@@ -14,11 +14,11 @@ class ResumeController extends Controller
     {
         $userId = Auth::id();
 
-        $about = About::where('user_id', $userId)->latest()->first();
-        $educations = Education::where('user_id', $userId)->latest()->get();
-        $experiences = Experience::where('user_id', $userId)->latest()->get();
-        $contract = Contract::where('user_id', $userId)->latest()->first();
+        $about = Aboutcv::where('user_id', $userId)->orderBy('id', 'desc')->first();   
+        $educations = Education::where('user_id', $userId)->orderBy('id', 'desc')->first();
+        $experiences = Experience::where('user_id', $userId)->orderBy('id', 'desc')->first();    
+        $contract = Contract::where('user_id', $userId)->orderBy('id', 'desc')->first(); 
 
-        return view('resume.review', compact('about', 'educations', 'experiences', 'contract'));
+        return view('create_cv.resume', compact('about', 'educations', 'experiences', 'contract'));
     }
 }

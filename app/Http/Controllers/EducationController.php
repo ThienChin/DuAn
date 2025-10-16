@@ -16,17 +16,17 @@ class EducationController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'school_name' => 'required|string|max:255',
-            'degree'      => 'required|string|max:255',
-            'field'       => 'required|string|max:255',
-            'start_year'  => 'required|string|max:4',
-            'end_year'    => 'nullable|string|max:4',
+            'school'      => 'required|string|max:255',
+            'degree'      => 'nullable|string|max:100',
+            'grad_date'   => 'nullable|date',
+            'city'        => 'nullable|string|max:255',
+            'description' => 'nullable|string',
         ]);
 
         $validated['user_id'] = Auth::id();
 
         Education::create($validated);
 
-        return redirect()->route('experience.create')->with('success', 'Học vấn đã lưu!');
+        return redirect()->route('create_cv.about')->with('success', 'Học vấn đã lưu!');
     }
 }
