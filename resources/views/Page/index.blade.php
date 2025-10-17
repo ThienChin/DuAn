@@ -1078,10 +1078,6 @@
                         <div class="col-lg-4 col-12 ms-auto">
                             <div class="custom-border-btn-wrap d-flex align-items-center mt-lg-4 mt-2">
                                 <a href="{{ route('create_cv.contract') }}" class="custom-btn custom-border-btn btn me-4">Create resume</a>
-
-<<<<<<< HEAD
-                                <a href="#" class="custom-link">Post your CV</a>
-=======
                                 <form id="cvUploadForm" action="{{ route('create_cv.upload') }}" method="POST" enctype="multipart/form-data" style="display: none;">
                                     @csrf
                                     <input type="file" name="pdfFile" id="pdfFileInput" accept=".pdf" onchange="document.getElementById('cvUploadForm').submit()">
@@ -1090,7 +1086,6 @@
                                 <button type="button" class="custom-btn custom-border-btn btn me-4" onclick="document.getElementById('pdfFileInput').click()">
                                     Post your CV
                                 </button>
->>>>>>> Chau
                             </div>
                         </div>
 
