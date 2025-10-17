@@ -9,12 +9,8 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ContractController;
 use App\Http\Controllers\ExperienceController;
 use App\Http\Controllers\EducationController;
-<<<<<<< HEAD
 use App\Http\Controllers\AboutcvController;
 use App\Http\Controllers\ResumeController;
-=======
-use App\Http\Controllers\UploadController;
->>>>>>> Chau
 
 
 // Trang chủ
@@ -32,8 +28,8 @@ Route::middleware('auth')->group(function () {
 require __DIR__.'/auth.php';
 
 // Trang thông tin cơ bản
-Route::get('/home', [HomeController::class, 'index'])->name('index');
-Route::get('/about', [HomeController::class, 'about'])->name('about');
+Route::get('/home', [HomeController::class, 'index'])->name('page.index');
+Route::get('/about', [HomeController::class, 'about'])->name('page.about');
 Route::get('/list', [PageController::class, 'list'])->name('page.list');
 Route::get('/detail', [PageController::class, 'detail'])->name('page.detail');
 
@@ -45,7 +41,6 @@ Route::get('/contact', [ContactController::class, 'showForm'])->name('emails.con
 Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
 
 
-<<<<<<< HEAD
 Route::middleware(['auth'])->group(function () {
     Route::get('/about/create', [AboutcvController::class, 'create'])->name('create_cv.about');
     Route::post('/about/store', [AboutcvController::class, 'store'])->name('about.store');
@@ -60,19 +55,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/contract/store', [ContractController::class, 'store'])->name('contract.store');
 
     Route::get('/resume/review', [ResumeController::class, 'review'])->name('create_cv.resume');
-});
-=======
-Route::get('/contract', [ContractController::class, 'index'])->name('create_cv.contract');
-Route::post('/contract', [ContractController::class, 'store'])->name('contract.store');
-Route::get('/experience', [ExperienceController::class, 'show'])->name('create_cv.experience');
-Route::post('/experience', [ExperienceController::class, 'store'])->name('experience.store');
-Route::get('/education', [EducationController::class, 'create'])->name('create_cv.education');
-Route::post('/education', [EducationController::class, 'store'])->name('education.store');
-Route::get('/aboutcv', [AboutController::class, 'aboutcv'])->name('create_cv.about');
-Route::post('/aboutcv', [AboutController::class, 'aboutcv'])->name('create_cv.about');
-Route::get('/resume', [ResumeController::class, 'resume'])->name('create_cv.resume');
-Route::post('/resume', [ResumeController::class, 'resume'])->name('create_cv.resume');
-Route::get('/upload', [UploadController::class, 'upload'])->name('create_cv.upload');
-Route::post('/upload', [UploadController::class, 'store'])->name('upload.store');
 
->>>>>>> Chau
+    Route::get('/upload', [UploadController::class, 'upload'])->name('create_cv.upload');
+    Route::post('/upload', [UploadController::class, 'store'])->name('upload.store');
+
+}); 
