@@ -23,7 +23,7 @@
     <p><strong>Email:</strong> {{ $user['email'] ?? $user->email ?? '' }}</p>
     <p><strong>Phone:</strong> {{ $user['phone'] ?? $user->phone ?? '' }}</p>
     <p><strong>City:</strong> {{ $user['city'] ?? $user->city ?? '' }}</p>
-    <p><strong>Postal Code:</strong> {{ $user['postal_code'] ?? $user->postal_code ?? '' }}</p>
+    <p><strong>Postal Code: </strong> {{ $user['postal_code'] ?? $user->postal_code ?? '' }}</p>
 
     @if(!empty($user['cv_path']))
         <div class="cv-link">
