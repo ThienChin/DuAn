@@ -28,8 +28,8 @@ Route::middleware('auth')->group(function () {
 require __DIR__.'/auth.php';
 
 // Trang thông tin cơ bản
-Route::get('/home', [HomeController::class, 'index'])->name('index');
-Route::get('/about', [HomeController::class, 'about'])->name('about');
+Route::get('/home', [HomeController::class, 'index'])->name('page.index');
+Route::get('/about', [HomeController::class, 'about'])->name('page.about');
 Route::get('/list', [PageController::class, 'list'])->name('page.list');
 Route::get('/detail', [PageController::class, 'detail'])->name('page.detail');
 

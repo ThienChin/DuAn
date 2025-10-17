@@ -157,7 +157,7 @@
 
                         <div class="col-lg-3 col-12">
                             <div class="about-image-wrap custom-border-radius-start">
-                                <img src="images/professional-asian-businesswoman-gray-blazer.jpg" class="about-image custom-border-radius-start img-fluid" alt="">
+                                <img src="{{ asset('page/images/professional-asian-businesswoman-gray-blazer.jpg') }}" class="about-image custom-border-radius-start img-fluid" alt="">
 
                                 <div class="about-info">
                                     <h4 class="text-white mb-0 me-2">Julia Ward</h4>
@@ -183,7 +183,7 @@
 
                         <div class="col-lg-3 col-12">
                             <div class="instagram-block">
-                                <img src="images/horizontal-shot-happy-mixed-race-females.jpg" class="about-image custom-border-radius-end img-fluid" alt="">
+                                <img src="{{ asset('images/horizontal-shot-happy-mixed-race-females.jpg') }}" class="about-image custom-border-radius-end img-fluid" alt="">
 
                                 <div class="instagram-block-text">
                                     <a href="https://instagram.com/" class="custom-btn btn">
@@ -212,7 +212,7 @@
                         <div class="col-lg-12 col-12">
                             <div class="job-thumb d-flex">
                                 <div class="job-image-wrap bg-white shadow-lg">
-                                    <img src="images/logos/google.png" class="job-image img-fluid" alt="">
+                                    <img src="{{ asset('page/images/logos/google.png') }}" class="job-image img-fluid" alt="">
                                 </div>
 
                                 <div class="job-body d-flex flex-wrap flex-auto align-items-center ms-4">
@@ -257,7 +257,7 @@
 
                             <div class="job-thumb d-flex">
                                 <div class="job-image-wrap bg-white shadow-lg">
-                                    <img src="images/logos/apple.png" class="job-image img-fluid" alt="">
+                                    <img src="{{ asset('page/images/logos/apple.png') }}" class="job-image img-fluid" alt="">
                                 </div>
 
                                 <div class="job-body d-flex flex-wrap flex-auto align-items-center ms-4">
@@ -302,7 +302,7 @@
 
                             <div class="job-thumb d-flex">
                                 <div class="job-image-wrap bg-white shadow-lg">
-                                    <img src="images/logos/meta.png" class="job-image img-fluid" alt="">
+                                    <img src="{{ asset('page/images/logos/meta.png') }}" class="job-image img-fluid" alt="">
                                 </div>
 
                                 <div class="job-body d-flex flex-wrap flex-auto align-items-center ms-4">
@@ -347,7 +347,7 @@
 
                             <div class="job-thumb d-flex">
                                 <div class="job-image-wrap bg-white shadow-lg">
-                                    <img src="images/logos/slack.png" class="job-image img-fluid" alt="">
+                                    <img src="{{ asset('page/images/logos/slack.png') }}" class="job-image img-fluid" alt="">
                                 </div>
 
                                 <div class="job-body d-flex flex-wrap flex-auto align-items-center ms-4">
@@ -392,7 +392,7 @@
 
                             <div class="job-thumb d-flex">
                                 <div class="job-image-wrap bg-white shadow-lg">
-                                    <img src="images/logos/creative-market.png" class="job-image img-fluid" alt="">
+                                    <img src="{{ asset('page/images/logos/creative-market.png') }}" class="job-image img-fluid" alt="">
                                 </div>
 
                                 <div class="job-body d-flex flex-wrap flex-auto align-items-center ms-4">
@@ -511,7 +511,7 @@
 
                         <div class="col-lg-6 col-12">
                             <div class="video-thumb">
-                                <img src="images/people-working-as-team-company.jpg" class="about-image custom-border-radius-end img-fluid" alt="">
+                                <img src="{{ asset('page/images/people-working-as-team-company.jpg') }}" class="about-image custom-border-radius-end img-fluid" alt="">
 
                                 <div class="video-info">
                                     <a href="https://www.youtube.com/tooplate" class="youtube-icon bi-youtube"></a>
@@ -540,7 +540,7 @@
                             <div class="job-thumb job-thumb-box">
                                 <div class="job-image-box-wrap">
                                     <a href="job-details.html">
-                                        <img src="images/jobs/it-professional-works-startup-project.jpg" class="job-image img-fluid" alt="">
+                                        <img src="{{ asset('page/images/jobs/it-professional-works-startup-project.jpg') }}" class="job-image img-fluid" alt="">
                                     </a>
 
                                     <div class="job-image-box-wrap-info d-flex align-items-center">
@@ -561,7 +561,7 @@
 
                                     <div class="d-flex align-items-center">
                                         <div class="job-image-wrap d-flex align-items-center bg-white shadow-lg mt-2 mb-4">
-                                            <img src="images/logos/salesforce.png" class="job-image me-3 img-fluid" alt="">
+                                            <img src="{{ asset('page/images/logos/salesforce.png') }}" class="job-image me-3 img-fluid" alt="">
 
                                             <p class="mb-0">Salesforce</p>
                                         </div>
@@ -601,7 +601,7 @@
                             <div class="job-thumb job-thumb-box">
                                 <div class="job-image-box-wrap">
                                     <a href="job-details.html">
-                                        <img src="images/jobs/marketing-assistant.jpg" class="job-image img-fluid" alt="marketing assistant">
+                                        <img src="{{ asset('page/images/jobs/marketing-assistant.jpg') }}" class="job-image img-fluid" alt="marketing assistant">
                                     </a>
 
                                     <div class="job-image-box-wrap-info d-flex align-items-center">
@@ -622,7 +622,7 @@
 
                                     <div class="d-flex align-items-center">
                                         <div class="job-image-wrap d-flex align-items-center bg-white shadow-lg mt-2 mb-4">
-                                            <img src="images/logos/spotify.png" class="job-image me-3 img-fluid" alt="">
+                                            <img src="{{ asset('page/images/logos/spotify.png') }}" class="job-image me-3 img-fluid" alt="">
 
                                             <p class="mb-0">Spotify</p>
                                         </div>
@@ -662,7 +662,7 @@
                             <div class="job-thumb job-thumb-box">
                                 <div class="job-image-box-wrap">
                                     <a href="job-details.html">
-                                        <img src="images/jobs/coding-man.jpg" class="job-image img-fluid" alt="">
+                                        <img src="{{ asset('page/images/jobs/coding-man.jpg') }}" class="job-image img-fluid" alt="">
                                     </a>
 
                                     <div class="job-image-box-wrap-info d-flex align-items-center">
@@ -805,7 +805,7 @@
                                         
                                     <div class="d-flex align-items-center">
                                         <div class="job-image-wrap d-flex align-items-center bg-white shadow-lg mt-2 mb-4">
-                                            <img src="images/logos/paypal.png" class="job-image me-3 img-fluid" alt="">
+                                            <img src="{{ asset('page/images/logos/paypal.png') }}" class="job-image me-3 img-fluid" alt="">
 
                                             <p class="mb-0">Paypal</p>
                                         </div>
@@ -845,7 +845,7 @@
                             <div class="job-thumb job-thumb-box">
                                 <div class="job-image-box-wrap">
                                     <a href="job-details.html">
-                                        <img src="images/jobs/logo-designer-working-computer-desktop.jpg" class="job-image img-fluid" alt="">
+                                        <img src="{{ asset('page/images/jobs/logo-designer-working-computer-desktop.jpg') }}" class="job-image img-fluid" alt="">
                                     </a>
 
                                     <div class="job-image-box-wrap-info d-flex align-items-center">
@@ -866,7 +866,7 @@
                                         
                                     <div class="d-flex align-items-center">
                                         <div class="job-image-wrap d-flex align-items-center bg-white shadow-lg mt-2 mb-4">
-                                            <img src="images/logos/envato.png" class="job-image me-3 img-fluid" alt="">
+                                            <img src="{{ asset('images/logos/envato.png') }}" class="job-image me-3 img-fluid" alt="">
 
                                             <p class="mb-0">Envato</p>
                                         </div>
@@ -922,7 +922,7 @@
                                 <div class="reviews-thumb">
                                 
                                     <div class="reviews-info d-flex align-items-center">
-                                        <img src="images/avatar/portrait-charming-middle-aged-attractive-woman-with-blonde-hair.jpg" class="avatar-image img-fluid" alt="">
+                                        <img src="{{ asset('page/images/avatar/portrait-charming-middle-aged-attractive-woman-with-blonde-hair.jpg') }}" class="avatar-image img-fluid" alt="">
 
                                         <div class="d-flex align-items-center justify-content-between flex-wrap w-100 ms-3">
                                             <p class="mb-0">
@@ -941,7 +941,7 @@
                                     </div>
 
                                     <div class="reviews-body">
-                                        <img src="images/left-quote.png" class="quote-icon img-fluid" alt="">
+                                        <img src="{{ asset('page/images/left-quote.png') }}" class="quote-icon img-fluid" alt="">
 
                                         <h4 class="reviews-title">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</h4>
                                     </div>
@@ -949,7 +949,7 @@
 
                                 <div class="reviews-thumb">
                                     <div class="reviews-info d-flex align-items-center">
-                                        <img src="images/avatar/medium-shot-smiley-senior-man.jpg" class="avatar-image img-fluid" alt="">
+                                        <img src="{{ asset('page/images/avatar/medium-shot-smiley-senior-man.jpg') }}" class="avatar-image img-fluid" alt="">
 
                                         <div class="d-flex align-items-center justify-content-between flex-wrap w-100 ms-3">
                                             <p class="mb-0">
@@ -968,7 +968,7 @@
                                     </div>
 
                                     <div class="reviews-body">
-                                        <img src="images/left-quote.png" class="quote-icon img-fluid" alt="">
+                                        <img src="{{ asset('page/images/left-quote.png') }}" class="quote-icon img-fluid" alt="">
 
                                         <h4 class="reviews-title">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</h4>
                                     </div>
@@ -977,7 +977,7 @@
                                 <div class="reviews-thumb">
 
                                     <div class="reviews-info d-flex align-items-center">
-                                        <img src="images/avatar/portrait-beautiful-young-woman.jpg" class="avatar-image img-fluid" alt="">
+                                        <img src="{{ asset('page/images/avatar/portrait-beautiful-young-woman.jpg') }}" class="avatar-image img-fluid" alt="">
 
                                         <div class="d-flex align-items-center justify-content-between flex-wrap w-100 ms-3">
                                             <p class="mb-0">
@@ -996,7 +996,7 @@
                                     </div>
 
                                     <div class="reviews-body">
-                                        <img src="images/left-quote.png" class="quote-icon img-fluid" alt="">
+                                        <img src="{{ asset('page/images/left-quote.png') }}" class="quote-icon img-fluid" alt="">
 
                                         <h4 class="reviews-title">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</h4>
                                     </div>
@@ -1004,7 +1004,7 @@
 
                                 <div class="reviews-thumb">
                                     <div class="reviews-info d-flex align-items-center">
-                                        <img src="images/avatar/blond-man-happy-expression.jpg" class="avatar-image img-fluid" alt="">
+                                        <img src="{{ asset('page/images/avatar/blond-man-happy-expression.jpg') }}" class="avatar-image img-fluid" alt="">
 
                                         <div class="d-flex align-items-center justify-content-between flex-wrap w-100 ms-3">
                                             <p class="mb-0">
@@ -1023,7 +1023,7 @@
                                     </div>
 
                                     <div class="reviews-body">
-                                        <img src="images/left-quote.png" class="quote-icon img-fluid" alt="">
+                                        <img src="{{ asset('page/images/left-quote.png') }}" class="quote-icon img-fluid" alt="">
 
                                         <h4 class="reviews-title">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</h4>
                                     </div>
@@ -1031,7 +1031,7 @@
 
                                 <div class="reviews-thumb">
                                     <div class="reviews-info d-flex align-items-center">
-                                        <img src="images/avatar/university-study-abroad-lifestyle-concept.jpg" class="avatar-image img-fluid" alt="">
+                                        <img src="{{ asset('page/images/avatar/university-study-abroad-lifestyle-concept.jpg') }}" class="avatar-image img-fluid" alt="">
 
                                         <div class="d-flex align-items-center justify-content-between flex-wrap w-100 ms-3">
                                             <p class="mb-0">
@@ -1050,7 +1050,7 @@
                                     </div>
 
                                     <div class="reviews-body">
-                                        <img src="images/left-quote.png" class="quote-icon img-fluid" alt="">
+                                        <img src="{{ asset('page/images/left-quote.png') }}" class="quote-icon img-fluid" alt="">
 
                                         <h4 class="reviews-title">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</h4>
                                     </div>
@@ -1094,7 +1094,7 @@
 
                     <div class="col-lg-4 col-md-6 col-12 mb-3">
                         <div class="d-flex align-items-center mb-4">
-                            <img src="images/logo.png" class="img-fluid logo-image">
+                            <img src="{{ asset('page/images/logo.png') }}" class="img-fluid logo-image">
 
                             <div class="d-flex flex-column">
                                 <strong class="logo-text">Gotto</strong>

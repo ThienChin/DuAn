@@ -59,8 +59,8 @@ Bootstrap 5 HTML CSS Template
 
         <nav class="navbar navbar-expand-lg">
             <div class="container">
-                <a class="navbar-brand d-flex align-items-center" href="{{ route('index') }}">
-                    <img src="images/logo.png" class="img-fluid logo-image">
+                <a class="navbar-brand d-flex align-items-center" href="{{ route('page.index') }}">
+                    <img src="{{ asset('page/images/logo.png') }}" class="img-fluid logo-image">
 
                     <div class="d-flex flex-column">
                         <strong class="logo-text">Gotto</strong>
@@ -75,11 +75,11 @@ Bootstrap 5 HTML CSS Template
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav align-items-center ms-lg-5">
                         <li class="nav-item">
-                            <a class="nav-link active" href="{{ route('index') }}">Homepage</a>
+                            <a class="nav-link active" href="{{ route('page.index') }}">Homepage</a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('about') }}">About Gotto</a>
+                            <a class="nav-link" href="{{ route('page.about') }}">About Gotto</a>
                         </li>
 
                         <li class="nav-item dropdown">
@@ -99,7 +99,7 @@ Bootstrap 5 HTML CSS Template
                         <li class="nav-item dropdown ms-lg-auto d-flex align-items-center">
 
                             {{-- Avatar --}}
-                            <img src="{{ asset('images/avatar.png') }}" 
+                            <img src="{{ asset('page/images/avatar.png') }}" 
                                 alt="avatar" 
                                 class="rounded-circle me-2" 
                                 style="width:35px; height:35px; object-fit:cover;">
@@ -135,7 +135,7 @@ Bootstrap 5 HTML CSS Template
 
                     <div class="col-lg-4 col-md-6 col-12 mb-3">
                         <div class="d-flex align-items-center mb-4">
-                            <img src="images/logo.png" class="img-fluid logo-image">
+                            <img src="{{ asset('page/images/logo.png') }}" class="img-fluid logo-image">
 
                             <div class="d-flex flex-column">
                                 <strong class="logo-text">Gotto</strong>
