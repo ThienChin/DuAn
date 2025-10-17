@@ -97,25 +97,19 @@ Bootstrap 5 HTML CSS Template
                         </li>
                     @auth
                         <li class="nav-item dropdown ms-lg-auto d-flex align-items-center">
-
-                            {{-- Avatar --}}
-                            <img src="{{ asset('page/images/avatar.png') }}" 
-                                alt="avatar" 
-                                class="rounded-circle me-2" 
-                                style="width:35px; height:35px; object-fit:cover;">
-
-                            {{-- Tên user --}}
-                            <span class="me-3">{{ auth()->user()->name }}</span>
-
-                            {{-- Logout button --}}
+                            <a href="{{ route('profile.personal') }}" class="d-flex align-items-center text-decoration-none">
+                                <img src="{{ asset('page/images/avatar.png') }}" 
+                                    alt="avatar" 
+                                    class="rounded-circle me-2" 
+                                    style="width:35px; height:35px; object-fit:cover;">
+                                <span class="me-3">{{ auth()->user()->name }}</span>
+                            </a>
                             <form action="{{ route('logout') }}" method="POST" class="d-inline">
                                 @csrf
-                                <button type="submit" class="btn btn-sm btn-outline-danger">
-                                    Logout
-                                </button>
+                                <button type="submit" class="btn btn-sm btn-outline-danger">Logout</button>
                             </form>
                         </li>
-                            @else
+                        @else
                         <li class="nav-item ms-lg-auto">
                             <a class="nav-link" href="{{ route('register') }}">Register</a>
                         </li>
