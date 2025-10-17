@@ -1,29 +1,13 @@
 @extends('layouts.main')
 @section('content')
-
-  <!DOCTYPE html>
-  <html lang="en">
-  <head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
     <meta charset="UTF-8">
-    <title>Contact Info</title>
-    <style>
-      body { font-family: Arial, sans-serif; background: #f9f9f9; padding: 40px; }
-      .container { max-width: 600px; margin: auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-      h2 { text-align: center; }
-      label { display: block; margin-top: 15px; font-weight: bold; }
-      input[type="text"], input[type="email"] {
-        width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 4px;
-      }
-      .btn { margin-top: 20px; background: #0078D4; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; }
-      .btn:hover { background: #005fa3; }
-      .nav { display: flex; justify-content: space-between; margin-bottom: 20px; font-size: 14px; }
-      .nav span { padding: 5px 10px; border-bottom: 2px solid transparent; }
-      .nav .active { border-bottom: 2px solid #0078D4; font-weight: bold; }
-      .more-details { margin-top: 10px; display: inline-block; color: #0078D4; text-decoration: none; }
-    </style>
-  </head>
-  <body>
-
+    <title>Liên hệ</title>
+    <link rel="stylesheet" href="{{ asset('page/css/style.css') }}">
+</head>
+<body>
   <div class="container">
     <div class="nav">
       <span class="active">CONTACT</span>
@@ -34,10 +18,9 @@
     </div>
 
     <h2>Please enter your contact info</h2>
-    <form action="{{ route('contract.store') }}" method="POST">
-      @csrf
-      
-      <label>First Name (Mandatory)</label>
+      <form action="{{ route('contract.store') }}" method="POST">
+          @csrf
+          <label>First Name (Mandatory)</label>
       <input type="text" name="first_name"  placeholder=" Nguyen">
 
       <label>Last Name (Mandatory)</label>
@@ -59,9 +42,7 @@
       
     <button type="submit" class="btn">Next to Experience</button>
     </form>
-  </div>
-
-  </body>
-
-  </html>
+</div>
+</body>
+</html>
 @endsection
