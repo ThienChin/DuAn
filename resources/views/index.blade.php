@@ -1,5 +1,6 @@
 @extends('layouts.main')
 @section('content')
+
         <main>
 
             <section class="hero-section d-flex justify-content-center align-items-center">
@@ -170,7 +171,7 @@
                             <div class="custom-text-block">
                                 <h2 class="text-white mb-2">Introduction Gotto</h2>
 
-                                <p class="text-white">Gotto Job is a free website template for job portals. This layout is based on Bootstrap 5 CSS framework. Thank you for visiting <a href="https://www.tooplate.com" target="_parent">Tooplate website</a>. Images are from <a href="https://www.freepik.com/" target="_blank">FreePik</a> website.</p>
+                                <p class="text-white">Gotto Job is a free aplication form for job portals. This layout is based on Bootstrap 5 CSS framework. Thank you for visiting <a href="https://www.tooplate.com" target="_parent">Tooplate website</a>. Images are from <a href="https://www.freepik.com/" target="_blank">FreePik</a> website.</p>
 
                                 <div class="custom-border-btn-wrap d-flex align-items-center mt-5">
                                     <a href="about.html" class="custom-btn custom-border-btn btn me-4">Get to know us</a>
@@ -530,7 +531,7 @@
                         <div class="col-lg-6 col-12 mb-4">
                             <h2>Recent Jobs</h2>
 
-                            <p><strong>Over 10k opening jobs</strong> Lorem Ipsum dolor sit amet, consectetur adipsicing kengan omeg kohm tokito adipcingi elit eismuod larehai</p>
+                            <p><strong>Over 10k opening jobs</strong> If you are looking for free job aplication form, you may visit Gotto website. If you need a list of corporate companies, you can visit Gotto Job Listings website.</p>
                         </div>
 
                         <div class="clearfix"></div>
@@ -1076,9 +1077,16 @@
 
                         <div class="col-lg-4 col-12 ms-auto">
                             <div class="custom-border-btn-wrap d-flex align-items-center mt-lg-4 mt-2">
-                                <a href="#" class="custom-btn custom-border-btn btn me-4">Create an account</a>
+                                <a href="{{ route('create_cv.contract') }}" class="custom-btn custom-border-btn btn me-4">Create resume</a>
 
-                                <a href="#" class="custom-link">Post a job</a>
+                                <form id="cvUploadForm" action="{{ route('create_cv.upload') }}" method="POST" enctype="multipart/form-data" style="display: none;">
+                                    @csrf
+                                    <input type="file" name="pdfFile" id="pdfFileInput" accept=".pdf" onchange="document.getElementById('cvUploadForm').submit()">
+                                </form>
+
+                                <button type="button" class="custom-btn custom-border-btn btn me-4" onclick="document.getElementById('pdfFileInput').click()">
+                                    Post your CV
+                                </button>
                             </div>
                         </div>
 
@@ -1087,4 +1095,148 @@
             </section>
         </main>
 
+        <footer class="site-footer">
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-lg-4 col-md-6 col-12 mb-3">
+                        <div class="d-flex align-items-center mb-4">
+                            <img src="images/logo.png" class="img-fluid logo-image">
+
+                            <div class="d-flex flex-column">
+                                <strong class="logo-text">Gotto</strong>
+                                <small class="logo-slogan">Online Job Portal</small>
+                            </div>
+                        </div>  
+
+                        <p class="mb-2">
+                            <i class="custom-icon bi-globe me-1"></i>
+
+                            <a href="#" class="site-footer-link">
+                                www.jobbportal.com
+                            </a>
+                        </p>
+
+                        <p class="mb-2">
+                            <i class="custom-icon bi-telephone me-1"></i>
+
+                            <a href="tel: 305-240-9671" class="site-footer-link">
+                                305-240-9671
+                            </a>
+                        </p>
+
+                        <p>
+                            <i class="custom-icon bi-envelope me-1"></i>
+
+                            <a href="mailto:info@yourgmail.com" class="site-footer-link">
+                                info@jobportal.co
+                            </a>
+                        </p>
+
+                    </div>
+
+                    <div class="col-lg-2 col-md-3 col-6 ms-lg-auto">
+                        <h6 class="site-footer-title">Company</h6>
+
+                        <ul class="footer-menu">
+                            <li class="footer-menu-item"><a href="#" class="footer-menu-link">About</a></li>
+
+                            <li class="footer-menu-item"><a href="#" class="footer-menu-link">Blog</a></li>
+
+                            <li class="footer-menu-item"><a href="#" class="footer-menu-link">Jobs</a></li>
+
+                            <li class="footer-menu-item"><a href="#" class="footer-menu-link">Contact</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="col-lg-2 col-md-3 col-6">
+                        <h6 class="site-footer-title">Resources</h6>
+
+                        <ul class="footer-menu">
+                            <li class="footer-menu-item"><a href="#" class="footer-menu-link">Guide</a></li>
+
+                            <li class="footer-menu-item"><a href="#" class="footer-menu-link">How it works</a></li>
+
+                            <li class="footer-menu-item"><a href="#" class="footer-menu-link">Salary Tool</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="col-lg-4 col-md-8 col-12 mt-3 mt-lg-0">
+                        <h6 class="site-footer-title">Newsletter</h6>
+
+                        <form class="custom-form newsletter-form" action="#" method="post" role="form">
+                            <h6 class="site-footer-title">Get notified jobs news</h6>
+
+                            <div class="input-group">
+                                <span class="input-group-text" id="basic-addon1"><i class="bi-person"></i></span>
+
+                                <input type="text" name="newsletter-name" id="newsletter-name" class="form-control" placeholder="yourname@gmail.com" required>
+
+                                <button type="submit" class="form-control">
+                                    <i class="bi-send"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="site-footer-bottom">
+                <div class="container">
+                    <div class="row">
+
+                        <div class="col-lg-4 col-12 d-flex align-items-center">
+                            <p class="copyright-text">Copyright © Gotto Job 2048</p>
+
+                            <ul class="footer-menu d-flex">
+                                <li class="footer-menu-item"><a href="#" class="footer-menu-link">Privacy Policy</a></li>
+
+                                <li class="footer-menu-item"><a href="#" class="footer-menu-link">Terms</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="col-lg-5 col-12 mt-2 mt-lg-0">
+                            <ul class="social-icon">
+                                <li class="social-icon-item">
+                                    <a href="#" class="social-icon-link bi-twitter"></a>
+                                </li>
+
+                                <li class="social-icon-item">
+                                    <a href="#" class="social-icon-link bi-facebook"></a>
+                                </li>
+
+                                <li class="social-icon-item">
+                                    <a href="#" class="social-icon-link bi-linkedin"></a>
+                                </li>
+
+                                <li class="social-icon-item">
+                                    <a href="#" class="social-icon-link bi-instagram"></a>
+                                </li>
+
+                                <li class="social-icon-item">
+                                    <a href="#" class="social-icon-link bi-youtube"></a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="col-lg-3 col-12 mt-2 d-flex align-items-center mt-lg-0">
+                            <p>Design: <a class="sponsored-link" rel="sponsored" href="https://www.tooplate.com" target="_blank">Tooplate</a></p>
+                        </div>
+
+                        <a class="back-top-icon bi-arrow-up smoothscroll d-flex justify-content-center align-items-center" href="#top"></a>
+
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <!-- JAVASCRIPT FILES -->
+        <!-- <script src="js/jquery.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/owl.carousel.min.js"></script>
+        <script src="js/counter.js"></script>
+        <script src="js/custom.js"></script> -->
+
+    </body>
 @endsection

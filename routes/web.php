@@ -9,6 +9,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ContractController;
 use App\Http\Controllers\ExperienceController;
 use App\Http\Controllers\EducationController;
+use App\Http\Controllers\UploadController;
 
 
 // Trang chủ
@@ -49,3 +50,6 @@ Route::get('/aboutcv', [AboutController::class, 'aboutcv'])->name('create_cv.abo
 Route::post('/aboutcv', [AboutController::class, 'aboutcv'])->name('create_cv.about');
 Route::get('/resume', [ResumeController::class, 'resume'])->name('create_cv.resume');
 Route::post('/resume', [ResumeController::class, 'resume'])->name('create_cv.resume');
+Route::get('/upload', [UploadController::class, 'upload'])->name('create_cv.upload');
+Route::post('/upload', [UploadController::class, 'store'])->name('upload.store');
+
