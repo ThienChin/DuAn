@@ -1,36 +1,5 @@
-<?php
-// Nếu người dùng nhấn submit
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $targetDir = "uploads/";
-
-    // Tạo thư mục nếu chưa có
-    if (!is_dir($targetDir)) {
-        mkdir($targetDir, 0777, true);
-    }
-
-    $targetFile = $targetDir . basename($_FILES["pdfFile"]["name"]);
-    $fileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
-
-    // Check if file is a PDF
-    if ($fileType != "pdf") {
-        echo "<p style='color:red;'>Only PDF files are allowed.</p>";
-        exit;
-    }
-
-    // Check for upload errors
-    if ($_FILES["pdfFile"]["error"] !== UPLOAD_ERR_OK) {
-        echo "<p style='color:red;'>Upload error: " . $_FILES["pdfFile"]["error"] . "</p>";
-        exit;
-    }
-
-    // Move the uploaded file to the target directory
-    if (move_uploaded_file($_FILES["pdfFile"]["tmp_name"], $targetFile)) {
-        echo "<p style='color:green;'>The file <strong>" . htmlspecialchars(basename($_FILES["pdfFile"]["name"])) . "</strong> has been uploaded successfully!</p>";
-    } else {
-        echo "<p style='color:red;'>Sorry, there was an error uploading your file.</p>";
-    }
-}
-?>
+@extends('layouts.main') 
+@section('content')
 
 <!DOCTYPE html>
 <html lang="en">
@@ -74,10 +43,33 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <body>
     <div class="upload-container">
         <h2>Upload Your CV (PDF only)</h2>
-        <form action="{{{ route('upload.store') }}}" method="POST" enctype="multipart/form-data">
+        
+        {{-- Hiển thị thông báo thành công (Flash Session) --}}
+        @if (session('success'))
+            <p class="message-success">{{ session('success') }}</p>
+        @endif
+        
+        {{-- Hiển thị thông báo lỗi (Flash Session) --}}
+        @if (session('error'))
+            <p class="message-error">{{ session('error') }}</p>
+        @endif
+
+        {{-- Hiển thị lỗi Validation chuẩn của Laravel --}}
+        @if ($errors->any())
+            <div class="message-error">
+                @foreach ($errors->all() as $error)
+                    <p>{{ $error }}</p>
+                @endforeach
+            </div>
+        @endif
+
+        <form action="{{ route('upload.store') }}" method="POST" enctype="multipart/form-data">
+            @csrf {{-- Thêm CSRF Token bảo mật --}}
             <input type="file" name="pdfFile" accept="application/pdf" required>
             <button type="submit">Upload</button>
         </form>
     </div>
 </body>
 </html>
+
+@endsection

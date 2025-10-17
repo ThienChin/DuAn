@@ -46,8 +46,15 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/contract/store', [ContractController::class, 'store'])->name('contract.store');
     Route::get('/resume/review', [ResumeController::class, 'review'])->name('create_cv.resume');
 
+
     Route::get('/upload', [UserController::class, 'showUpload'])->name('create_cv.upload');
     Route::post('/upload', [UserController::class, 'upload'])->name('upload.store');
     Route::get('/personal', [UserController::class, 'personalInfo'])->name('profile.personal');
 });
+
+
+Route::get('/dashboard', function () {
+    return view('admin.dashboard'); // ✅ bạn đã có sẵn view này
+})->middleware(['auth', 'checkrole:admin'])
+    ->name('admin.dashboard');
 
