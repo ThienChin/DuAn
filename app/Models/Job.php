@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class Job extends Model
 {
     protected $table = 'jobs';
+<<<<<<< HEAD
+    protected $fillable = ['title', 'location', 'salary', 'category', 'description', 'is_featured', 'posted_at'];
+    protected $dates = ['posted_at', 'created_at', 'updated_at'];
+=======
     protected $fillable = [
         'title',
         'location',
@@ -31,4 +35,5 @@ class Job extends Model
     ];
 
     protected $dates = ['posted_at'];
+>>>>>>> main
 }

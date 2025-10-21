@@ -15,10 +15,16 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\DashboardController;
 
+// Trang chủ
 Route::get('/', function () {
     return view('welcome');
 });
 
+// Trang Job
+Route::get('/list', [JobController::class, 'index'])->name('jobs.index');
+Route::get('/list/{id}', [JobController::class, 'show'])->name('jobs.show');
+
+// Các route yêu cầu đăng nhập
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -39,6 +45,7 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
 
 Route::get('/home', [HomeController::class, 'index'])->name('page.index');
 Route::get('/about', [HomeController::class, 'about'])->name('page.about');

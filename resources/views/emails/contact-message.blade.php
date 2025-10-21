@@ -12,4 +12,8 @@
     <p><strong>Message:</strong></p>
     <p>{{ $data['message'] }}</p>
 </body>
+<<<<<<< HEAD
 </html>
+=======
+</html>
+>>>>>>> main
