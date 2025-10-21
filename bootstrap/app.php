@@ -12,9 +12,8 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
-        'checkrole' => \App\Http\Middleware\CheckRole::class,
+            'admin' => \App\Http\Middleware\RedirectIfNotAdmin::class,
         ]);
-
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

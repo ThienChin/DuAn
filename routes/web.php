@@ -12,7 +12,8 @@ use App\Http\Controllers\EducationController;
 use App\Http\Controllers\AboutcvController;
 use App\Http\Controllers\ResumeController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\JobController;
+use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\DashboardController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -67,7 +68,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/personal', [UserController::class, 'personalInfo'])->name('profile.personal');
 });
 
-Route::get('/dashboard', function () {
-    return view('admin.dashboard');
-})->middleware(['auth', 'checkrole:admin'])
-    ->name('admin.dashboard');
+
+Route::prefix('admin')->group(function () {
+    Route::get('/login', [AuthController::class, 'showLoginForm'])->name('admin.login');
+    Route::post('/login', [AuthController::class, 'login'])->name('admin.login.submit');
+    Route::post('/logout', [AuthController::class, 'logout'])->name('admin.logout');
+
+    Route::middleware('admin')->group(function () {
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+    });
+});
