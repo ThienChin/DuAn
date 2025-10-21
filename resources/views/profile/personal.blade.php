@@ -1,20 +1,7 @@
-@extends('layouts.app')
+@extends('layouts.profile')
 
 @section('content')
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Personal Information</title>
-    <style>
-        body { font-family: Arial; margin: 40px; background: #f9f9f9; }
-        .container { background: #fff; padding: 20px; border-radius: 8px; width: 600px; margin: auto; }
-        h2 { color: #333; border-bottom: 2px solid #ddd; padding-bottom: 8px; }
-        p { font-size: 16px; margin: 8px 0; }
-        .cv-link { margin-top: 10px; }
-        a { color: #007bff; text-decoration: none; }
-        a:hover { text-decoration: underline; }
-    </style>
-</head>
+
 <body>
 <div class="container">
     <h2>Personal Information</h2>
