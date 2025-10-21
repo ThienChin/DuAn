@@ -1,27 +1,5 @@
 @extends('layouts.main')
 @section('content')
-<<<<<<< HEAD
-        <main>
-
-            <header class="site-header">
-                <div class="section-overlay"></div>
-
-                <div class="container">
-                    <div class="row">
-                        
-                        <div class="col-lg-12 col-12 text-center">
-                            <h1 class="text-white">Job Details</h1>
-
-                            <nav aria-label="breadcrumb">
-                                <ol class="breadcrumb justify-content-center">
-                                    <li class="breadcrumb-item"><a href="{{ route('index') }}">Home</a></li>
-
-                                    <li class="breadcrumb-item active" aria-current="page">Job Details</li>
-                                </ol>
-                            </nav>
-                        </div>
-
-=======
     <main>
         <header class="site-header">
             <div class="section-overlay"></div>
@@ -36,7 +14,6 @@
                                 <li class="breadcrumb-item active" aria-current="page">{{ $job->title }}</li>
                             </ol>
                         </nav>
->>>>>>> main
                     </div>
                 </div>
             </div>
@@ -123,7 +100,6 @@
                         </div>
                     </div>
                 </div>
-<<<<<<< HEAD
             </section>
 
 
@@ -353,9 +329,4 @@
                 </div>
             </section>
         </main>
-=======
-            </div>
-        </section>
-    </main>
->>>>>>> main
 @endsection
