@@ -1,0 +1,230 @@
+/* Biến CSS để dễ dàng tùy chỉnh */
+:root {
+  --primary-color: #0078D4;
+  --primary-hover: #005fa3;
+  --background-color: #f4f4f4;
+  --container-bg: #ffffff;
+  --text-color: #333333;
+  --secondary-text: #666666;
+  --border-color: #cccccc;
+  --shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  --font-family: Arial, sans-serif;
+  --container-width: 700px;
+  --spacing: 20px;
+}
+
+/* Reset và cài đặt chung */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--background-color);
+  padding: var(--spacing);
+  line-height: 1.6;
+  color: var(--text-color);
+}
+
+/* Container chính */
+.container {
+  max-width: var(--container-width);
+  margin: 0 auto;
+  background-color: var(--container-bg);
+  padding: calc(var(--spacing) * 1.5);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+
+/* Thanh điều hướng */
+.nav {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: var(--spacing);
+  font-size: 14px;
+}
+
+.nav span {
+  padding: 5px 10px;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.nav .active {
+  border-bottom: 2px solid var(--primary-color);
+  font-weight: bold;
+  color: var(--primary-color);
+}
+
+/* Tiêu đề */
+h2 {
+  color: var(--primary-color);
+  margin-bottom: calc(var(--spacing) / 2);
+}
+
+/* Form và các trường nhập liệu */
+label {
+  display: block;
+  margin-top: var(--spacing);
+  font-weight: bold;
+  color: var(--text-color);
+}
+
+input[type="text"],
+input[type="email"],
+input[type="date"],
+select,
+textarea {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  font-family: var(--font-family);
+  font-size: 16px;
+}
+
+textarea {
+  height: 120px;
+  resize: vertical;
+}
+
+/* Hàng kỹ năng trong about.blade.php */
+.skill-row {
+  display: flex;
+  gap: var(--spacing);
+  margin-top: var(--spacing);
+}
+
+.skill-row .field {
+  flex: 1;
+}
+
+/* Thanh công cụ trong about.blade.php */
+.toolbar {
+  margin-top: 10px;
+}
+
+.toolbar button {
+  background: #eeeeee;
+  border: none;
+  padding: 5px 10px;
+  margin-right: 5px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.3s ease;
+}
+
+.toolbar button:hover {
+  background: #dddddd;
+}
+
+/* Nút */
+.btn {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.3s ease;
+  margin-top: var(--spacing);
+}
+
+.btn:hover {
+  background-color: var(--primary-hover);
+}
+
+.back-btn {
+  background: none;
+  color: var(--text-color);
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.add-link {
+  margin-top: 10px;
+  display: inline-block;
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+.note {
+  font-size: 13px;
+  color: var(--secondary-text);
+  margin-top: 10px;
+}
+
+/* Resume cụ thể */
+.resume {
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: var(--container-bg);
+  padding: calc(var(--spacing) * 1.5);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+
+.resume h1 {
+  color: var(--primary-color);
+  margin-bottom: calc(var(--spacing) / 2);
+}
+
+.info {
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.label {
+  font-weight: bold;
+}
+
+.line {
+  border-top: 1px solid var(--border-color);
+  margin: var(--spacing) 0;
+}
+
+.section {
+  margin-top: calc(var(--spacing) * 1.5);
+}
+
+.download-btn {
+  display: block;
+  margin: calc(var(--spacing) * 1.5) auto 0;
+  padding: 10px 20px;
+  background-color: var(--primary-color);
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.download-btn:hover {
+  background-color: var(--primary-hover);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .container,
+  .resume {
+    max-width: 100%;
+    padding: var(--spacing);
+  }
+
+  .nav {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .skill-row {
+    flex-direction: column;
+  }
+}

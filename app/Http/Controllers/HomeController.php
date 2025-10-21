@@ -8,12 +8,12 @@ class HomeController extends Controller
 {
     public function index()
     {
-        return view('index');
+        return view('page.index');
     }
 
     public function about()
     {
-        return view('about');
+        return view('page.about');
     }
     
 }
