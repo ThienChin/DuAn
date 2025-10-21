@@ -1,84 +1,92 @@
-@extends('layouts.createcv')
+@extends('layouts.main')
 @section('content')
 <div class="container section-padding">
     <div class="row">
-        <div class="col-lg-10 col-12 mx-auto">
-            <div class="resume" id="resumeContent">
-                <!-- Header -->
-                <div class="text-center mb-4">
-                    <h1 class="mb-2">{{ $contract->first_name ?? '' }} {{ $contract->last_name ?? '' }}</h1>
-                    <div class="info">
-                        <p class="mb-1">{{ $contract->city ?? '' }}, {{ $contract->postal_code ?? '' }}</p>
-                        <p class="mb-1">Phone: {{ $contract->phone ?? '' }}</p>
-                        <p>Email: {{ $contract->email ?? '' }}</p>
+        <!-- Contact Info (Sidebar) -->
+        <div class="col-lg-3 col-12 mb-5 mb-lg-0">
+            <div class="resume-sidebar bg-light p-4 rounded shadow-sm border">
+                <h3 class="text-primary mb-4">{{ $contract->first_name ?? '' }} {{ $contract->last_name ?? '' }}</h3>
+                <div class="info">
+                    <p class="mb-3"><i class="bi bi-geo-alt-fill me-2"></i>{{ $contract->city ?? '' }}, {{ $contract->postal_code ?? '' }}</p>
+                    <p class="mb-3"><i class="bi bi-telephone-fill me-2"></i>Phone: {{ $contract->phone ?? '' }}</p>
+                    <p><i class="bi bi-envelope-fill me-2"></i>Email: {{ $contract->email ?? '' }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="col-lg-9 col-12">
+            <div class="resume-content p-4 bg-white rounded shadow-sm" id="resumeContent">
+                <!-- Professional Summary -->
+                <div class="section mb-5">
+                    <h2 class="border-bottom border-primary pb-2 mb-4">Professional Summary</h2>
+                    <div class="card p-3 border-light">
+                        <p class="text-muted">{{ $about->summary ?? 'No summary provided.' }}</p>
                     </div>
                 </div>
 
-                <div class="line"></div>
-
-                <!-- Professional Summary -->
-                <div class="section mt-4">
-                    <h2>Professional Summary</h2>
-                    <p class="mt-2">{{ $about->summary ?? 'No summary provided.' }}</p>
-                </div>
-
-                <div class="line"></div>
-
                 <!-- Skills -->
-                <div class="section mt-4">
-                    <h2>Skills</h2>
-                    <p class="mt-2">
-                        <span class="label">{{ $about->skill ?? 'No skill listed' }}</span> —
-                        <span>{{ $about->level ?? 'Not specified' }}</span>
-                    </p>
+                <div class="section mb-5">
+                    <h2 class="border-bottom border-primary pb-2 mb-4">Skills</h2>
+                    <div class="card p-3 border-light">
+                        <p>
+                            <span class="badge bg-primary text-white me-3">{{ $about->skill ?? 'No skill listed' }}</span>
+                            <span class="text-secondary">{{ $about->level ?? 'Not specified' }}</span>
+                        </p>
+                    </div>
                 </div>
-
-                <div class="line"></div>
 
                 <!-- Experiences -->
-                <div class="section mt-4">
-                    <h2>Experiences</h2>
-                    @if($experiences)
-                        <p class="mt-2">
-                            <span class="label">{{ $experiences->job_title ?? '' }}</span><br>
-                            {{ $experiences->employer ?? '' }} — {{ $experiences->city ?? '' }}<br>
-                            @if($experiences->start_date && $experiences->end_date)
-                                {{ \Carbon\Carbon::parse($experiences->start_date)->format('F Y') }}
-                                to
-                                {{ \Carbon\Carbon::parse($experiences->end_date)->format('F Y') }}<br>
-                            @endif
-                            {{ $experiences->description ?? '' }}
-                        </p>
-                    @else
-                        <p class="mt-2">No experience has been added yet.</p>
-                    @endif
+                <div class="section mb-5">
+                    <h2 class="border-bottom border-primary pb-2 mb-4">Experiences</h2>
+                    <div class="card p-3 border-light">
+                        @if($experiences)
+                            <div class="mb-4">
+                                <h4 class="mb-2">{{ $experiences->job_title ?? '' }}</h4>
+                                <p class="text-muted mb-2">{{ $experiences->employer ?? '' }} — {{ $experiences->city ?? '' }}</p>
+                                @if($experiences->start_date && $experiences->end_date)
+                                    <p class="text-muted mb-2">
+                                        {{ \Carbon\Carbon::parse($experiences->start_date)->format('F Y') }}
+                                        to
+                                        {{ \Carbon\Carbon::parse($experiences->end_date)->format('F Y') }}
+                                    </p>
+                                @endif
+                                <p>{{ $experiences->description ?? '' }}</p>
+                            </div>
+                        @else
+                            <p class="text-muted">No experience has been added yet.</p>
+                        @endif
+                    </div>
                 </div>
-
-                <div class="line"></div>
 
                 <!-- Education -->
-                <div class="section mt-4">
-                    <h2>Education</h2>
-                    @if($educations)
-                        <p class="mt-2">
-                            <span class="label">{{ $educations->school ?? '' }}</span> — {{ $educations->city ?? '' }}<br>
-                            Degree: {{ $educations->degree ?? 'Not specified' }}<br>
-                            @if($educations->grad_date)
-                                Graduation: {{ \Carbon\Carbon::parse($educations->grad_date)->format('F Y') }}<br>
-                            @endif
-                            {{ $educations->description ?? '' }}
-                        </p>
-                    @else
-                        <p class="mt-2">No education has been added yet.</p>
-                    @endif
+                <div class="section">
+                    <h2 class="border-bottom border-primary pb-2 mb-4">Education</h2>
+                    <div class="card p-3 border-light">
+                        @if($educations)
+                            <div class="mb-4">
+                                <h4 class="mb-2">{{ $educations->school ?? '' }}</h4>
+                                <p class="text-muted mb-2">{{ $educations->city ?? '' }}</p>
+                                <p class="text-muted mb-2">Degree: {{ $educations->degree ?? 'Not specified' }}</p>
+                                @if($educations->grad_date)
+                                    <p class="text-muted mb-2">Graduation: {{ \Carbon\Carbon::parse($educations->grad_date)->format('F Y') }}</p>
+                                @endif
+                                <p>{{ $educations->description ?? '' }}</p>
+                            </div>
+                        @else
+                            <p class="text-muted">No education has been added yet.</p>
+                        @endif
+                    </div>
                 </div>
             </div>
-
-            <!-- Download Button -->
-            <div class="text-center mt-5">
-                <button class="download-btn" onclick="downloadPDF()">Download as PDF</button>
-            </div>
         </div>
+    </div>
+
+    <!-- Download Button -->
+    <div class="text-center mt-5">
+        <button class="download-btn btn btn-primary btn-lg rounded-pill px-4 py-2" onclick="downloadPDF()">
+            <i class="bi bi-download me-2"></i> Download as PDF
+        </button>
     </div>
 </div>
 
@@ -88,13 +96,21 @@
 function downloadPDF() {
     const element = document.getElementById("resumeContent");
     const opt = {
-        margin: [10, 10, 10, 10], // Top, right, bottom, left margins in mm
+        margin: [15, 15, 15, 15],
         filename: '{{ Str::slug(($contract->first_name ?? "user") . "_" . ($contract->last_name ?? "resume")) }}.pdf',
         image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 3, useCORS: true }, // Higher scale for better quality
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        html2canvas: { scale: 3, useCORS: true },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+        pagebreak: { mode: ['css', 'legacy'] }
     };
-    html2pdf().set(opt).from(element).save();
+    html2pdf().set(opt).from(element).toPdf().get('pdf').then(function (pdf) {
+        const totalPages = pdf.internal.getNumberOfPages();
+        for (let i = 1; i <= totalPages; i++) {
+            pdf.setPage(i);
+            pdf.setFontSize(10);
+            pdf.text('Page ' + i + ' of ' + totalPages, pdf.internal.pageSize.width / 2, pdf.internal.pageSize.height - 10, { align: 'center' });
+        }
+    }).save();
 }
 </script>
 @endsection
