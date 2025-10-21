@@ -12,6 +12,7 @@ use App\Http\Controllers\EducationController;
 use App\Http\Controllers\AboutcvController;
 use App\Http\Controllers\ResumeController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\JobController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -21,14 +22,29 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    
+    // Route cho danh sách công việc
+    Route::get('/list', [JobController::class, 'index'])->name('jobs.index');
+    
+    // Route cho chi tiết công việc
+    Route::get('/jobs/{job}', [JobController::class, 'show'])->name('jobs.show');
+    
+    // Route cho các hành động quản lý công việc
+    Route::get('/jobs/create', [JobController::class, 'create'])->name('jobs.create');
+    Route::post('/jobs', [JobController::class, 'store'])->name('jobs.store');
+    Route::get('/jobs/{job}/edit', [JobController::class, 'edit'])->name('jobs.edit');
+    Route::put('/jobs/{job}', [JobController::class, 'update'])->name('jobs.update');
+    Route::delete('/jobs/{job}', [JobController::class, 'destroy'])->name('jobs.destroy');
 });
 
 require __DIR__.'/auth.php';
 
 Route::get('/home', [HomeController::class, 'index'])->name('page.index');
 Route::get('/about', [HomeController::class, 'about'])->name('page.about');
-Route::get('/list', [PageController::class, 'list'])->name('page.list');
-Route::get('/detail', [PageController::class, 'detail'])->name('page.detail');
+
+// Xóa các route cũ của PageController nếu không còn cần
+// Route::get('/list', [PageController::class, 'list'])->name('page.list');
+// Route::get('/detail', [PageController::class, 'detail'])->name('page.detail');
 
 Route::get('/send-mail', [MailController::class, 'send'])->name('send.mail');
 
@@ -46,15 +62,12 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/contract/store', [ContractController::class, 'store'])->name('contract.store');
     Route::get('/resume/review', [ResumeController::class, 'review'])->name('create_cv.resume');
 
-
     Route::get('/upload', [UserController::class, 'showUpload'])->name('create_cv.upload');
     Route::post('/upload', [UserController::class, 'upload'])->name('upload.store');
     Route::get('/personal', [UserController::class, 'personalInfo'])->name('profile.personal');
 });
 
-
 Route::get('/dashboard', function () {
-    return view('admin.dashboard'); // ✅ bạn đã có sẵn view này
+    return view('admin.dashboard');
 })->middleware(['auth', 'checkrole:admin'])
     ->name('admin.dashboard');
-
