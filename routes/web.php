@@ -14,6 +14,7 @@ use App\Http\Controllers\ResumeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\JobController;
 
 // Trang chủ
 Route::get('/', function () {
