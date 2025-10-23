@@ -12,6 +12,7 @@ use App\Http\Controllers\EducationController;
 use App\Http\Controllers\AboutcvController;
 use App\Http\Controllers\ResumeController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UploadController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -34,6 +35,8 @@ Route::get('/send-mail', [MailController::class, 'send'])->name('send.mail');
 
 Route::get('/contact', [ContactController::class, 'showForm'])->name('emails.contact');
 Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
+Route::get('/upload', [UploadController::class, 'upload'])->name('upload.form');
+Route::post('/upload', [UploadController::class, 'store'])->name('upload.store');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/about/create', [AboutcvController::class, 'create'])->name('create_cv.about');
