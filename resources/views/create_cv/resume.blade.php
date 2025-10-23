@@ -76,11 +76,9 @@
 function downloadPDF() {
     const element = document.getElementById("resumeContent");
     const opt = {
-        margin: 10,
-        filename: '{{ Str::slug(($about->first_name ?? "user") . "_" . ($about->last_name ?? "resume")) }}.pdf',
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2 },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        // ... (các tùy chọn khác)
+        filename: '{{ Str::slug(($contract->first_name ?? "user") . " " . ($contract->last_name ?? "resume")) }}.pdf',
+        // ... (các tùy chọn khác)
     };
     html2pdf().set(opt).from(element).save();
 }

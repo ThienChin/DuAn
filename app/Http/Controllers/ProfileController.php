@@ -2,59 +2,57 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProfileUpdateRequest;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\View\View;
+use App\Models\User; // nếu model user của bạn tên khác thì đổi lại
+use App\Models\Aboutcv;
+use App\Models\Education;
+use App\Models\Experience;
+use App\Models\Contract;
 
 class ProfileController extends Controller
 {
-    /**
-     * Display the user's profile form.
-     */
-    public function edit(Request $request): View
+    // Middleware để chắc chắn người dùng đã đăng nhập
+    public function __construct()
     {
-        return view('profile.edit', [
-            'user' => $request->user(),
-        ]);
+        $this->middleware('auth');
     }
 
     /**
-     * Update the user's profile information.
+     * Hiển thị thông tin cá nhân người dùng.   
      */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
+    public function show()
     {
-        $request->user()->fill($request->validated());
+        // Lấy user hiện tại
+        $userId = Auth::id();
+        
+        $about = Aboutcv::where('user_id', $userId)->orderBy('id', 'desc')->first();   
+        $educations = Education::where('user_id', $userId)->orderBy('id', 'desc')->first();
+        $experiences = Experience::where('user_id', $userId)->orderBy('id', 'desc')->first();    
+        $contract = Contract::where('user_id', $userId)->orderBy('id', 'desc')->first(); 
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
-        }
 
-        $request->user()->save();
-
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        // Gửi sang view để hiển thị thông tin
+        return view('profile.show', compact('user','about', 'educations', 'experiences', 'contract'));
     }
 
     /**
-     * Delete the user's account.
+     * Cập nhật thông tin cá nhân.
      */
-    public function destroy(Request $request): RedirectResponse
+    public function update(Request $request)
     {
-        $request->validateWithBag('userDeletion', [
-            'password' => ['required', 'current_password'],
+        $user = Auth::user();
+
+        $request->validate([
+            'first_name' => 'nullable|string|max:255',
+            'last_name' => 'nullable|string|max:255',
+            'phone' => 'nullable|string|max:20',
+            'city' => 'nullable|string|max:255',
+            'postal_code' => 'nullable|string|max:20',
         ]);
 
-        $user = $request->user();
+        $user->update($request->only(['first_name', 'last_name', 'phone', 'city', 'postal_code']));
 
-        Auth::logout();
-
-        $user->delete();
-
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return Redirect::to('/');
+        return redirect()->back()->with('success', 'Profile updated successfully.');
     }
 }
