@@ -76,7 +76,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <h2>Upload Your CV (PDF only)</h2>
         <form action="{{{ route('upload.store') }}}" method="POST" enctype="multipart/form-data">
             <input type="file" name="pdfFile" accept="application/pdf" required>
-            <button type="submit">Upload</button>
+            <button type="submit">Uploads</button>
         </form>
     </div>
 </body>
