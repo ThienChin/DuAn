@@ -14,14 +14,18 @@ use App\Http\Controllers\EducationController;
 use App\Http\Controllers\AboutcvController;
 use App\Http\Controllers\ResumeController;
 use App\Http\Controllers\UserController;
+<<<<<<< HEAD
 >>>>>>> main
+=======
+>>>>>>> bcb1013 (Job done)
 use App\Http\Controllers\JobController;
 
-// Trang chủ
+// Route trang chào mừng
 Route::get('/', function () {
     return view('welcome');
 });
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 // Trang Job
 Route::get('/list', [JobController::class, 'index'])->name('jobs.index');
@@ -30,25 +34,29 @@ Route::get('/list/{id}', [JobController::class, 'show'])->name('jobs.show');
 // Các route yêu cầu đăng nhập
 =======
 >>>>>>> main
+=======
+// Nhóm route yêu cầu xác thực
+>>>>>>> bcb1013 (Job done)
 Route::middleware('auth')->group(function () {
+    // Route cho trang profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    
+
     // Route cho danh sách công việc
     Route::get('/list', [JobController::class, 'index'])->name('jobs.index');
-    
+
     // Route cho chi tiết công việc
     Route::get('/jobs/{job}', [JobController::class, 'show'])->name('jobs.show');
-    
+
     // Route cho các hành động quản lý công việc
     Route::get('/jobs/create', [JobController::class, 'create'])->name('jobs.create');
     Route::post('/jobs', [JobController::class, 'store'])->name('jobs.store');
     Route::get('/jobs/{job}/edit', [JobController::class, 'edit'])->name('jobs.edit');
     Route::put('/jobs/{job}', [JobController::class, 'update'])->name('jobs.update');
     Route::delete('/jobs/{job}', [JobController::class, 'destroy'])->name('jobs.destroy');
-});
 
+<<<<<<< HEAD
 require __DIR__.'/auth.php';
 
 <<<<<<< HEAD
@@ -76,6 +84,9 @@ Route::get('/contact', [ContactController::class, 'showForm'])->name('emails.con
 Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
 
 Route::middleware(['auth'])->group(function () {
+=======
+    // Route cho các chức năng CV và thông tin cá nhân
+>>>>>>> bcb1013 (Job done)
     Route::get('/about/create', [AboutcvController::class, 'create'])->name('create_cv.about');
     Route::post('/about/store', [AboutcvController::class, 'store'])->name('about.store');
     Route::get('/education/create', [EducationController::class, 'create'])->name('create_cv.education');
@@ -91,7 +102,29 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/personal', [UserController::class, 'personalInfo'])->name('profile.personal');
 });
 
+<<<<<<< HEAD
 Route::get('/dashboard', function () {
     return view('admin.dashboard');
 })->middleware(['auth', 'checkrole:admin'])
     ->name('admin.dashboard');
+=======
+// Route không yêu cầu xác thực
+Route::get('/home', [HomeController::class, 'index'])->name('page.index');
+Route::get('/about', [HomeController::class, 'about'])->name('page.about');
+
+// Route gửi mail
+Route::get('/send-mail', [MailController::class, 'send'])->name('send.mail');
+
+// Route liên hệ
+Route::get('/contact', [ContactController::class, 'showForm'])->name('emails.contact');
+Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
+
+// Route dành cho admin
+Route::get('/dashboard', function () {
+    return view('admin.dashboard');
+})->middleware(['auth', 'checkrole:admin'])
+    ->name('admin.dashboard');
+
+// Bao gồm các route xác thực từ auth.php
+require __DIR__.'/auth.php';
+>>>>>>> bcb1013 (Job done)
