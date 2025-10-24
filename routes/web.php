@@ -12,6 +12,8 @@ use App\Http\Controllers\EducationController;
 use App\Http\Controllers\AboutcvController;
 use App\Http\Controllers\ResumeController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\JobController;
 
 // Route trang chào mừng
@@ -39,7 +41,24 @@ Route::middleware('auth')->group(function () {
     Route::put('/jobs/{job}', [JobController::class, 'update'])->name('jobs.update');
     Route::delete('/jobs/{job}', [JobController::class, 'destroy'])->name('jobs.destroy');
 
-    // Route cho các chức năng CV và thông tin cá nhân
+require __DIR__.'/auth.php';
+
+
+Route::get('/home', [HomeController::class, 'index'])->name('page.index');
+Route::get('/about', [HomeController::class, 'about'])->name('page.about');
+
+// Xóa các route cũ của PageController nếu không còn cần
+// Route::get('/list', [PageController::class, 'list'])->name('page.list');
+// Route::get('/detail', [PageController::class, 'detail'])->name('page.detail');
+
+Route::get('/send-mail', [MailController::class, 'send'])->name('send.mail');
+
+Route::get('/contact', [ContactController::class, 'showForm'])->name('emails.contact');
+Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
+Route::get('/upload', [UploadController::class, 'upload'])->name('upload.form');
+Route::post('/upload', [UploadController::class, 'store'])->name('upload.store');
+
+Route::middleware(['auth'])->group(function () {
     Route::get('/about/create', [AboutcvController::class, 'create'])->name('create_cv.about');
     Route::post('/about/store', [AboutcvController::class, 'store'])->name('about.store');
     Route::get('/education/create', [EducationController::class, 'create'])->name('create_cv.education');
@@ -71,6 +90,3 @@ Route::get('/dashboard', function () {
     return view('admin.dashboard');
 })->middleware(['auth', 'checkrole:admin'])
     ->name('admin.dashboard');
-
-// Bao gồm các route xác thực từ auth.php
-require __DIR__.'/auth.php';
