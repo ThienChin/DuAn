@@ -6,21 +6,35 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    /**
+     * Run the migrations.
+     */
     public function up(): void
     {
         Schema::create('jobs', function (Blueprint $table) {
             $table->id();
-            $table->string('title', 255);
-            $table->string('location', 255);
-            $table->decimal('salary', 10, 2);
-            $table->string('category', 255);
-            $table->text('description')->nullable();
-            $table->tinyInteger('is_featured')->default(0);
-            $table->timestamp('posted_at')->useCurrent(); // Đảm bảo là timestamp
+            $table->string('title');
+            $table->string('location');
+            $table->enum('level', ['Internship', 'Junior', 'Senior']);
+            $table->enum('remote_type', ['Full Time', 'Contract', 'Part Time']);
+            $table->decimal('salary', 15, 2);
+            $table->string('category')->nullable();
+            $table->text('description');
+            $table->boolean('is_featured')->default(false);
+            $table->timestamp('posted_at')->nullable();
+            $table->string('company_name');
+            $table->text('company_description')->nullable();
+            $table->string('website')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('email')->nullable();
+            $table->boolean('remote')->default(false);
             $table->timestamps();
         });
     }
 
+    /**
+     * Reverse the migrations.
+     */
     public function down(): void
     {
         Schema::dropIfExists('jobs');

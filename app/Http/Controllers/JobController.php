@@ -53,7 +53,7 @@ class JobController extends Controller
             $query->where('category', 'like', '%' . $request->input('job-category') . '%');
         }
 
-        $jobs = $query->paginate(10);
+        $jobs = $query->paginate(12);
 
         return view('page.list', compact('jobs'));
     }
