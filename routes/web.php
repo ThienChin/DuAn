@@ -1,5 +1,7 @@
 <?php
 
+require __DIR__.'/auth.php';
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\HomeController;
@@ -22,6 +24,14 @@ Route::get('/', function () {
 });
 
 // Nhóm route yêu cầu xác thực
+// Trang Job
+Route::get('/list', [JobController::class, 'index'])->name('jobs.index');
+Route::get('/list/{id}', [JobController::class, 'show'])->name('jobs.show');
+
+// Các route yêu cầu đăng nhập
+
+// Nhóm route yêu cầu xác thực
+
 Route::middleware('auth')->group(function () {
     // Route cho trang profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -41,24 +51,7 @@ Route::middleware('auth')->group(function () {
     Route::put('/jobs/{job}', [JobController::class, 'update'])->name('jobs.update');
     Route::delete('/jobs/{job}', [JobController::class, 'destroy'])->name('jobs.destroy');
 
-require __DIR__.'/auth.php';
-
-
-Route::get('/home', [HomeController::class, 'index'])->name('page.index');
-Route::get('/about', [HomeController::class, 'about'])->name('page.about');
-
-// Xóa các route cũ của PageController nếu không còn cần
-// Route::get('/list', [PageController::class, 'list'])->name('page.list');
-// Route::get('/detail', [PageController::class, 'detail'])->name('page.detail');
-
-Route::get('/send-mail', [MailController::class, 'send'])->name('send.mail');
-
-Route::get('/contact', [ContactController::class, 'showForm'])->name('emails.contact');
-Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
-Route::get('/upload', [UploadController::class, 'upload'])->name('upload.form');
-Route::post('/upload', [UploadController::class, 'store'])->name('upload.store');
-
-Route::middleware(['auth'])->group(function () {
+    // Route cho các chức năng CV và thông tin cá nhân
     Route::get('/about/create', [AboutcvController::class, 'create'])->name('create_cv.about');
     Route::post('/about/store', [AboutcvController::class, 'store'])->name('about.store');
     Route::get('/education/create', [EducationController::class, 'create'])->name('create_cv.education');
@@ -90,3 +83,21 @@ Route::get('/dashboard', function () {
     return view('admin.dashboard');
 })->middleware(['auth', 'checkrole:admin'])
     ->name('admin.dashboard');
+// Route không yêu cầu xác thực
+Route::get('/home', [HomeController::class, 'index'])->name('page.index');
+Route::get('/about', [HomeController::class, 'about'])->name('page.about');
+
+// Route gửi mail
+Route::get('/send-mail', [MailController::class, 'send'])->name('send.mail');
+
+// Route liên hệ
+Route::get('/contact', [ContactController::class, 'showForm'])->name('emails.contact');
+Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
+
+// Route dành cho admin
+Route::get('/dashboard', function () {
+    return view('admin.dashboard');
+})->middleware(['auth', 'checkrole:admin'])
+    ->name('admin.dashboard');
+
+// Bao gồm các route xác thực từ auth.php
