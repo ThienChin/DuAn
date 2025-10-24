@@ -48,7 +48,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/contract/create', [ContractController::class, 'create'])->name('create_cv.contract');
     Route::post('/contract/store', [ContractController::class, 'store'])->name('contract.store');
     Route::get('/resume/review', [ResumeController::class, 'review'])->name('create_cv.resume');
+
     Route::get('/upload', [UserController::class, 'showUpload'])->name('create_cv.upload');
     Route::post('/upload', [UserController::class, 'upload'])->name('upload.store');
     Route::get('/personal', [UserController::class, 'personalInfo'])->name('profile.personal');
+
+    Route::delete('/profile/cv/{id}', [UserController::class, 'deleteCv'])->name('create_cv.delete');
+    Route::get('/profile/cv/delete-confirm/{id}', [UserController::class, 'confirmDeleteCv'])->name('cv.delete.confirm.view');
 });
