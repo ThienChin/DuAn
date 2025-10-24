@@ -12,24 +12,48 @@ use App\Http\Controllers\EducationController;
 use App\Http\Controllers\AboutcvController;
 use App\Http\Controllers\ResumeController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\UploadController;
+use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\JobController;
 
+// Trang chủ
 Route::get('/', function () {
     return view('welcome');
 });
 
+// Trang Job
+Route::get('/list', [JobController::class, 'index'])->name('jobs.index');
+Route::get('/list/{id}', [JobController::class, 'show'])->name('jobs.show');
+
+// Các route yêu cầu đăng nhập
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    
+    // Route cho danh sách công việc
+    Route::get('/list', [JobController::class, 'index'])->name('jobs.index');
+    
+    // Route cho chi tiết công việc
+    Route::get('/jobs/{job}', [JobController::class, 'show'])->name('jobs.show');
+    
+    // Route cho các hành động quản lý công việc
+    Route::get('/jobs/create', [JobController::class, 'create'])->name('jobs.create');
+    Route::post('/jobs', [JobController::class, 'store'])->name('jobs.store');
+    Route::get('/jobs/{job}/edit', [JobController::class, 'edit'])->name('jobs.edit');
+    Route::put('/jobs/{job}', [JobController::class, 'update'])->name('jobs.update');
+    Route::delete('/jobs/{job}', [JobController::class, 'destroy'])->name('jobs.destroy');
 });
 
 require __DIR__.'/auth.php';
 
+
 Route::get('/home', [HomeController::class, 'index'])->name('page.index');
 Route::get('/about', [HomeController::class, 'about'])->name('page.about');
-Route::get('/list', [PageController::class, 'list'])->name('page.list');
-Route::get('/detail', [PageController::class, 'detail'])->name('page.detail');
+
+// Xóa các route cũ của PageController nếu không còn cần
+// Route::get('/list', [PageController::class, 'list'])->name('page.list');
+// Route::get('/detail', [PageController::class, 'detail'])->name('page.detail');
 
 Route::get('/send-mail', [MailController::class, 'send'])->name('send.mail');
 
@@ -54,3 +78,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/personal', [UserController::class, 'personalInfo'])->name('profile.personal');
 });
 
+
+Route::prefix('admin')->group(function () {
+    Route::get('/login', [AuthController::class, 'showLoginForm'])->name('admin.login');
+    Route::post('/login', [AuthController::class, 'login'])->name('admin.login.submit');
+    Route::post('/logout', [AuthController::class, 'logout'])->name('admin.logout');
+
+    Route::middleware('admin')->group(function () {
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+    });
+});

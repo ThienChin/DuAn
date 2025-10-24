@@ -1,3 +1,9 @@
+<<<<<<< HEAD
+=======
+@extends('layouts.main') 
+@section('content')
+
+>>>>>>> 2be0006e4aea4aec1de0bbbbddf017b2ce3787cb
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -56,19 +62,30 @@
 </head>
 <body>
     <div class="upload-container">
-        <h2>Upload Your CV (PDF, DOC, DOCX)</h2>
-
-        @if(session('success'))
-            <div class="alert alert-success">{{ session('success') }}</div>
+        <h2>Upload Your CV (PDF only)</h2>
+        
+        {{-- Hiển thị thông báo thành công (Flash Session) --}}
+        @if (session('success'))
+            <p class="message-success">{{ session('success') }}</p>
+        @endif
+        
+        {{-- Hiển thị thông báo lỗi (Flash Session) --}}
+        @if (session('error'))
+            <p class="message-error">{{ session('error') }}</p>
         @endif
 
-        @if($errors->any())
-            <div class="alert alert-error">{{ $errors->first() }}</div>
+        {{-- Hiển thị lỗi Validation chuẩn của Laravel --}}
+        @if ($errors->any())
+            <div class="message-error">
+                @foreach ($errors->all() as $error)
+                    <p>{{ $error }}</p>
+                @endforeach
+            </div>
         @endif
 
         <form action="{{ route('upload.store') }}" method="POST" enctype="multipart/form-data">
-            @csrf
-            <input type="file" name="pdfFile" accept=".pdf,.doc,.docx" required>
+            @csrf {{-- Thêm CSRF Token bảo mật --}}
+            <input type="file" name="pdfFile" accept="application/pdf" required>
             <button type="submit">Upload</button>
         </form>
 
@@ -86,12 +103,4 @@
 </body>
 </html>
 
-
-
-                                <td style="border: 1px solid #ddd; padding: 10px;">
-                                {{-- ❗ ĐÃ SỬA: Thay thế route() bằng asset() để trỏ thẳng tới file --}}
-                                <a href="{{ asset($file->path) }}" target="_blank" style="color: #007bff; text-decoration: none;">
-                                {{ $file->name ?? pathinfo($file->path, PATHINFO_BASENAME) }}
-                                </a>
-                                </td>
-                                 <p>Thời gian tải lên: {{ $file->created_at->format('d/m/Y H:i') }}</p>
+@endsection

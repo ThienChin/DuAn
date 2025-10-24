@@ -1,10 +1,16 @@
 @extends('layouts.main')
 
 @section('content')
-    <div class="container">
-        <h2>Personal Information</h2>
-        <p><strong>Name:</strong> {{ $user->name ?? '' }}</p>
-        <p><strong>Email:</strong> {{ $user->email ?? '' }}</p>
+
+<body>
+<div class="container">
+    <h2>Personal Information</h2>
+    <p><strong>First Name:</strong> {{ $user['first_name'] ?? $user->first_name ?? '' }}</p>
+    <p><strong>Last Name:</strong> {{ $user['last_name'] ?? $user->last_name ?? '' }}</p>
+    <p><strong>Email:</strong> {{ $user['email'] ?? $user->email ?? '' }}</p>
+    <p><strong>Phone:</strong> {{ $user['phone'] ?? $user->phone ?? '' }}</p>
+    <p><strong>City:</strong> {{ $user['city'] ?? $user->city ?? '' }}</p>
+    <p><strong>Postal Code: </strong> {{ $user['postal_code'] ?? $user->postal_code ?? '' }}</p>
 
         <div style="margin-top: 30px;">
             <h3>Danh sách CV đã Tải Lên:</h3>
