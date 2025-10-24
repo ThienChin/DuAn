@@ -1,5 +1,7 @@
 <?php
 
+require __DIR__.'/auth.php';
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\HomeController;
@@ -45,15 +47,12 @@ Route::middleware('auth')->group(function () {
     Route::delete('/jobs/{job}', [JobController::class, 'destroy'])->name('jobs.destroy');
 });
 
-require __DIR__.'/auth.php';
+
 
 
 Route::get('/home', [HomeController::class, 'index'])->name('page.index');
 Route::get('/about', [HomeController::class, 'about'])->name('page.about');
 
-// Xóa các route cũ của PageController nếu không còn cần
-// Route::get('/list', [PageController::class, 'list'])->name('page.list');
-// Route::get('/detail', [PageController::class, 'detail'])->name('page.detail');
 
 Route::get('/send-mail', [MailController::class, 'send'])->name('send.mail');
 
