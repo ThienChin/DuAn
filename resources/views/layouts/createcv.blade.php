@@ -83,17 +83,9 @@ Bootstrap 5 HTML CSS Template
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('page.about') }}">About Gotto</a>
                         </li>
-
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarLightDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Pages</a>
-
-                            <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink">
-                                <li><a class="dropdown-item" href="{{ route('page.list') }}">Job Listings</a></li>
-
-                                <li><a class="dropdown-item" href="{{ route('page.detail') }}">Job Details</a></li>
-                            </ul>
+                          <li class="nav-item">
+                            <a class="dropdown-item" href="{{ route('jobs.index') }}">Job Listings</a>
                         </li>
-
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('contact.send') }}">Contact</a>
                         </li>

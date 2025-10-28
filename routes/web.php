@@ -13,9 +13,7 @@ use App\Http\Controllers\EducationController;
 use App\Http\Controllers\AboutcvController;
 use App\Http\Controllers\ResumeController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\Admin\AuthController;
-use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\JobController;
+use App\Http\Controllers\UploadController;
 
 // Route trang chào mừng
 Route::get('/', function () {
@@ -74,4 +72,18 @@ Route::prefix('admin')->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
     });
 });
+
+// Route liên hệ
+Route::get('/contact', [ContactController::class, 'showForm'])->name('emails.contact');
+Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
+
+// Route dành cho admin
+Route::get('/dashboard', function () {
+    return view('admin.dashboard');
+})->middleware(['auth', 'checkrole:admin'])
+    ->name('admin.dashboard');
+
+// Bao gồm các route xác thực từ auth.php
+    Route::delete('/profile/cv/{id}', [UserController::class, 'deleteCv'])->name('create_cv.delete');
+    Route::get('/profile/cv/delete-confirm/{id}', [UserController::class, 'confirmDeleteCv'])->name('cv.delete.confirm.view');
 
