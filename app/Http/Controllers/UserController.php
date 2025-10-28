@@ -5,70 +5,78 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Upload; // ❗ Đảm bảo thêm Model Upload vào đây!
+
 
 class UserController extends Controller
 {
-    // Hiển thị form đăng ký
-    public function showRegister() {
-        return view('register');
-    }
+    // ... (Phương thức showUpload giữ nguyên)
 
-    // Lưu thông tin đăng ký
-    public function register(Request $request) {
-    $user = Auth::user();
-    $user->update([
-        'first_name' => $request->first_name,
-        'last_name' => $request->last_name,
-        'email' => $request->email,
-        'phone' => $request->phone,
-        'city' => $request->city,
-        'postal_code' => $request->postal_code,
-    ]);
-    Session::put('user', [
-        'first_name' => $request->first_name,
-        'last_name' => $request->last_name,
-        'email' => $request->email,
-        'phone' => $request->phone,
-        'city' => $request->city,
-        'postal_code' => $request->postal_code,
-    ]);
-    return redirect('/upload');
-}
+    public function upload(Request $request)
+    {
+        $request->validate([
+            'pdfFile' => 'required|file|mimes:pdf,doc,docx|max:5120', // chỉ cho pdf/doc/docx
+        ]);
 
-    // Hiển thị form upload
-    public function showUpload() {
-        return view('upload');
-    }
-
-    // Lưu file upload
-    public function upload(Request $request) {
         $filePath = null;
         if ($request->hasFile('pdfFile')) {
             $file = $request->file('pdfFile');
             $fileName = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('uploads'), $fileName);
-            $filePath = 'uploads/' . $fileName;
+            $originalName = $file->getClientOriginalName(); // Lấy tên gốc để lưu
+
+            // tạo thư mục nếu chưa có
+            if (!file_exists(public_path('uploads/cv'))) {
+                mkdir(public_path('uploads/cv'), 0777, true);
+            }
+
+            $file->move(public_path('uploads/cv'), $fileName);
+            $filePath = 'uploads/cv/' . $fileName;
+
+            // --- THAY ĐỔI TẠI ĐÂY: Lưu vào bảng uploads thay vì cập nhật user ---
+            Upload::create([
+                'user_id' => Auth::id(),
+                'name' => $originalName, // Lưu tên gốc để hiển thị
+                'path' => $filePath,    // Lưu đường dẫn file
+            ]);
+            // --------------------------------------------------------------------
         }
 
-        $user = Session::get('user');
-        $user['cv_path'] = $filePath;
-        Session::put('user', $user);
+        // Xóa các dòng cập nhật 'cv_path' trên model User và Session (chúng ta không dùng cột này nữa)
+        // $user = Auth::user();
+        // if ($user) {
+        //     $user->update(['cv_path' => $filePath]);
+        // }
+        // $sessionUser = Session::get('user', []);
+        // $sessionUser['cv_path'] = $filePath;
+        // Session::put('user', $sessionUser);
 
-        return redirect('/personal');
+        return redirect()->route('profile.personal')->with('success', 'Upload CV thành công!');
     }
 
-    // Trang thông tin cá nhân
     public function personalInfo()
     {
-    $user = Session::get('user') ?? Auth::user()->toArray();
-    if (!$user) {
-        return redirect('/register')->with('error', 'Vui lòng đăng ký trước.');
-    }
-    return view('profile.personal', compact('user'));
+        $user = Auth::user();
+        if (!$user) {
+            return redirect('/register')->with('error', 'Vui lòng đăng ký hoặc đăng nhập trước.');
+        }
+
+        // Lấy TẤT CẢ các file đã tải lên của người dùng hiện tại
+        // Sắp xếp theo thời gian mới nhất
+        $uploadedFiles = Upload::where('user_id', $user->id)
+                                ->orderBy('created_at', 'desc')
+                                ->get();
+        
+        // Truyền $uploadedFiles vào view
+        return view('profile.personal', compact('user', 'uploadedFiles'));
     }
 
-    // public function personal()
+    // --- Phương thức MỚI để xem CV theo ID ---
+    // public function viewcv($id)
     // {
-    //     return view('personal');
+    //     // Tìm file theo ID và đảm bảo file đó thuộc về người dùng đang đăng nhập
+    //     $file = Upload::where('user_id', Auth::id())->findOrFail($id); 
+
+    //     // Truyền thông tin file vào view xem CV
+    //     return view('profile.personal', compact('file'));
     // }
 }
