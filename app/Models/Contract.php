@@ -19,6 +19,7 @@ class Contract extends Model
         'postal_code',
         'phone',
         'email',
+        'photo_url',
     ];
 
     // ✅ Nếu bảng không có created_at / updated_at thì mới cần dòng này

@@ -12,9 +12,7 @@ use App\Http\Controllers\EducationController;
 use App\Http\Controllers\AboutcvController;
 use App\Http\Controllers\ResumeController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\Admin\AuthController;
-use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\JobController;
+use App\Http\Controllers\UploadController;
 
 // Trang chủ
 Route::get('/', function () {
@@ -76,15 +74,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/upload', [UserController::class, 'showUpload'])->name('create_cv.upload');
     Route::post('/upload', [UserController::class, 'upload'])->name('upload.store');
     Route::get('/personal', [UserController::class, 'personalInfo'])->name('profile.personal');
-});
 
-
-Route::prefix('admin')->group(function () {
-    Route::get('/login', [AuthController::class, 'showLoginForm'])->name('admin.login');
-    Route::post('/login', [AuthController::class, 'login'])->name('admin.login.submit');
-    Route::post('/logout', [AuthController::class, 'logout'])->name('admin.logout');
-
-    Route::middleware('admin')->group(function () {
-        Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
-    });
+    Route::delete('/profile/cv/{id}', [UserController::class, 'deleteCv'])->name('create_cv.delete');
+    Route::get('/profile/cv/delete-confirm/{id}', [UserController::class, 'confirmDeleteCv'])->name('cv.delete.confirm.view');
 });

@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('cv_path')->nullable()->after('email'); // Thêm cột cv_path sau email
+            $table->string('cv_path')->nullable()->after('email'); 
         });
     }
 

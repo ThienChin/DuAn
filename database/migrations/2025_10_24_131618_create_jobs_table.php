@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('category')->nullable();
             $table->text('description');
             $table->boolean('is_featured')->default(false);
-            $table->date('posted_at')->nullable();
+            $table->timestamp('posted_at')->nullable();
             $table->string('company_name');
             $table->text('company_description')->nullable();
             $table->string('website')->nullable();

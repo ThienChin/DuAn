@@ -5,11 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Upload; // ❗ Đảm bảo thêm Model Upload vào đây!
+use Illuminate\Support\Facades\File; // ❗ ĐÃ THÊM: Cần thiết cho việc xóa file vật lý
+use App\Models\Upload; 
 
 class UserController extends Controller
 {
-    // ... (Phương thức showUpload giữ nguyên)
+    // ... (Phương thức showUpload giữ nguyên nếu có)
 
     public function upload(Request $request)
     {
@@ -31,7 +32,7 @@ class UserController extends Controller
             $file->move(public_path('uploads/cv'), $fileName);
             $filePath = 'uploads/cv/' . $fileName;
 
-            // --- THAY ĐỔI TẠI ĐÂY: Lưu vào bảng uploads thay vì cập nhật user ---
+            // --- Lưu vào bảng uploads ---
             Upload::create([
                 'user_id' => Auth::id(),
                 'name' => $originalName, // Lưu tên gốc để hiển thị
@@ -39,15 +40,6 @@ class UserController extends Controller
             ]);
             // --------------------------------------------------------------------
         }
-
-        // Xóa các dòng cập nhật 'cv_path' trên model User và Session (chúng ta không dùng cột này nữa)
-        // $user = Auth::user();
-        // if ($user) {
-        //     $user->update(['cv_path' => $filePath]);
-        // }
-        // $sessionUser = Session::get('user', []);
-        // $sessionUser['cv_path'] = $filePath;
-        // Session::put('user', $sessionUser);
 
         return redirect()->route('profile.personal')->with('success', 'Upload CV thành công!');
     }
@@ -60,22 +52,47 @@ class UserController extends Controller
         }
 
         // Lấy TẤT CẢ các file đã tải lên của người dùng hiện tại
-        // Sắp xếp theo thời gian mới nhất
         $uploadedFiles = Upload::where('user_id', $user->id)
                                 ->orderBy('created_at', 'desc')
                                 ->get();
         
-        // Truyền $uploadedFiles vào view
         return view('profile.personal', compact('user', 'uploadedFiles'));
     }
 
-    // --- Phương thức MỚI để xem CV theo ID ---
-    // public function viewcv($id)
-    // {
-    //     // Tìm file theo ID và đảm bảo file đó thuộc về người dùng đang đăng nhập
-    //     $file = Upload::where('user_id', Auth::id())->findOrFail($id); 
+    // 🌟 PHƯƠNG THỨC ĐÃ THÊM: HIỂN THỊ TRANG XÁC NHẬN XÓA (dẫn đến delete.blade.php)
+    public function confirmDeleteCv($id)
+    {
+        // Tìm file và đảm bảo nó thuộc về người dùng hiện tại
+        $file = Upload::where('user_id', Auth::id())->find($id);
 
-    //     // Truyền thông tin file vào view xem CV
-    //     return view('profile.personal', compact('file'));
-    // }
+        if (!$file) {
+            return redirect()->route('profile.personal')->with('error', 'File CV không tồn tại hoặc bạn không có quyền truy cập.');
+        }
+
+        // Trả về view profile/delete.blade.php
+        return view('profile.delete', compact('file'));
+    }
+    
+    // PHƯƠNG THỨC THỰC HIỆN XÓA
+    public function deleteCv($id)
+    {
+        // 1. Tìm bản ghi và đảm bảo nó thuộc về người dùng hiện tại (bảo mật)
+        $upload = Upload::where('user_id', Auth::id())->find($id);
+
+        if (!$upload) {
+            return redirect()->route('profile.personal')->with('error', 'File CV không tồn tại hoặc bạn không có quyền xóa.');
+        }
+
+        $filePath = public_path($upload->path);
+
+        // 2. Xóa file vật lý khỏi server
+        if (File::exists($filePath)) {
+            File::delete($filePath);
+        }
+
+        // 3. Xóa bản ghi trong Database
+        $upload->delete();
+
+        return redirect()->route('profile.personal')->with('success', 'CV đã được xóa thành công! Vui lòng tải lên CV mới nếu cần.');
+    }
 }
