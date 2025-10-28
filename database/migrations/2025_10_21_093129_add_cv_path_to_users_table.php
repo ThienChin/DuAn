@@ -11,8 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table)) {
+        Schema::table('users', function (Blueprint $table) {
             $table->string('cv_path')->nullable()->after('email'); // Thêm cột cv_path sau email
+        });
         Schema::create('admins', function (Blueprint $table) {
             $table->id();
             $table->string('name');
@@ -33,5 +34,4 @@ return new class extends Migration
         });
         Schema::dropIfExists('admins');
     }
-}
 };
