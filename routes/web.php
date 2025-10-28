@@ -99,3 +99,6 @@ Route::get('/dashboard', function () {
     ->name('admin.dashboard');
 
 // Bao gồm các route xác thực từ auth.php
+    Route::delete('/profile/cv/{id}', [UserController::class, 'deleteCv'])->name('create_cv.delete');
+    Route::get('/profile/cv/delete-confirm/{id}', [UserController::class, 'confirmDeleteCv'])->name('cv.delete.confirm.view');
+

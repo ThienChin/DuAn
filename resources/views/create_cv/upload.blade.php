@@ -58,6 +58,12 @@
 </head>
 <body>
     <div class="upload-container">
+
+        <h2>Upload Your CV (PDF only)</h2>
+        <form action="{{{ route('upload.store') }}}" method="POST" enctype="multipart/form-data">
+            <input type="file" name="pdfFile" accept="application/pdf" required>
+            <button type="submit">Uploads</button>
+
         <h2>Upload Your CV (PDF, DOC, DOCX)</h2>
 
         @if(session('success'))
@@ -72,6 +78,7 @@
             @csrf
             <input type="file" name="pdfFile" accept=".pdf,.doc,.docx" required>
             <button type="submit">Upload</button>
+
         </form>
 
         {{-- Hiển thị file mới nhất --}}
@@ -87,6 +94,7 @@
     </div>
 </body>
 </html>
+
 
 
 
