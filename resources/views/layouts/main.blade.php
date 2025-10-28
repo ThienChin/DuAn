@@ -123,7 +123,4 @@ Bootstrap 5 HTML CSS Template
         </nav>
         @yield('content')   
     </body>
-  
-
-
     </html>

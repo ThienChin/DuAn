@@ -17,11 +17,10 @@
       <span>FINISH IT</span>
     </div>
 
-    <h2>Please enter your contact info</h2>
-      <form action="{{ route('contract.store') }}" method="POST">
-          @csrf
-          <label>First Name (Mandatory)</label>
-      <input type="text" name="first_name"  placeholder=" Nguyen">
+    <div class="row">
+        <div class="col-lg-8 col-12 mx-auto">
+           <form class="custom-form contact-form" action="{{ route('contract.store') }}" method="POST" role="form" enctype="multipart/form-data">
+                @csrf
 
       <label>Last Name (Mandatory)</label>
       <input type="text" name="last_name"  placeholder=" Thi Minh">

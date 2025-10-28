@@ -1,3 +1,5 @@
+@extends('layouts.main') 
+@section('content')
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -56,12 +58,12 @@
 </head>
 <body>
     <div class="upload-container">
-<<<<<<< HEAD
+
         <h2>Upload Your CV (PDF only)</h2>
         <form action="{{{ route('upload.store') }}}" method="POST" enctype="multipart/form-data">
             <input type="file" name="pdfFile" accept="application/pdf" required>
             <button type="submit">Uploads</button>
-=======
+
         <h2>Upload Your CV (PDF, DOC, DOCX)</h2>
 
         @if(session('success'))
@@ -76,7 +78,7 @@
             @csrf
             <input type="file" name="pdfFile" accept=".pdf,.doc,.docx" required>
             <button type="submit">Upload</button>
->>>>>>> 0030cd5 (personal)
+
         </form>
 
         {{-- Hiển thị file mới nhất --}}
@@ -91,18 +93,8 @@
         @endif
     </div>
 </body>
-<<<<<<< HEAD
-</html>
-=======
 </html>
 
 
 
-                                <td style="border: 1px solid #ddd; padding: 10px;">
-                                {{-- ❗ ĐÃ SỬA: Thay thế route() bằng asset() để trỏ thẳng tới file --}}
-                                <a href="{{ asset($file->path) }}" target="_blank" style="color: #007bff; text-decoration: none;">
-                                {{ $file->name ?? pathinfo($file->path, PATHINFO_BASENAME) }}
-                                </a>
-                                </td>
-                                 <p>Thời gian tải lên: {{ $file->created_at->format('d/m/Y H:i') }}</p>
->>>>>>> 0030cd5 (personal)
+
