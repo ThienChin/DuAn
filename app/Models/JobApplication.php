@@ -5,18 +5,21 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Upload extends Model
+class JobApplication extends Model
 {
     use HasFactory;
 
     protected $fillable = [
+        'job_id',
         'user_id',
         'name',
-        'path',
+        'email',
+        'cv',
+        'message',
     ];
 
-    public function user()
+    public function job()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Job::class);
     }
 }
