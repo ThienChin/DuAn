@@ -1,68 +1,69 @@
 @extends('layouts.main')
 @section('content')
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Giới thiệu chuyên môn</title>
-    <link rel="stylesheet" href="{{ asset('page/css/style.css') }}">
-</head>
-<body>
-<div class="container">
-  <div class="nav">
-    <span>CONTACT</span>
-    <span>EXPERIENCE</span>
-    <span>EDUCATION</span>
-    <span class="active">ABOUT</span>
-    <span>FINISH IT</span>
-  </div>
+<div class="container section-padding">
+    <nav class="nav d-flex justify-content-center mb-5">
+        <span class="px-3 py-2">CONTACT</span>
+        <span class="px-3 py-2">EXPERIENCE</span>
+        <span class="px-3 py-2">EDUCATION</span>
+        <span class="px-3 py-2 active">ABOUT</span>
+        <span class="px-3 py-2">FINISH IT</span>
+    </nav>
 
-
-  <h2>Write down your professional summary</h2>
-  <p>Include up to 3 sentences that describe your general experience.</p>
-
-    <form action="{{ route('about.store') }}" method="POST">
-        @csrf
-  <label>Summary</label>
-      <textarea name="summary" placeholder="Highly skilled software engineer with over 5 years of experience in leading successful software projects."></textarea>
-
-      <div class="toolbar">
-        <button type="button"><b>B</b></button>
-        <button type="button"><i>I</i></button>
-        <button type="button"><u>U</u></button>
-        <button type="button">•</button>
-        <button type="button">1.</button>
-      </div>
-
-
-
-
-      <div class="skill-row">
-        <div class="field">
-          <label>Skill</label>
-          <input type="text" name="skill" placeholder="Type your skill here">
+    <div class="row">
+        <div class="col-lg-8 col-12 mx-auto text-center">
+            <h2 class="mb-4">Write down your professional summary</h2>
+            <p class="mb-4">Include up to 3 sentences that describe your general experience.</p>
         </div>
-        <div class="field">
-          <label>Experience Level</label>
-          <select name="level">
-            <option value="Beginner">Beginner</option>
-            <option value="Experienced" selected>Experienced</option>
-            <option value="Expert">Expert</option>
-          </select>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-8 col-12 mx-auto">
+            <form class="custom-form contact-form" action="{{ route('about.store') }}" method="POST" role="form">
+                @csrf
+
+                <!-- Summary -->
+                <div class="form-floating mb-4">
+                    <textarea name="summary" id="summary" class="form-control @error('summary') is-invalid @enderror" placeholder="Highly skilled software engineer with over 5 years of experience in leading successful software projects.">{{ old('summary') }}</textarea>
+                    <label for="summary">Summary</label>
+                    @error('summary')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+
+                <!-- Skill Row -->
+                <div class="skill-row mb-4">
+                    <div class="field">
+                        <div class="form-floating">
+                            <input type="text" name="skill" id="skill" class="form-control @error('skill') is-invalid @enderror" value="{{ old('skill') }}" placeholder="Type your skill here">
+                            <label for="skill">Skill</label>
+                            @error('skill')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="form-floating">
+                            <select name="level" id="level" class="form-control @error('level') is-invalid @enderror">
+                                <option value="Beginner">Beginner</option>
+                                <option value="Experienced" selected>Experienced</option>
+                                <option value="Expert">Expert</option>
+                            </select>
+                            <label for="level">Experience Level</label>
+                            @error('level')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
+
+                <p class="note mb-4">Use formatting to highlight your strengths. Keep it concise and impactful.</p>
+                
+                <button type="button" class="back-btn" onclick="history.back()">← Back</button>
+                <button type="submit" class="btn custom-btn">Next to Finish It →</button>
+                
+            </form>
         </div>
-      </div>
-
-
-      
-  <p class="note">Use formatting to highlight your strengths. Keep it concise and impactful.</p>
-
-      <button type="submit" class="btn">Next to Finish It →</button>
-      <button type="button" class="back-btn" onclick="history.back()">← Back</button>
-      
-
-    </form>
-
+    </div>
 </div>
-</body>
-</html>
 @endsection

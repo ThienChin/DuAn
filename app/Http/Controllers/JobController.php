@@ -15,7 +15,6 @@ class JobController extends Controller
     public function index(Request $request)
     {
         $query = Job::query();
-        
         // Sắp xếp
         $sort = $request->input('sort');
         if ($sort === 'latest') {
@@ -58,10 +57,13 @@ class JobController extends Controller
 
         $jobs = $query->paginate(12);
 
+        // 2. TRUY VẤN RIÊNG ĐỂ LẤY 6 CÔNG VIỆC MỚI NHẤT
+        $recentJobs = Job::latest() 
+                     ->take(6) 
+                     ->get();
+
         return view('page.list', compact('jobs'));
     }
-
-    
 
     // 📄 Chi tiết công việc
     public function show($id)

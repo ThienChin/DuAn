@@ -25,7 +25,7 @@
 
                 {{-- Bản đồ và thông tin --}}
                 <div class="col-lg-6 col-12 mb-lg-5 mb-3">
-                            <iframe class="google-map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4722.…rb%20garden)!5e1!3m2!1sen!2sth!4v1680951932259!5m2!1sen!2sth" width="100%" height="350" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3300799.1950065275!2d107.32527327044208!3d16.100020514909367!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31157a4d736a1e5f%3A0xb03bb0c9e2fe62be!2sVietnam!5e0!3m2!1sen!2s!4v1761897222593!5m2!1sen!2s" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                         </div>
 
                         <div class="col-lg-5 col-12 mb-3 mx-auto">
@@ -36,7 +36,7 @@
                                     <p class="mb-0">
                                         <span class="contact-info-small-title">Office</span>
 
-                                        Akershusstranda 20, 0150 Oslo, Norway
+                                        11 Nguyễn Đình Chiểu,Sài Gòn Ward, District 1, Ho Chi Minh City.
                                     </p>
                                 </div>
 

@@ -14,7 +14,15 @@ return new class extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->string('cv_path')->nullable()->after('email'); 
         });
+        Schema::create('admins', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('email')->unique();
+            $table->string('password');
+            $table->timestamps();
+        });
     }
+
 
     /**
      * Reverse the migrations.
@@ -24,5 +32,7 @@ return new class extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('cv_path');
         });
+        Schema::dropIfExists('admins');
     }
 };
+
