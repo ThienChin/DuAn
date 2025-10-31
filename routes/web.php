@@ -15,6 +15,7 @@ use App\Http\Controllers\AboutcvController;
 use App\Http\Controllers\ResumeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UploadController;
+use App\Http\Controllers\JobController;
 
 // Route trang chào mừng
 Route::get('/', function () {
