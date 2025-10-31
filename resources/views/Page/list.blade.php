@@ -187,7 +187,7 @@
                     <div class="col-lg-4 col-12 ms-auto">
                         <div class="custom-border-btn-wrap d-flex align-items-center mt-lg-4 mt-2">
                             <a href="{{ route('register') }}" class="custom-btn custom-border-btn btn me-4">Create an account</a>
-                            <a href="{{ route('jobs.create') }}" class="custom-link">Post a job</a>
+                            <a href="{{ route('create_cv.upload') }}" class="custom-link">Post a job</a>
                         </div>
                     </div>
                 </div>
