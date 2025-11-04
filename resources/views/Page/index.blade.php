@@ -199,78 +199,86 @@
                 </section>
 
 
-            <section class="featured-jobs-section section-padding">
-            <div class="container">
-                <div class="row">
+                <section class="featured-jobs-section section-padding">
+                <div class="container">
+                    <div class="row">
 
-                    <div class="col-lg-12 col-12 text-center">
-                        <h2 class="mb-4">Featured Jobs</h2> 
-                        <p class="text-secondary mb-5">Các công việc nổi bật và được đề xuất.</p>
-                    </div>
-                    
-                    <div class="col-lg-12 col-12"> 
-                        <div class="row">
-                            
-                        {{-- LẶP QUA DANH SÁCH CÔNG VIỆC NỔI BẬT ($featuredJobs) --}}
-                        {{-- SỬA: Đổi biến lặp từ $job thành $featuredJob --}}
-                    @forelse ($featuredJobs as $featuredJob)
-                                <div class="col-lg-12 col-12 mb-3"> 
+                        <div class="col-lg-12 col-12 text-center">
+                            <h2 class="mb-4">Featured Jobs</h2> 
+                            <p class="text-secondary mb-5">Các công việc nổi bật và được đề xuất.</p>
+                        </div>
                         
-                                {{-- job-card-compact: Thẻ nằm ngang, nhỏ gọn --}}
-                                <div class="job-card-compact custom-block d-flex justify-content-between align-items-center"> 
+                        <div class="col-lg-12 col-12"> 
+                            <div class="row">
+                                
+                            {{-- LẶP QUA DANH SÁCH CÔNG VIỆC NỔI BẬT ($featuredJobs) --}}
+                            {{-- SỬA: Đổi biến lặp từ $job thành $featuredJob --}}
+                        @forelse ($featuredJobs as $featuredJob)
+                                    <div class="col-lg-12 col-12 mb-3"> 
                             
-                                {{-- Khối chi tiết chính: Logo và Text --}}
-                                <div class="job-details d-flex align-items-center">
-                                    {{-- Khối Text: Tiêu đề và Meta --}}
-                                    <div>
-                                        <h5>{{ $featuredJob->title }}</h5>
-                                        <p class="mb-0 text-muted job-meta-sm d-flex align-items-center flex-wrap">
-                                            {{-- Địa điểm --}}
-                                            <i class="bi bi-geo-alt-fill me-1"></i> {{ $featuredJob->location }}
-                                            
-                                            {{-- Thời gian đăng --}}
-                                            <i class="bi bi-clock-fill ms-3 me-1"></i> {{ $featuredJob->created_at->diffForHumans() }}
-                                            
-                                            {{-- Mức Lương --}}
-                                            <span class="salary-display-sm ms-3">
-                                                <i class="bi bi-wallet-fill me-1"></i> {{ number_format($featuredJob->salary, 0, ',', '.') }} VNĐ
-                                            </span>
-                                        </p>
+                                    {{-- job-card-compact: Thẻ nằm ngang, nhỏ gọn --}}
+                                    <div class="job-card-compact custom-block d-flex justify-content-between align-items-center"> 
+                                
+                                    {{-- Khối chi tiết chính: Logo và Text --}}
+                                    <div class="job-details d-flex align-items-center">
+                                        {{-- KHỐI LOGO MỚI (SỬA Ở ĐÂY) --}}
+                                        <div class="company-logo-wrapper me-3"> 
+                                            <img 
+                                                src="{{ asset($featuredJob->company_logo_url)  }}" 
+                                                class="logo-image-featured" 
+                                                alt="{{ $featuredJob->title }} - Logo"
+                                            >
+                                        </div>
+                                        {{-- Khối Text: Tiêu đề và Meta --}}
+                                        <div>
+                                            <h5>{{ $featuredJob->title }}</h5>
+                                            <p class="mb-0 text-muted job-meta-sm d-flex align-items-center flex-wrap">
+                                                {{-- Địa điểm --}}
+                                                <i class="bi bi-geo-alt-fill me-1"></i> {{ $featuredJob->location }}
+                                                
+                                                {{-- Thời gian đăng --}}
+                                                <i class="bi bi-clock-fill ms-3 me-1"></i> {{ $featuredJob->created_at->diffForHumans() }}
+                                                
+                                                {{-- Mức Lương --}}
+                                                <span class="salary-display-sm ms-3">
+                                                    <i class="bi bi-wallet-fill me-1"></i> {{ number_format($featuredJob->salary, 0, ',', '.') }} VNĐ
+                                                </span>
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    {{-- Khối hành động: Badge và Nút Apply --}}
+                                    <div class="job-action-sm d-flex align-items-center">
+                                        
+                                        @if(isset($featuredJob->level))
+                                            <span class="badge bg-primary me-2">{{ $featuredJob->level }}</span>
+                                        @endif
+                                        @if(isset($featuredJob->remote_type))
+                                            <span class="badge bg-secondary me-4">{{ $featuredJob->remote_type }}</span>
+                                        @endif
+
+                                        <a href="{{ route('jobs.show', $featuredJob->id) }}" class="btn custom-btn-apply-sm">
+                                            Apply now 
+                                        </a>
                                     </div>
                                 </div>
-
-                                {{-- Khối hành động: Badge và Nút Apply --}}
-                                <div class="job-action-sm d-flex align-items-center">
-                                    
-                                    @if(isset($featuredJob->level))
-                                        <span class="badge bg-primary me-2">{{ $featuredJob->level }}</span>
-                                    @endif
-                                    @if(isset($featuredJob->remote_type))
-                                        <span class="badge bg-secondary me-4">{{ $featuredJob->remote_type }}</span>
-                                    @endif
-
-                                    <a href="{{ route('jobs.show', $featuredJob->id) }}" class="btn custom-btn-apply-sm">
-                                        Apply now
-                                    </a>
+                            </div>
+                            @empty
+                                <div class="col-12 text-center">
+                                    <p>Không có công việc nổi bật nào để hiển thị.</p>
                                 </div>
-                            </div>
+                        @endforelse
+                                        
                         </div>
-                        @empty
-                            <div class="col-12 text-center">
-                                <p>Không có công việc nổi bật nào để hiển thị.</p>
-                            </div>
-                    @endforelse
-                                    
+                    </div>
+                    
+                    {{-- Nút xem thêm --}}
+                    <div class="col-lg-12 col-12 text-center mt-4">
+                        <a href="{{ route('jobs.index') }}" class="btn custom-btn">Xem tất cả công việc</a>
                     </div>
                 </div>
-                
-                {{-- Nút xem thêm --}}
-                <div class="col-lg-12 col-12 text-center mt-4">
-                    <a href="{{ route('jobs.index') }}" class="btn custom-btn">Xem tất cả công việc</a>
-                </div>
             </div>
-        </div>
-    </section>
+        </section>
 
 
             <section>
@@ -364,7 +372,7 @@
                             <div class="d-flex align-items-center">
                                 <div class="job-image-wrap d-flex align-items-center bg-white shadow-lg mt-2 mb-4">
                                     {{-- Logo công ty --}}
-                                    <img src="{{ asset($job->company_logo ?? 'page/images/logos/default-logo.png') }}" class="job-image me-3 img-fluid" alt="{{ $job->company_name }}">
+                                    <img src="{{ asset($job->company_logo ?? 'page/images/logos/google.png') }}" class="job-image me-3 img-fluid" alt="{{ $job->company_name }}">
 
                                     {{-- Tên công ty --}}
                                     <p class="mb-0">{{ $job->company_name }}</p>
