@@ -199,78 +199,86 @@
                 </section>
 
 
-            <section class="featured-jobs-section section-padding">
-            <div class="container">
-                <div class="row">
+                <section class="featured-jobs-section section-padding">
+                <div class="container">
+                    <div class="row">
 
-                    <div class="col-lg-12 col-12 text-center">
-                        <h2 class="mb-4">Featured Jobs</h2> 
-                        <p class="text-secondary mb-5">Các công việc nổi bật và được đề xuất.</p>
-                    </div>
-                    
-                    <div class="col-lg-12 col-12"> 
-                        <div class="row">
-                            
-                        {{-- LẶP QUA DANH SÁCH CÔNG VIỆC NỔI BẬT ($featuredJobs) --}}
-                        {{-- SỬA: Đổi biến lặp từ $job thành $featuredJob --}}
-                    @forelse ($featuredJobs as $featuredJob)
-                                <div class="col-lg-12 col-12 mb-3"> 
+                        <div class="col-lg-12 col-12 text-center">
+                            <h2 class="mb-4">Featured Jobs</h2> 
+                            <p class="text-secondary mb-5">Các công việc nổi bật và được đề xuất.</p>
+                        </div>
                         
-                                {{-- job-card-compact: Thẻ nằm ngang, nhỏ gọn --}}
-                                <div class="job-card-compact custom-block d-flex justify-content-between align-items-center"> 
+                        <div class="col-lg-12 col-12"> 
+                            <div class="row">
+                                
+                            {{-- LẶP QUA DANH SÁCH CÔNG VIỆC NỔI BẬT ($featuredJobs) --}}
+                            {{-- SỬA: Đổi biến lặp từ $job thành $featuredJob --}}
+                        @forelse ($featuredJobs as $featuredJob)
+                                    <div class="col-lg-12 col-12 mb-3"> 
                             
-                                {{-- Khối chi tiết chính: Logo và Text --}}
-                                <div class="job-details d-flex align-items-center">
-                                    {{-- Khối Text: Tiêu đề và Meta --}}
-                                    <div>
-                                        <h5>{{ $featuredJob->title }}</h5>
-                                        <p class="mb-0 text-muted job-meta-sm d-flex align-items-center flex-wrap">
-                                            {{-- Địa điểm --}}
-                                            <i class="bi bi-geo-alt-fill me-1"></i> {{ $featuredJob->location }}
-                                            
-                                            {{-- Thời gian đăng --}}
-                                            <i class="bi bi-clock-fill ms-3 me-1"></i> {{ $featuredJob->created_at->diffForHumans() }}
-                                            
-                                            {{-- Mức Lương --}}
-                                            <span class="salary-display-sm ms-3">
-                                                <i class="bi bi-wallet-fill me-1"></i> {{ number_format($featuredJob->salary, 0, ',', '.') }} VNĐ
-                                            </span>
-                                        </p>
+                                    {{-- job-card-compact: Thẻ nằm ngang, nhỏ gọn --}}
+                                    <div class="job-card-compact custom-block d-flex justify-content-between align-items-center"> 
+                                
+                                    {{-- Khối chi tiết chính: Logo và Text --}}
+                                    <div class="job-details d-flex align-items-center">
+                                        {{-- KHỐI LOGO MỚI (SỬA Ở ĐÂY) --}}
+                                        <div class="company-logo-wrapper me-3"> 
+                                            <img 
+                                                src="{{ asset($featuredJob->company_logo_url)  }}" 
+                                                class="logo-image-featured" 
+                                                alt="{{ $featuredJob->title }} - Logo"
+                                            >
+                                        </div>
+                                        {{-- Khối Text: Tiêu đề và Meta --}}
+                                        <div>
+                                            <h5>{{ $featuredJob->title }}</h5>
+                                            <p class="mb-0 text-muted job-meta-sm d-flex align-items-center flex-wrap">
+                                                {{-- Địa điểm --}}
+                                                <i class="bi bi-geo-alt-fill me-1"></i> {{ $featuredJob->location }}
+                                                
+                                                {{-- Thời gian đăng --}}
+                                                <i class="bi bi-clock-fill ms-3 me-1"></i> {{ $featuredJob->created_at->diffForHumans() }}
+                                                
+                                                {{-- Mức Lương --}}
+                                                <span class="salary-display-sm ms-3">
+                                                    <i class="bi bi-wallet-fill me-1"></i> {{ number_format($featuredJob->salary, 0, ',', '.') }} VNĐ
+                                                </span>
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    {{-- Khối hành động: Badge và Nút Apply --}}
+                                    <div class="job-action-sm d-flex align-items-center">
+                                        
+                                        @if(isset($featuredJob->level))
+                                            <span class="badge bg-primary me-2">{{ $featuredJob->level }}</span>
+                                        @endif
+                                        @if(isset($featuredJob->remote_type))
+                                            <span class="badge bg-secondary me-4">{{ $featuredJob->remote_type }}</span>
+                                        @endif
+
+                                        <a href="{{ route('jobs.show', $featuredJob->id) }}" class="btn custom-btn-apply-sm">
+                                            Apply now 
+                                        </a>
                                     </div>
                                 </div>
-
-                                {{-- Khối hành động: Badge và Nút Apply --}}
-                                <div class="job-action-sm d-flex align-items-center">
-                                    
-                                    @if(isset($featuredJob->level))
-                                        <span class="badge bg-primary me-2">{{ $featuredJob->level }}</span>
-                                    @endif
-                                    @if(isset($featuredJob->remote_type))
-                                        <span class="badge bg-secondary me-4">{{ $featuredJob->remote_type }}</span>
-                                    @endif
-
-                                    <a href="{{ route('jobs.show', $featuredJob->id) }}" class="btn custom-btn-apply-sm">
-                                        Apply now
-                                    </a>
+                            </div>
+                            @empty
+                                <div class="col-12 text-center">
+                                    <p>Không có công việc nổi bật nào để hiển thị.</p>
                                 </div>
-                            </div>
+                        @endforelse
+                                        
                         </div>
-                        @empty
-                            <div class="col-12 text-center">
-                                <p>Không có công việc nổi bật nào để hiển thị.</p>
-                            </div>
-                    @endforelse
-                                    
+                    </div>
+                    
+                    {{-- Nút xem thêm --}}
+                    <div class="col-lg-12 col-12 text-center mt-4">
+                        <a href="{{ route('jobs.index') }}" class="btn custom-btn">Xem tất cả công việc</a>
                     </div>
                 </div>
-                
-                {{-- Nút xem thêm --}}
-                <div class="col-lg-12 col-12 text-center mt-4">
-                    <a href="{{ route('jobs.index') }}" class="btn custom-btn">Xem tất cả công việc</a>
-                </div>
             </div>
-        </div>
-    </section>
+        </section>
 
 
             <section>
@@ -320,391 +328,100 @@
             </section>
 
 
-            <section class="job-section recent-jobs-section section-padding">
-                <div class="container">
-                    <div class="row align-items-center">
+        <section class="job-section recent-jobs-section section-padding">
+        <div class="container">
+            <div class="row align-items-center">
 
-                        <div class="col-lg-6 col-12 mb-4">
-                            <h2>Recent Jobs</h2>
+                <div class="col-lg-6 col-12 mb-4">
+                    <h2>Recent Jobs</h2>
 
-                            <p><strong>Over 10k opening jobs</strong> If you are looking for free job aplication form, you may visit Gotto website. If you need a list of corporate companies, you can visit Gotto Job Listings website.</p>
-                        </div>
+                    <p><strong>Over 10k opening jobs</strong> If you are looking for free job aplication form, you may visit Gotto website. If you need a list of corporate companies, you can visit Gotto Job Listings website.</p>
+                </div>
 
-                        <div class="clearfix"></div>
+                <div class="clearfix"></div>
 
-                        <div class="col-lg-4 col-md-6 col-12">
-                            <div class="job-thumb job-thumb-box">
-                                <div class="job-image-box-wrap">
-                                    <a href="job-details.html">
-                                        <img src="{{ asset('page/images/jobs/it-professional-works-startup-project.jpg') }}" class="job-image img-fluid" alt="">
-                                    </a>
+                {{-- BẮT ĐẦU VÒNG LẶP CHO DANH SÁCH CÔNG VIỆC MỚI NHẤT --}}
+                @foreach ($recentJobs as $job)
+                <div class="col-lg-4 col-md-6 col-12">
+                    <div class="job-thumb job-thumb-box">
+                        <div class="job-image-box-wrap">
+                            {{-- Link chi tiết công việc --}}
+                            <a href="{{ route('jobs.show', $job->id) }}">
+                                {{-- Hình ảnh minh họa công việc --}}
+                                <img src="{{ asset($job->image_url ?? 'page/images/default.jpg') }}" class="job-image img-fluid" alt="{{ $job->title }}">
+                            </a>
 
-                                    <div class="job-image-box-wrap-info d-flex align-items-center">
-                                        <p class="mb-0">
-                                            <a href="job-listings.html" class="badge badge-level">Internship</a>
-                                        </p>
-
-                                        <p class="mb-0">
-                                            <a href="job-listings.html" class="badge">Freelance</a>
-                                        </p>
-                                    </div>
-                                </div>
-
-                                <div class="job-body">
-                                    <h4 class="job-title">
-                                        <a href="job-details.html" class="job-title-link">Technical Lead</a>
-                                    </h4>
-
-                                    <div class="d-flex align-items-center">
-                                        <div class="job-image-wrap d-flex align-items-center bg-white shadow-lg mt-2 mb-4">
-                                            <img src="{{ asset('page/images/logos/salesforce.png') }}" class="job-image me-3 img-fluid" alt="">
-
-                                            <p class="mb-0">Salesforce</p>
-                                        </div>
-
-                                        <a href="#" class="bi-bookmark ms-auto me-2">
-                                        </a>
-
-                                        <a href="#" class="bi-heart">
-                                        </a>
-                                    </div>
-
-                                    <div class="d-flex align-items-center">
-                                        <p class="job-location">
-                                            <i class="custom-icon bi-geo-alt me-1"></i>
-                                            Kuala, Malaysia
-                                        </p>
-
-                                        <p class="job-date">
-                                            <i class="custom-icon bi-clock me-1"></i>
-                                            10 hours ago
-                                        </p>
-                                    </div>
-
-                                    <div class="d-flex align-items-center border-top pt-3">
-                                        <p class="job-price mb-0">
-                                            <i class="custom-icon bi-cash me-1"></i>
-                                            $50k
-                                        </p>
-
-                                        <a href="job-details.html" class="custom-btn btn ms-auto">Apply now</a>
-                                    </div>
-                                </div>
+                            <div class="job-image-box-wrap-info d-flex align-items-center">
+                                {{-- Cấp độ (Level) --}}
+                                <p class="mb-0">
+                                    <a href="job-listings.html" class="badge badge-level">{{ $job->level }}</a>
+                                </p>
+                                {{-- Loại hình công việc (Type) --}}
+                                <p class="mb-0">
+                                    <a href="job-listings.html" class="badge">{{ $job->type }}</a>
+                                </p>
                             </div>
                         </div>
 
-                        <div class="col-lg-4 col-md-6 col-12">
-                            <div class="job-thumb job-thumb-box">
-                                <div class="job-image-box-wrap">
-                                    <a href="job-details.html">
-                                        <img src="{{ asset('page/images/jobs/marketing-assistant.jpg') }}" class="job-image img-fluid" alt="marketing assistant">
-                                    </a>
+                        <div class="job-body">
+                            <h4 class="job-title">
+                                {{-- Tên công việc (Title) --}}
+                                <a href="{{ route('jobs.show', $job->id) }}" class="job-title-link">{{ $job->title }}</a>
+                            </h4>
 
-                                    <div class="job-image-box-wrap-info d-flex align-items-center">
-                                        <p class="mb-0">
-                                            <a href="job-listings.html" class="badge badge-level">Senior</a>
-                                        </p>
+                            <div class="d-flex align-items-center">
+                                <div class="job-image-wrap d-flex align-items-center bg-white shadow-lg mt-2 mb-4">
+                                    {{-- Logo công ty --}}
+                                    <img src="{{ asset($job->company_logo ?? 'page/images/logos/google.png') }}" class="job-image me-3 img-fluid" alt="{{ $job->company_name }}">
 
-                                        <p class="mb-0">
-                                            <a href="job-listings.html" class="badge">Part Time</a>
-                                        </p>
-                                    </div>
+                                    {{-- Tên công ty --}}
+                                    <p class="mb-0">{{ $job->company_name }}</p>
                                 </div>
 
-                                <div class="job-body">
-                                    <h4 class="job-title">
-                                        <a href="job-details.html" class="job-title-link">Marketing Assistant</a>
-                                    </h4>
+                                <a href="#" class="bi-bookmark ms-auto me-2">
+                                </a>
 
-                                    <div class="d-flex align-items-center">
-                                        <div class="job-image-wrap d-flex align-items-center bg-white shadow-lg mt-2 mb-4">
-                                            <img src="{{ asset('page/images/logos/spotify.png') }}" class="job-image me-3 img-fluid" alt="">
+                                <a href="#" class="bi-heart">
+                                </a>
+                            </div>
 
-                                            <p class="mb-0">Spotify</p>
-                                        </div>
+                            <div class="d-flex align-items-center">
+                                <p class="job-location">
+                                    <i class="custom-icon bi-geo-alt me-1"></i>
+                                    {{-- Địa điểm --}}
+                                    {{ $job->location }}
+                                </p>
 
-                                        <a href="#" class="bi-bookmark ms-auto me-2">
-                                        </a>
+                                <p class="job-date">
+                                    <i class="custom-icon bi-clock me-1"></i>
+                                    {{-- Thời gian đăng (Hiển thị thân thiện) --}}
+                                    {{ $job->created_at->diffForHumans() }}
+                                </p>
+                            </div>
 
-                                        <a href="#" class="bi-heart">
-                                        </a>
-                                    </div>
+                            <div class="d-flex align-items-center border-top pt-3">
+                                <p class="job-price mb-0">
+                                    <i class="custom-icon bi-cash me-1"></i>
+                                    {{-- Mức lương --}}
+                                    {{ $job->salary }}
+                                </p>
 
-                                    <div class="d-flex align-items-center">
-                                        <p class="job-location">
-                                            <i class="custom-icon bi-geo-alt me-1"></i>
-                                            California, USA
-                                        </p>
-
-                                        <p class="job-date">
-                                            <i class="custom-icon bi-clock me-1"></i>
-                                            8 days ago
-                                        </p>
-                                    </div>
-
-                                    <div class="d-flex align-items-center border-top pt-3">
-                                        <p class="job-price mb-0">
-                                            <i class="custom-icon bi-cash me-1"></i>
-                                            $20k
-                                        </p>
-
-                                        <a href="job-details.html" class="custom-btn btn ms-auto">Apply now</a>
-                                    </div>
-                                </div>
+                                {{-- Nút Apply now (trỏ về trang chi tiết) --}}
+                                <a href="{{ route('jobs.show', $job->id) }}" class="custom-btn btn ms-auto">Apply now</a>
                             </div>
                         </div>
-
-                        <div class="col-lg-4 col-md-6 col-12">
-                            <div class="job-thumb job-thumb-box">
-                                <div class="job-image-box-wrap">
-                                    <a href="job-details.html">
-                                        <img src="{{ asset('page/images/jobs/coding-man.jpg') }}" class="job-image img-fluid" alt="">
-                                    </a>
-
-                                    <div class="job-image-box-wrap-info d-flex align-items-center">
-                                        <p class="mb-0">
-                                            <a href="job-listings.html" class="badge badge-level">Junior</a>
-                                        </p>
-
-                                        <p class="mb-0">
-                                            <a href="job-listings.html" class="badge">Contract</a>
-                                        </p>
-                                    </div>
-                                </div>
-
-                                <div class="job-body">
-                                    <h4 class="job-title">
-                                        <a href="job-details.html" class="job-title-link">Programmer</a>
-                                    </h4>
-                                        
-                                    <div class="d-flex align-items-center">
-                                        <div class="job-image-wrap d-flex align-items-center bg-white shadow-lg mt-2 mb-4">
-                                            <img src="{{ asset('page/images/logos/twitter.png') }}" class="job-image me-3 img-fluid" alt="">
-
-                                            <p class="mb-0">Twiter</p>
-                                        </div>
-
-                                        <a href="#" class="bi-bookmark ms-auto me-2">
-                                        </a>
-
-                                        <a href="#" class="bi-heart">
-                                        </a>
-                                    </div>
-
-                                    <div class="d-flex align-items-center">
-                                        <p class="job-location">
-                                            <i class="custom-icon bi-geo-alt me-1"></i>
-                                            California, USA
-                                        </p>
-
-                                        <p class="job-date">
-                                            <i class="custom-icon bi-clock me-1"></i>
-                                            23 hours ago
-                                        </p>
-                                    </div>
-
-                                    <div class="d-flex align-items-center border-top pt-3">
-                                        <p class="job-price mb-0">
-                                            <i class="custom-icon bi-cash me-1"></i>
-                                            $68k
-                                        </p>
-
-                                        <a href="job-details.html" class="custom-btn btn ms-auto">Apply now</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-4 col-md-6 col-12">
-                            <div class="job-thumb job-thumb-box">
-                                <div class="job-image-box-wrap">
-                                    <a href="job-details.html">
-                                        <img src="{{ asset('page/images/jobs/pretty-blogger-posing-cozy-apartment.jpg') }}" class="job-image img-fluid" alt="">
-                                    </a>
-
-                                    <div class="job-image-box-wrap-info d-flex align-items-center">
-                                        <p class="mb-0">
-                                            <a href="job-listings.html" class="badge badge-level">Junior</a>
-                                        </p>
-
-                                        <p class="mb-0">
-                                            <a href="job-listings.html" class="badge">Contract</a>
-                                        </p>
-                                    </div>
-                                </div>
-
-                                <div class="job-body">
-                                    <h4 class="job-title">
-                                        <a href="job-details.html" class="job-title-link">HR Manager</a>
-                                    </h4>
-
-                                    <div class="d-flex align-items-center">
-                                        <div class="job-image-wrap d-flex align-items-center bg-white shadow-lg mt-2 mb-4">
-                                            <img src="{{ asset('page/images/logos/yelp.png') }}" class="job-image me-3 img-fluid" alt="">
-
-                                            <p class="mb-0">Yelp</p>
-                                        </div>
-
-                                        <a href="#" class="bi-bookmark ms-auto me-2">
-                                        </a>
-
-                                        <a href="#" class="bi-heart">
-                                        </a>
-                                    </div>
-
-                                    <div class="d-flex align-items-center">
-                                        <p class="job-location">
-                                            <i class="custom-icon bi-geo-alt me-1"></i>
-                                            California, USA
-                                        </p>
-
-                                        <p class="job-date">
-                                            <i class="custom-icon bi-clock me-1"></i>
-                                            15 hours ago
-                                        </p>
-                                    </div>
-
-                                    <div class="d-flex align-items-center border-top pt-3">
-                                        <p class="job-price mb-0">
-                                            <i class="custom-icon bi-cash me-1"></i>
-                                            $35k - 45k
-                                        </p>
-
-                                        <a href="job-details.html" class="custom-btn btn ms-auto">Apply now</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-4 col-md-6 col-12">
-                            <div class="job-thumb job-thumb-box">
-                                <div class="job-image-box-wrap">
-                                    <a href="job-details.html">
-                                        <img src="{{ asset('page/images/jobs/paper-analysis.jpg') }}" class="job-image img-fluid" alt="">
-                                    </a>
-
-                                    <div class="job-image-box-wrap-info d-flex align-items-center">
-                                        <p class="mb-0">
-                                            <a href="job-listings.html" class="badge badge-level">Junior</a>
-                                        </p>
-
-                                        <p class="mb-0">
-                                            <a href="job-listings.html" class="badge">Contract</a>
-                                        </p>
-                                    </div>
-                                </div>
-
-                                <div class="job-body">
-                                    <h4 class="job-title">
-                                        <a href="job-details.html" class="job-title-link">Sales Representative</a>
-                                    </h4>
-                                        
-                                    <div class="d-flex align-items-center">
-                                        <div class="job-image-wrap d-flex align-items-center bg-white shadow-lg mt-2 mb-4">
-                                            <img src="{{ asset('page/images/logos/paypal.png') }}" class="job-image me-3 img-fluid" alt="">
-
-                                            <p class="mb-0">Paypal</p>
-                                        </div>
-
-                                        <a href="#" class="bi-bookmark ms-auto me-2">
-                                        </a>
-
-                                        <a href="#" class="bi-heart">
-                                        </a>
-                                    </div>
-
-                                    <div class="d-flex align-items-center">
-                                        <p class="job-location">
-                                            <i class="custom-icon bi-geo-alt me-1"></i>
-                                            Bangkok, Thailand
-                                        </p>
-
-                                        <p class="job-date">
-                                            <i class="custom-icon bi-clock me-1"></i>
-                                            30 mins ago
-                                        </p>
-                                    </div>
-
-                                    <div class="d-flex align-items-center border-top pt-3">
-                                        <p class="job-price mb-0">
-                                            <i class="custom-icon bi-cash me-1"></i>
-                                            $20k - 35k
-                                        </p>
-
-                                        <a href="job-details.html" class="custom-btn btn ms-auto">Apply now</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-4 col-md-6 col-12">
-                            <div class="job-thumb job-thumb-box">
-                                <div class="job-image-box-wrap">
-                                    <a href="job-details.html">
-                                        <img src="{{ asset('page/images/jobs/logo-designer-working-computer-desktop.jpg') }}" class="job-image img-fluid" alt="">
-                                    </a>
-
-                                    <div class="job-image-box-wrap-info d-flex align-items-center">
-                                        <p class="mb-0">
-                                            <a href="job-listings.html" class="badge badge-level">Mid Level</a>
-                                        </p>
-
-                                        <p class="mb-0">
-                                            <a href="job-listings.html" class="badge">Full Time</a>
-                                        </p>
-                                    </div>
-                                </div>
-
-                                <div class="job-body">
-                                    <h4 class="job-title">
-                                        <a href="job-details.html" class="job-title-link">Graphic Designer</a>
-                                    </h4>
-                                        
-                                    <div class="d-flex align-items-center">
-                                        <div class="job-image-wrap d-flex align-items-center bg-white shadow-lg mt-2 mb-4">
-                                            <img src="{{ asset('page/images/logos/envato.png') }}" class="job-image me-3 img-fluid" alt="">
-
-                                            <p class="mb-0">Envato</p>
-                                        </div>
-
-                                        <a href="#" class="bi-bookmark ms-auto me-2">
-                                        </a>
-
-                                        <a href="#" class="bi-heart">
-                                        </a>
-                                    </div>
-
-                                    <div class="d-flex align-items-center">
-                                        <p class="job-location">
-                                            <i class="custom-icon bi-geo-alt me-1"></i>
-                                            Melbourne, Australia
-                                        </p>
-
-                                        <p class="job-date">
-                                            <i class="custom-icon bi-clock me-1"></i>
-                                            2 days ago
-                                        </p>
-                                    </div>
-
-                                    <div class="d-flex align-items-center border-top pt-3">
-                                        <p class="job-price mb-0">
-                                            <i class="custom-icon bi-cash me-1"></i>
-                                            $20k
-                                        </p>
-
-                                        <a href="job-details.html" class="custom-btn btn ms-auto">Apply now</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-4 col-12 recent-jobs-bottom d-flex ms-auto my-4">
-                            <a href="job-listings.html" class="custom-btn btn ms-lg-auto">Browse Job Listings</a>
-                        </div>
-
                     </div>
                 </div>
-            </section>
+                @endforeach
+                {{-- KẾT THÚC VÒNG LẶP --}}
+
+                <div class="col-lg-4 col-12 recent-jobs-bottom d-flex ms-auto my-4">
+                    <a href="{{ route('jobs.index') }}" class="custom-btn btn ms-lg-auto">Browse Job Listings</a>
+                </div>
+
+            </div>
+        </div>
+    </section>
 
 
             <section class="reviews-section section-padding">

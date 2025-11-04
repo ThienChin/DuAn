@@ -57,6 +57,11 @@ class JobController extends Controller
 
         $jobs = $query->paginate(12);
 
+        // 2. TRUY VẤN RIÊNG ĐỂ LẤY 6 CÔNG VIỆC MỚI NHẤT
+        $recentJobs = Job::latest() 
+                     ->take(6) 
+                     ->get();
+
         return view('page.list', compact('jobs'));
     }
 
