@@ -166,12 +166,39 @@
                         </div>
                     @endforeach
                     <div class="col-lg-12 col-12">
-                        <nav aria-label="Page navigation example">
-                            <ul class="pagination justify-content-center mt-5">
-                                {{ $jobs->links() }}
-                            </ul>
-                        </nav>
-                    </div>
+    <nav aria-label="Phân trang">
+        <ul class="pagination justify-content-center mt-5">
+            <!-- Nút Previous -->
+            @if ($jobs->onFirstPage())
+                <li class="page-item disabled">
+                    <span class="page-link">« Trước</span>
+                </li>
+            @else
+                <li class="page-item">
+                    <a class="page-link" href="{{ $jobs->previousPageUrl() }}">« Trước</a>
+                </li>
+            @endif
+
+            <!-- Số trang -->
+            @foreach ($jobs->getUrlRange(1, $jobs->lastPage()) as $page => $url)
+                <li class="page-item {{ $page == $jobs->currentPage() ? 'active' : '' }}">
+                    <a class="page-link" href="{{ $url }}">{{ $page }}</a>
+                </li>
+            @endforeach
+
+            <!-- Nút Next -->
+            @if ($jobs->hasMorePages())
+                <li class="page-item">
+                    <a class="page-link" href="{{ $jobs->nextPageUrl() }}">Tiếp »</a>
+                </li>
+            @else
+                <li class="page-item disabled">
+                    <span class="page-link">Tiếp »</span>
+                </li>
+            @endif
+        </ul>
+    </nav>
+</div>
                 </div>
             </div>
         </section>
