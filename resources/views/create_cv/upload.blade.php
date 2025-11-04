@@ -1,9 +1,5 @@
-<<<<<<< HEAD
-=======
 @extends('layouts.main') 
 @section('content')
-
->>>>>>> 2be0006e4aea4aec1de0bbbbddf017b2ce3787cb
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -62,31 +58,27 @@
 </head>
 <body>
     <div class="upload-container">
+
         <h2>Upload Your CV (PDF only)</h2>
-        
-        {{-- Hiển thị thông báo thành công (Flash Session) --}}
-        @if (session('success'))
-            <p class="message-success">{{ session('success') }}</p>
-        @endif
-        
-        {{-- Hiển thị thông báo lỗi (Flash Session) --}}
-        @if (session('error'))
-            <p class="message-error">{{ session('error') }}</p>
+        <form action="{{{ route('upload.store') }}}" method="POST" enctype="multipart/form-data">
+            <input type="file" name="pdfFile" accept="application/pdf" required>
+            <button type="submit">Uploads</button>
+
+        <h2>Upload Your CV (PDF, DOC, DOCX)</h2>
+
+        @if(session('success'))
+            <div class="alert alert-success">{{ session('success') }}</div>
         @endif
 
-        {{-- Hiển thị lỗi Validation chuẩn của Laravel --}}
-        @if ($errors->any())
-            <div class="message-error">
-                @foreach ($errors->all() as $error)
-                    <p>{{ $error }}</p>
-                @endforeach
-            </div>
+        @if($errors->any())
+            <div class="alert alert-error">{{ $errors->first() }}</div>
         @endif
 
         <form action="{{ route('upload.store') }}" method="POST" enctype="multipart/form-data">
-            @csrf {{-- Thêm CSRF Token bảo mật --}}
-            <input type="file" name="pdfFile" accept="application/pdf" required>
+            @csrf
+            <input type="file" name="pdfFile" accept=".pdf,.doc,.docx" required>
             <button type="submit">Upload</button>
+
         </form>
 
         {{-- Hiển thị file mới nhất --}}
@@ -103,4 +95,6 @@
 </body>
 </html>
 
-@endsection
+
+
+

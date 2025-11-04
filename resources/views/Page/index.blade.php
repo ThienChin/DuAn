@@ -20,7 +20,7 @@
                         </div>
 
                         <div class="col-lg-6 col-12">
-                            <form class="custom-form hero-form" action="#" method="get" role="form">
+                            <form class="custom-form hero-form" action="{{ route('jobs.index') }}" method="get" role="form">
                                 <h3 class="text-white mb-3">Search your dream job</h3>
 
                                 <div class="row">
@@ -151,322 +151,126 @@
             </section>
  -->
 
-            <section class="about-section">
-                <div class="container">
-                    <div class="row">
+                <section class="about-section">
+                    <div class="container">
+                        <div class="row">
 
-                        <div class="col-lg-3 col-12">
-                            <div class="about-image-wrap custom-border-radius-start">
-                                <img src="{{ asset('page/images/professional-asian-businesswoman-gray-blazer.jpg') }}" class="about-image custom-border-radius-start img-fluid" alt="">
+                            <div class="col-lg-3 col-12">
+                                <div class="about-image-wrap custom-border-radius-start">
+                                    <img src="{{ asset('page/images/professional-asian-businesswoman-gray-blazer.jpg') }}" class="about-image custom-border-radius-start img-fluid" alt="">
 
-                                <div class="about-info">
-                                    <h4 class="text-white mb-0 me-2">Julia Ward</h4>
+                                    <div class="about-info">
+                                        <h4 class="text-white mb-0 me-2">Julia Ward</h4>
 
-                                    <p class="text-white mb-0">Investor</p>
+                                        <p class="text-white mb-0">Investor</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="col-lg-6 col-12">
-                            <div class="custom-text-block">
-                                <h2 class="text-white mb-2">Introduction Gotto</h2>
+                            <div class="col-lg-6 col-12">
+                                <div class="custom-text-block">
+                                    <h2 class="text-white mb-2">Introduction Gotto</h2>
 
-                                <p class="text-white">Gotto Job is a free aplication form for job portals. This layout is based on Bootstrap 5 CSS framework. Thank you for visiting <a href="https://www.tooplate.com" target="_parent">Tooplate website</a>. Images are from <a href="https://www.freepik.com/" target="_blank">FreePik</a> website.</p>
+                                    <p class="text-white">Gotto Job is a free aplication form for job portals. This layout is based on Bootstrap 5 CSS framework. Thank you for visiting <a href="https://www.tooplate.com" target="_parent">Tooplate website</a>. Images are from <a href="https://www.freepik.com/" target="_blank">FreePik</a> website.</p>
 
-                                <div class="custom-border-btn-wrap d-flex align-items-center mt-5">
-                                    <a href="about.html" class="custom-btn custom-border-btn btn me-4">Get to know us</a>
+                                    <div class="custom-border-btn-wrap d-flex align-items-center mt-5">
+                                        <a href="about.html" class="custom-btn custom-border-btn btn me-4">Get to know us</a>
 
-                                    <a href="#job-section" class="custom-link smoothscroll">Explore Jobs</a>
+                                        <a href="#job-section" class="custom-link smoothscroll">Explore Jobs</a>
+                                    </div>
                                 </div>
                             </div>
+
+                            <div class="col-lg-3 col-12">
+                                <div class="instagram-block">
+                                    <img src="{{ asset('images/horizontal-shot-happy-mixed-race-females.jpg') }}" class="about-image custom-border-radius-end img-fluid" alt="">
+
+                                    <div class="instagram-block-text">
+                                        <a href="https://instagram.com/" class="custom-btn btn">
+                                            <i class="bi-instagram"></i>
+                                            @Gotto
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
+                    </div>
+                </section>
 
-                        <div class="col-lg-3 col-12">
-                            <div class="instagram-block">
-                                <img src="{{ asset('images/horizontal-shot-happy-mixed-race-females.jpg') }}" class="about-image custom-border-radius-end img-fluid" alt="">
 
-                                <div class="instagram-block-text">
-                                    <a href="https://instagram.com/" class="custom-btn btn">
-                                        <i class="bi-instagram"></i>
-                                        @Gotto
+            <section class="featured-jobs-section section-padding">
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-lg-12 col-12 text-center">
+                        <h2 class="mb-4">Featured Jobs</h2> 
+                        <p class="text-secondary mb-5">Các công việc nổi bật và được đề xuất.</p>
+                    </div>
+                    
+                    <div class="col-lg-12 col-12"> 
+                        <div class="row">
+                            
+                        {{-- LẶP QUA DANH SÁCH CÔNG VIỆC NỔI BẬT ($featuredJobs) --}}
+                        {{-- SỬA: Đổi biến lặp từ $job thành $featuredJob --}}
+                    @forelse ($featuredJobs as $featuredJob)
+                                <div class="col-lg-12 col-12 mb-3"> 
+                        
+                                {{-- job-card-compact: Thẻ nằm ngang, nhỏ gọn --}}
+                                <div class="job-card-compact custom-block d-flex justify-content-between align-items-center"> 
+                            
+                                {{-- Khối chi tiết chính: Logo và Text --}}
+                                <div class="job-details d-flex align-items-center">
+                                    {{-- Khối Text: Tiêu đề và Meta --}}
+                                    <div>
+                                        <h5>{{ $featuredJob->title }}</h5>
+                                        <p class="mb-0 text-muted job-meta-sm d-flex align-items-center flex-wrap">
+                                            {{-- Địa điểm --}}
+                                            <i class="bi bi-geo-alt-fill me-1"></i> {{ $featuredJob->location }}
+                                            
+                                            {{-- Thời gian đăng --}}
+                                            <i class="bi bi-clock-fill ms-3 me-1"></i> {{ $featuredJob->created_at->diffForHumans() }}
+                                            
+                                            {{-- Mức Lương --}}
+                                            <span class="salary-display-sm ms-3">
+                                                <i class="bi bi-wallet-fill me-1"></i> {{ number_format($featuredJob->salary, 0, ',', '.') }} VNĐ
+                                            </span>
+                                        </p>
+                                    </div>
+                                </div>
+
+                                {{-- Khối hành động: Badge và Nút Apply --}}
+                                <div class="job-action-sm d-flex align-items-center">
+                                    
+                                    @if(isset($featuredJob->level))
+                                        <span class="badge bg-primary me-2">{{ $featuredJob->level }}</span>
+                                    @endif
+                                    @if(isset($featuredJob->remote_type))
+                                        <span class="badge bg-secondary me-4">{{ $featuredJob->remote_type }}</span>
+                                    @endif
+
+                                    <a href="{{ route('jobs.show', $featuredJob->id) }}" class="btn custom-btn-apply-sm">
+                                        Apply now
                                     </a>
                                 </div>
                             </div>
                         </div>
-
+                        @empty
+                            <div class="col-12 text-center">
+                                <p>Không có công việc nổi bật nào để hiển thị.</p>
+                            </div>
+                    @endforelse
+                                    
                     </div>
                 </div>
-            </section>
-
-
-            <section class="job-section job-featured-section section-padding" id="job-section">
-                <div class="container">
-                    <div class="row">
-
-                        <div class="col-lg-6 col-12 text-center mx-auto mb-4">
-                            <h2>Featured Jobs</h2>
-
-                            <p><strong>Over 10k opening jobs</strong> Feel free to download and use our free HTML templates from Tooplate website.</p>
-                        </div>
-
-                        <div class="col-lg-12 col-12">
-                            <div class="job-thumb d-flex">
-                                <div class="job-image-wrap bg-white shadow-lg">
-                                    <img src="{{ asset('page/images/logos/google.png') }}" class="job-image img-fluid" alt="">
-                                </div>
-
-                                <div class="job-body d-flex flex-wrap flex-auto align-items-center ms-4">
-                                    <div class="mb-3">
-                                        <h4 class="job-title mb-lg-0">
-                                            <a href="job-details.html" class="job-title-link">Technical Lead</a>
-                                        </h4>
-
-                                        <div class="d-flex flex-wrap align-items-center">
-                                            <p class="job-location mb-0">
-                                                <i class="custom-icon bi-geo-alt me-1"></i>
-                                                Kuala, Malaysia
-                                            </p>
-
-                                            <p class="job-date mb-0">
-                                                <i class="custom-icon bi-clock me-1"></i>
-                                                10 hours ago
-                                            </p>
-
-                                            <p class="job-price mb-0">
-                                                <i class="custom-icon bi-cash me-1"></i>
-                                                $20k
-                                            </p>
-
-                                            <div class="d-flex">
-                                                <p class="mb-0">
-                                                    <a href="job-listings.html" class="badge badge-level">Internship</a>
-                                                </p>
-
-                                                <p class="mb-0">
-                                                    <a href="job-listings.html" class="badge">Freelance</a>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="job-section-btn-wrap">
-                                        <a href="job-details.html" class="custom-btn btn">Apply now</a>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="job-thumb d-flex">
-                                <div class="job-image-wrap bg-white shadow-lg">
-                                    <img src="{{ asset('page/images/logos/apple.png') }}" class="job-image img-fluid" alt="">
-                                </div>
-
-                                <div class="job-body d-flex flex-wrap flex-auto align-items-center ms-4">
-                                    <div class="mb-3">
-                                        <h4 class="job-title mb-lg-0">
-                                            <a href="job-details.html" class="job-title-link">Business Director</a>
-                                        </h4>
-
-                                        <div class="d-flex flex-wrap align-items-center">
-                                            <p class="job-location mb-0">
-                                                <i class="custom-icon bi-geo-alt me-1"></i>
-                                                California, USA
-                                            </p>
-
-                                            <p class="job-date mb-0">
-                                                <i class="custom-icon bi-clock me-1"></i>
-                                                1 day ago
-                                            </p>
-
-                                            <p class="job-price mb-0">
-                                                <i class="custom-icon bi-cash me-1"></i>
-                                                $90k
-                                            </p>
-
-                                            <div class="d-flex">
-                                                <p class="mb-0">
-                                                    <a href="job-listings.html" class="badge badge-level">Senior</a href="job-listings.html">
-                                                </p>
-
-                                                <p class="mb-0">
-                                                    <a href="job-listings.html" class="badge">Full Time</a>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="job-section-btn-wrap">
-                                        <a href="job-details.html" class="custom-btn btn">Apply now</a>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="job-thumb d-flex">
-                                <div class="job-image-wrap bg-white shadow-lg">
-                                    <img src="{{ asset('page/images/logos/meta.png') }}" class="job-image img-fluid" alt="">
-                                </div>
-
-                                <div class="job-body d-flex flex-wrap flex-auto align-items-center ms-4">
-                                    <div class="mb-3">
-                                        <h4 class="job-title mb-lg-0">
-                                            <a href="job-details.html" class="job-title-link">HR Manager</a>
-                                        </h4>
-
-                                        <div class="d-flex flex-wrap align-items-center">
-                                            <p class="job-location mb-0">
-                                                <i class="custom-icon bi-geo-alt me-1"></i>
-                                                Tower, Paris
-                                            </p>
-
-                                            <p class="job-date mb-0">
-                                                <i class="custom-icon bi-clock me-1"></i>
-                                                22 hours ago
-                                            </p>
-
-                                            <p class="job-price mb-0">
-                                                <i class="custom-icon bi-cash me-1"></i>
-                                                $50k
-                                            </p>
-
-                                            <div class="d-flex">
-                                                <p class="mb-0">
-                                                    <a href="job-listings.html" class="badge badge-level">Junior</a>
-                                                </p>
-
-                                                <p class="mb-0">
-                                                    <a href="job-listings.html" class="badge">Contract</a>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="job-section-btn-wrap">
-                                        <a href="job-details.html" class="custom-btn btn">Apply now</a>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="job-thumb d-flex">
-                                <div class="job-image-wrap bg-white shadow-lg">
-                                    <img src="{{ asset('page/images/logos/slack.png') }}" class="job-image img-fluid" alt="">
-                                </div>
-
-                                <div class="job-body d-flex flex-wrap flex-auto align-items-center ms-4">
-                                    <div class="mb-3">
-                                        <h4 class="job-title mb-lg-0">
-                                            <a href="job-details.html" class="job-title-link">Dev Ops</a>
-                                        </h4>
-
-                                        <div class="d-flex flex-wrap align-items-center">
-                                            <p class="job-location mb-0">
-                                                <i class="custom-icon bi-geo-alt me-1"></i>
-                                                Bangkok, Thailand
-                                            </p>
-
-                                            <p class="job-date mb-0">
-                                                <i class="custom-icon bi-clock me-1"></i>
-                                                40 minutes ago
-                                            </p>
-
-                                            <p class="job-price mb-0">
-                                                <i class="custom-icon bi-cash me-1"></i>
-                                                $75k - 80k
-                                            </p>
-
-                                            <div class="d-flex">
-                                                <p class="mb-0">
-                                                    <a href="job-listings.html" class="badge badge-level">Senior</a>
-                                                </p>
-
-                                                <p class="mb-0">
-                                                    <a href="job-listings.html" class="badge">Part Time</a>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="job-section-btn-wrap">
-                                        <a href="job-details.html" class="custom-btn btn">Apply now</a>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="job-thumb d-flex">
-                                <div class="job-image-wrap bg-white shadow-lg">
-                                    <img src="{{ asset('page/images/logos/creative-market.png') }}" class="job-image img-fluid" alt="">
-                                </div>
-
-                                <div class="job-body d-flex flex-wrap flex-auto align-items-center ms-4">
-                                    <div class="mb-3">
-                                        <h4 class="job-title mb-lg-0">
-                                            <a href="job-details.html" class="job-title-link">UX Designer</a>
-                                        </h4>
-
-                                        <div class="d-flex flex-wrap align-items-center">
-                                            <p class="job-location mb-0">
-                                                <i class="custom-icon bi-geo-alt me-1"></i>
-                                                Bangkok, Thailand
-                                            </p>
-
-                                            <p class="job-date mb-0">
-                                                <i class="custom-icon bi-clock me-1"></i>
-                                                2 hours ago
-                                            </p>
-
-                                            <p class="job-price mb-0">
-                                                <i class="custom-icon bi-cash me-1"></i>
-                                                $100k
-                                            </p>
-
-                                            <div class="d-flex">
-                                                <p class="mb-0">
-                                                    <a href="job-listings.html" class="badge badge-level">Entry</a>
-                                                </p>
-
-                                                <p class="mb-0">
-                                                    <a href="job-listings.html" class="badge">Remote</a>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="job-section-btn-wrap">
-                                        <a href="job-details.html" class="custom-btn btn">Apply now</a>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <nav aria-label="Page navigation example">
-                                <ul class="pagination justify-content-center mt-5">
-                                    <li class="page-item">
-                                        <a class="page-link" href="#" aria-label="Previous">
-                                            <span aria-hidden="true">Prev</span>
-                                        </a>
-                                    </li>
-
-                                    <li class="page-item active" aria-current="page">
-                                        <a class="page-link" href="#">1</a>
-                                    </li>
-                                    
-                                    <li class="page-item">
-                                        <a class="page-link" href="#">2</a>
-                                    </li>
-                                    
-                                    <li class="page-item">
-                                        <a class="page-link" href="#">3</a>
-                                    </li>
-                                    
-                                    <li class="page-item">
-                                        <a class="page-link" href="#" aria-label="Next">
-                                            <span aria-hidden="true">Next</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div>
-
-                    </div>
+                
+                {{-- Nút xem thêm --}}
+                <div class="col-lg-12 col-12 text-center mt-4">
+                    <a href="{{ route('jobs.index') }}" class="btn custom-btn">Xem tất cả công việc</a>
                 </div>
-            </section>
+            </div>
+        </div>
+    </section>
 
 
             <section>

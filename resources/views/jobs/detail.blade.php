@@ -73,14 +73,6 @@
                                         <li><strong>Email:</strong> <a href="mailto:{{ $job->email }}">{{ $job->email ?? 'N/A' }}</a></li>
                                     </ul>
 
-                                    @if (Auth::check() && (Auth::user()->hasRole('employer') || Auth::user()->hasRole('admin') || $job->company_name === Auth::user()->name))
-                                        <a href="{{ route('jobs.edit', $job->id) }}" class="custom-btn btn mt-4">Edit Job</a>
-                                        <form action="{{ route('jobs.destroy', $job->id) }}" method="POST" style="display:inline-block; margin-left: 10px;" onsubmit="return confirm('Are you sure you want to delete this job?');">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="custom-btn btn btn-danger">Delete Job</button>
-                                        </form>
-                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -89,7 +81,11 @@
                         <div class="job-sidebar">
                             <h5>Apply Now</h5>
                             <p>Interested in this job? Click the button below to apply.</p>
-                            <a href="#" class="custom-btn btn w-100 mb-3">Apply Now</a>
+                            <a href="{{ route('jobs.apply.form', $job->id) }}" class="btn btn-primary">
+                                Apply Now
+                            </a>
+
+
 
                             <h5>Share This Job</h5>
                             <div class="social-share">
@@ -179,7 +175,7 @@
                     <div class="col-lg-4 col-12 ms-auto">
                         <div class="custom-border-btn-wrap d-flex align-items-center mt-lg-4 mt-2">
                             <a href="{{ route('register') }}" class="custom-btn custom-border-btn btn me-4">Create an account</a>
-                            <a href="{{ route('jobs.create') }}" class="custom-link">Post a job</a>
+                            <a href="{{ route('create_cv.upload') }}" class="custom-link">Post a job</a>
                         </div>
                     </div>
                 </div>

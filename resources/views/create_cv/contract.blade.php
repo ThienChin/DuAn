@@ -17,7 +17,7 @@
 
     <div class="row">
         <div class="col-lg-8 col-12 mx-auto">
-            <form class="custom-form contact-form" action="{{ route('contract.store') }}" method="POST" role="form">
+           <form class="custom-form contact-form" action="{{ route('contract.store') }}" method="POST" role="form" enctype="multipart/form-data">
                 @csrf
 
                 <!-- First Name -->

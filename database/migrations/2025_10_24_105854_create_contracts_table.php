@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-            Schema::create('contracts', function (Blueprint $table) {
+        Schema::create('contracts', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
 
@@ -21,8 +21,14 @@ return new class extends Migration
             $table->string('postal_code', 10)->nullable();
             $table->string('phone', 20)->nullable();
             $table->string('email', 255);
+            
+            // --- ĐÃ SỬA LỖI: BỎ AFTER KHI DÙNG Schema::create ---
+            // Cột này sẽ được đặt ở cuối danh sách (trước timestamps)
+            $table->string('photo_url')->nullable(); 
+            // ----------------------------------------------------
+            
             $table->timestamps();
-    });
+        });
 
     }
 
@@ -30,7 +36,7 @@ return new class extends Migration
      * Reverse the migrations.
      */
     public function down(): void
-    {   
-        Schema::dropIfExists('educations');
+    { 
+        Schema::dropIfExists('contracts'); 
     }
 };
