@@ -105,31 +105,60 @@ class JobController extends Controller
         // Gửi mail cảm ơn
         Mail::to($validated['email'])->send(new ApplyMail($job->title, $validated['name']));
 
-        // sau khi gửi mail và lưu JobApplication
+        // Sau khi gửi mail và lưu JobApplication
         return redirect()->route('jobs.apply.success')
             ->with([
                 'applicant_name' => $validated['name'],
                 'job_title' => $job->title,
             ]);
+    }
 
+    public function applySuccess()
+    {
+        // Lấy dữ liệu flash từ redirect->with(...)
+        $name = session('applicant_name');
+        $title = session('job_title');
+
+        // Nếu không có (người vào trực tiếp), chuyển về index hoặc trang khác
+        if (!$name || !$title) {
+            return redirect()->route('jobs.index')->with('error', 'Không tìm thấy thông tin ứng tuyển. Vui lòng thực hiện apply trước.');
         }
 
-        public function applySuccess()
-        {
-            // Lấy dữ liệu flash từ redirect->with(...)
-            $name = session('applicant_name');
-            $title = session('job_title');
+        // Trả view success
+        return view('jobs.success', [
+            'name' => $name,
+            'title' => $title,
+        ]);
+    }
 
-            // Nếu không có (người vào trực tiếp), chuyển về index hoặc trang khác
-            if (!$name || !$title) {
-                return redirect()->route('jobs.index')->with('error', 'Không tìm thấy thông tin ứng tuyển. Vui lòng thực hiện apply trước.');
-            }
+    // 📝 Hiển thị form tạo công việc
+    public function create()
+    {
+        return view('jobs.create');
+    }
 
-            // Trả view success (giữ path jobs.success nếu bạn dùng folder jobs)
-            return view('jobs.success', [
-                'name'  => $name,
-                'title' => $title,
-            ]);
-        }
+    // 🚀 Xử lý lưu công việc
+    public function store(Request $request)
+    {
+        $validatedData = $request->validate([
+            'title' => 'required|string|max:255',
+            'location' => 'required|string|max:255',
+            'salary' => 'required|numeric',
+            'level' => 'required|in:Internship,Junior,Senior',
+            'remote_type' => 'required|in:Full Time,Contract,Part Time',
+            'company_name' => 'required|string|max:255',
+        ]);
 
+        Job::create([
+            'title' => $validatedData['title'],
+            'location' => $validatedData['location'],
+            'salary' => $validatedData['salary'],
+            'level' => $validatedData['level'],
+            'remote_type' => $validatedData['remote_type'],
+            'company_name' => $validatedData['company_name'],
+            'user_id' => auth()->id(), // Gán người tạo công việc là người dùng hiện tại
+        ]);
+
+        return redirect()->route('jobs.index')->with('success', 'Công việc đã được tạo thành công!');
+    }
 }

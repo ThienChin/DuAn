@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -11,7 +12,10 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
-use App\Mail\WelcomeMail;
+
+// THÊM 2 DÒNG NÀY
+use App\Events\UserRegistered; // Event chào mừng
+use App\Mail\WelcomeMail; // Mail chào mừng (nếu có)
 use Illuminate\Support\Facades\Mail;
 
 class RegisteredUserController extends Controller
@@ -26,8 +30,6 @@ class RegisteredUserController extends Controller
 
     /**
      * Handle an incoming registration request.
-     *
-     * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request): RedirectResponse
     {
@@ -44,12 +46,17 @@ class RegisteredUserController extends Controller
             'role' => 'user',
         ]);
 
+        // 1. GỬI EMAIL CHÀO MỪNG (nếu có)
         Mail::to($user->email)->send(new WelcomeMail($user));
 
+        // 2. GỬI THÔNG BÁO CHÀO MỪNG (hiển thị ở chuông)
+        event(new UserRegistered($user));
+
+        // 3. GỬI EMAIL XÁC THỰC (mặc định Laravel)
         event(new Registered($user));
 
         Auth::login($user);
 
-        return redirect(route('page.index', absolute: false));
+        return redirect()->route('page.index')->with('success', 'Đăng ký thành công! Chào mừng bạn đến với Gotto Job!');
     }
 }
