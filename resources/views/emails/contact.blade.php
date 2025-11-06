@@ -25,7 +25,7 @@
 
                 {{-- Bản đồ và thông tin --}}
                 <div class="col-lg-6 col-12 mb-lg-5 mb-3">
-                            <iframe class="google-map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4722.…rb%20garden)!5e1!3m2!1sen!2sth!4v1680951932259!5m2!1sen!2sth" width="100%" height="350" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d501726.5407330127!2d106.36556260773301!3d10.754618131050186!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x317529292e8d3dd1%3A0xf15f5aad773c112b!2sHo%20Chi%20Minh%20City%2C%20Vietnam!5e0!3m2!1sen!2s!4v1762238671483!5m2!1sen!2s" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                         </div>
 
                         <div class="col-lg-5 col-12 mb-3 mx-auto">
@@ -36,7 +36,7 @@
                                     <p class="mb-0">
                                         <span class="contact-info-small-title">Office</span>
 
-                                        Akershusstranda 20, 0150 Oslo, Norway
+                                        11 Nguyễn Đình Chiểu,Sài Gòn Ward, District 1, Ho Chi Minh City.
                                     </p>
                                 </div>
 
@@ -46,8 +46,8 @@
                                     <p class="mb-0">
                                         <span class="contact-info-small-title">Website</span>
 
-                                        <a href="#" class="site-footer-link">
-                                            www.jobportal.co
+                                        <a href="gottojob.io.vn" class="site-footer-link">
+                                            gottojob.io.vn
                                         </a>
                                     </p>
                                 </div>
@@ -70,8 +70,8 @@
                                     <p class="mb-0">
                                         <span class="contact-info-small-title">Email</span>
 
-                                        <a href="mailto:info@yourgmail.com" class="site-footer-link">
-                                            info@jobportal.co
+                                        <a href="mailto:thiendz362@gmail.com" class="site-footer-link">
+                                            thiendz362@gmail.com
                                         </a>
                                     </p>
                                 </div>

@@ -1,9 +1,6 @@
 /*
-
 Tooplate 2134 Gotto Job
-
 https://www.tooplate.com/view/2134-gotto-job
-
 */
 
 /*---------------------------------------
@@ -47,7 +44,6 @@ body {
   background-color: var(--white-color);
   font-family: var(--body-font-family); 
 }
-
 
 /*---------------------------------------
   TYPOGRAPHY               
@@ -125,7 +121,6 @@ b,
 strong {
   font-weight: var(--font-weight-bold);
 }
-
 
 /*---------------------------------------
   SECTION               
@@ -208,7 +203,6 @@ nav[aria-label="breadcrumb"] {
   margin-bottom: 0;
 }
 
-
 /*---------------------------------------
   PAGINATION               
 -----------------------------------------*/
@@ -247,7 +241,6 @@ nav[aria-label="breadcrumb"] {
 .page-item:not(:first-child) .page-link {
   margin-left: 5px;
 }
-
 
 /*---------------------------------------
   CUSTOM FORM               
@@ -298,7 +291,6 @@ nav[aria-label="breadcrumb"] {
   border-color: transparent;
 }
 
-
 /*---------------------------------------
   CUSTOM TEXT BLOCK               
 -----------------------------------------*/
@@ -330,7 +322,6 @@ nav[aria-label="breadcrumb"] {
 .custom-text-block .counter-number-text {
   color: var(--white-color);
 }
-
 
 /*---------------------------------------
   CUSTOM LINK               
@@ -372,7 +363,6 @@ nav[aria-label="breadcrumb"] {
 .custom-link:hover::after {
   background: var(--custom-btn-bg-color);
 }
-
 
 /*---------------------------------------
   CUSTOM BUTTON               
@@ -429,7 +419,6 @@ nav[aria-label="breadcrumb"] {
   padding: 12px 22px;
   color: var(--white-color);
 }
-
 
 /*---------------------------------------
   NAVIGATION              
@@ -617,7 +606,6 @@ nav[aria-label="breadcrumb"] {
   top: 8px;
 }
 
-
 /*---------------------------------------
   SITE HEADER              
 -----------------------------------------*/
@@ -634,7 +622,6 @@ nav[aria-label="breadcrumb"] {
 .site-header .section-overlay {
   background: var(--primary-color);
 }
-
 
 /*---------------------------------------
   HERO              
@@ -715,7 +702,6 @@ nav[aria-label="breadcrumb"] {
   background: var(--custom-btn-bg-color);
   color: var(--white-color);
 }
-
 
 /*---------------------------------------
   ABOUT              
@@ -803,7 +789,6 @@ nav[aria-label="breadcrumb"] {
   }
 }
 
-
 /*---------------------------------------
   SERVICES              
 -----------------------------------------*/
@@ -844,7 +829,6 @@ nav[aria-label="breadcrumb"] {
 .services-block-body p {
   margin-bottom: 0;
 }
-
 
 /*---------------------------------------
   CATEGORIES              
@@ -897,7 +881,6 @@ nav[aria-label="breadcrumb"] {
   position: relative;
   left: 2px;
 }
-
 
 /*---------------------------------------
   REVIEWS              
@@ -975,7 +958,6 @@ nav[aria-label="breadcrumb"] {
   left: 30px;
   opacity: 0.05;
 }
-
 
 /*---------------------------------------
   JOB              
@@ -1157,7 +1139,6 @@ nav[aria-label="breadcrumb"] {
   margin-left: auto;
 }
 
-
 /*---------------------------------------
   CTA               
 -----------------------------------------*/
@@ -1170,7 +1151,6 @@ nav[aria-label="breadcrumb"] {
   padding-top: 150px;
   padding-bottom: 75px;
 }
-
 
 /*---------------------------------------
   CONTACT               
@@ -1229,7 +1209,6 @@ nav[aria-label="breadcrumb"] {
   filter: grayscale(100%);
 }
 
-
 /*---------------------------------------
   NEWSLETTER FORM              
 -----------------------------------------*/
@@ -1272,7 +1251,6 @@ nav[aria-label="breadcrumb"] {
   margin-left: 0;
   border-radius: var(--border-radius-large);
 }
-
 
 /*---------------------------------------
   SITE FOOTER              
@@ -1340,7 +1318,6 @@ nav[aria-label="breadcrumb"] {
   margin-bottom: 5px;
 }
 
-
 /*---------------------------------------
   SOCIAL ICON               
 -----------------------------------------*/
@@ -1375,6 +1352,109 @@ nav[aria-label="breadcrumb"] {
   transform: scale(1.15);
 }
 
+/*---------------------------------------
+  NAVIGATION RIGHT (TOPCV STYLE)              
+-----------------------------------------*/
+.nav.navbar-nav.navbar-right {
+  display: flex;
+  align-items: center;
+}
+
+.group-icon {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-right__item {
+  margin-right: 15px;
+  list-style: none;
+}
+
+.navbar-right__item.icon a {
+  color: var(--primary-color);
+  font-size: 20px;
+}
+
+.navbar-right__item.icon a:hover {
+  color: var(--custom-btn-bg-color);
+}
+
+.noti-icon {
+  font-size: 24px;
+  color: var(--primary-color);
+}
+
+.notification-count {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: #dc3545;
+  color: var(--white-color);
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-size: 12px;
+  line-height: 1;
+}
+
+.navbar__item__dropdown-menu {
+  position: absolute;
+  background-color: var(--white-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-small);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  min-width: 300px;
+  padding: 10px;
+  display: none;
+}
+
+.has-new-notification .navbar__item__dropdown-menu {
+  display: block;
+}
+
+.navbar__item__dropdown-menu.loading .notification-item.text-center img {
+  display: block;
+  margin: 0 auto;
+}
+
+.rounded-circle {
+  width: 35px;
+  height: 35px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.me-2 {
+  margin-right: 0.5rem !important;
+}
+
+.block-for-employer {
+  display: flex;
+  flex-direction: column;
+}
+
+.block-for-employer p {
+  color: var(--p-color);
+  font-size: var(--p-font-size);
+  margin-bottom: 5px;
+}
+
+.block-for-employer a {
+  display: flex;
+  align-items: center;
+  background-color: var(--custom-btn-bg-color);
+  color: var(--white-color);
+  padding: 5px 10px;
+  text-decoration: none;
+  border-radius: var(--border-radius-small);
+}
+
+.block-for-employer a:hover {
+  background-color: #0056b3;
+}
+
+.block-for-employer .icon {
+  margin-left: 5px;
+}
 
 /*---------------------------------------
   RESPONSIVE STYLES               
@@ -1504,6 +1584,25 @@ nav[aria-label="breadcrumb"] {
   .site-footer-bottom {
     margin-top: 50px;
   }
+
+  .nav.navbar-nav.navbar-right {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .group-icon {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .navbar-right__item {
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+
+  .block-for-employer {
+    margin-top: 10px;
+  }
 }
 
 @media screen and (max-width: 480px) {
@@ -1554,4 +1653,3 @@ nav[aria-label="breadcrumb"] {
     margin: 20px auto 0 auto;
   }
 }
-
