@@ -1,5 +1,7 @@
 <?php
 
+require __DIR__.'/auth.php';
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\HomeController;
@@ -11,9 +13,11 @@ use App\Http\Controllers\EducationController;
 use App\Http\Controllers\AboutcvController;
 use App\Http\Controllers\ResumeController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\Admin\AuthController;
-use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\UploadController;
 use App\Http\Controllers\JobController;
+use App\Http\Controllers\Admin\AdminLogin;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\AdminController;
 
 // Route trang chào mừng
 Route::get('/', function () {
@@ -34,16 +38,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/jobs/{id}/apply', [JobController::class, 'applyForm'])->name('jobs.apply.form');
     Route::post('/jobs/{id}/apply', [JobController::class, 'apply'])->name('jobs.apply');
     Route::get('/apply/success', [JobController::class, 'applySuccess'])->name('jobs.apply.success');
-
-require __DIR__.'/auth.php';
+});
 
 
 Route::get('/home', [HomeController::class, 'index'])->name('page.index');
 Route::get('/about', [HomeController::class, 'about'])->name('page.about');
-
-// Xóa các route cũ của PageController nếu không còn cần
-// Route::get('/list', [PageController::class, 'list'])->name('page.list');
-// Route::get('/detail', [PageController::class, 'detail'])->name('page.detail');
 
 Route::get('/send-mail', [MailController::class, 'send'])->name('send.mail');
 
@@ -68,24 +67,22 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/personal', [UserController::class, 'personalInfo'])->name('profile.personal');
 });
 
-
-// Route không yêu cầu xác thực
-Route::get('/home', [HomeController::class, 'index'])->name('page.index');
-Route::get('/about', [HomeController::class, 'about'])->name('page.about');
-
-
-// Route liên hệ
-Route::get('/contact', [ContactController::class, 'showForm'])->name('emails.contact');
-Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
-
 // Route dành cho admin
 Route::prefix('admin')->group(function () {
-    Route::get('/login', [AuthController::class, 'showLoginForm'])->name('admin.login');
-    Route::post('/login', [AuthController::class, 'login'])->name('admin.login.submit');
-    Route::post('/logout', [AuthController::class, 'logout'])->name('admin.logout');
+    Route::get('/login', [AdminLogin::class, 'showLoginForm'])->name('admin.login');
+    Route::post('/login', [AdminLogin::class, 'login'])->name('admin.login.submit');
+    Route::post('/logout', [AdminLogin::class, 'logout'])->name('admin.logout');
 
     Route::middleware('admin')->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+
+        Route::get('/create', [AdminController::class, 'create'])->name('admin.create');
+        Route::post('/create', [AdminController::class, 'store'])->name('admin.store');
     });
 });
+
+
+// Bao gồm các route xác thực từ auth.php
+    Route::delete('/profile/cv/{id}', [UserController::class, 'deleteCv'])->name('create_cv.delete');
+    Route::get('/profile/cv/delete-confirm/{id}', [UserController::class, 'confirmDeleteCv'])->name('cv.delete.confirm.view');
 

@@ -23,6 +23,7 @@ class ContractController extends Controller
             'postal_code'  => 'nullable|numeric|digits_between:4,10',
             'phone'        => 'nullable|string|max:20|regex:/^[0-9+\-\s]+$/',
             'email'        => 'required|email|max:255',
+            'photo_url'    => 'nullable|url|max:255',
         ]);
 
         // ✅ Gán user_id nếu có đăng nhập
