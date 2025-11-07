@@ -20,7 +20,7 @@
                         </div>
 
                         <div class="col-lg-6 col-12">
-                            <form class="custom-form hero-form" action="{{ route('jobs.index') }}" method="get" role="form">
+                            <form class="custom-form hero-form" action="{{ route('jobs.list') }}" method="get" role="form">
                                 <h3 class="text-white mb-3">Search your dream job</h3>
 
                                 <div class="row">
@@ -189,7 +189,7 @@
                     
                     {{-- Nút xem thêm --}}
                     <div class="col-lg-12 col-12 text-center mt-4">
-                        <a href="{{ route('jobs.index') }}" class="btn custom-btn">Xem tất cả công việc</a>
+                        <a href="{{ route('jobs.list') }}" class="btn custom-btn">Xem tất cả công việc</a>
                     </div>
                 </div>
             </div>
@@ -331,7 +331,7 @@
                 {{-- KẾT THÚC VÒNG LẶP --}}
 
                 <div class="col-lg-4 col-12 recent-jobs-bottom d-flex ms-auto my-4">
-                    <a href="{{ route('jobs.index') }}" class="custom-btn btn ms-lg-auto">Browse Job Listings</a>
+                    <a href="{{ route('jobs.list') }}" class="custom-btn btn ms-lg-auto">Browse Job Listings</a>
                 </div>
 
             </div>

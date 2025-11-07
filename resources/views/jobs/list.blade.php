@@ -23,7 +23,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12 col-12">
-                        <form class="custom-form hero-form" action="{{ route('jobs.index') }}" method="get" role="form">
+                        <form class="custom-form hero-form" action="{{ route('jobs.list') }}" method="get" role="form">
                             <h3 class="text-white mb-3">Search your dream job</h3>
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-12">
@@ -77,9 +77,9 @@
                                     <div class="d-flex flex-wrap align-items-center mt-4 mt-lg-0">
                                         <span class="text-white mb-lg-0 mb-md-0 me-2">Popular keywords:</span>
                                         <div>
-                                            <a href="{{ route('jobs.index') }}?job-title=Web+design" class="badge">Web design</a>
-                                            <a href="{{ route('jobs.index') }}?job-title=Marketing" class="badge">Marketing</a>
-                                            <a href="{{ route('jobs.index') }}?job-title=Customer+support" class="badge">Customer support</a>
+                                            <a href="{{ route('jobs.list') }}?job-title=Web+design" class="badge">Web design</a>
+                                            <a href="{{ route('jobs.list') }}?job-title=Marketing" class="badge">Marketing</a>
+                                            <a href="{{ route('jobs.list') }}?job-title=Customer+support" class="badge">Customer support</a>
                                         </div>
                                     </div>
                                 </div>
@@ -106,9 +106,9 @@
                                 Newest Jobs
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownSortingButton">
-                                <li><a class="dropdown-item" href="{{ route('jobs.index') }}?sort=latest">Latest Jobs</a></li>
-                                <li><a class="dropdown-item" href="{{ route('jobs.index') }}?sort=highest_salary">Highest Salary Jobs</a></li>
-                                <li><a class="dropdown-item" href="{{ route('jobs.index') }}?job-level=1">Internship Jobs</a></li>
+                                <li><a class="dropdown-item" href="{{ route('jobs.list') }}?sort=latest">Latest Jobs</a></li>
+                                <li><a class="dropdown-item" href="{{ route('jobs.list') }}?sort=highest_salary">Highest Salary Jobs</a></li>
+                                <li><a class="dropdown-item" href="{{ route('jobs.list') }}?job-level=1">Internship Jobs</a></li>
                             </ul>
                         </div>
                         <div class="d-flex">
@@ -125,10 +125,10 @@
                                     </a>
                                     <div class="job-image-box-wrap-info d-flex align-items-center">
                                         <p class="mb-0">
-                                            <a href="{{ route('jobs.index') }}?job-level={{ $job->level === 'Internship' ? 1 : ($job->level === 'Junior' ? 2 : 3) }}" class="badge badge-level">{{ $job->level }}</a>
+                                            <a href="{{ route('jobs.list') }}?job-level={{ $job->level === 'Internship' ? 1 : ($job->level === 'Junior' ? 2 : 3) }}" class="badge badge-level">{{ $job->level }}</a>
                                         </p>
                                         <p class="mb-0">
-                                            <a href="{{ route('jobs.index') }}?job-remote={{ $job->remote_type === 'Full Time' ? 1 : ($job->remote_type === 'Contract' ? 2 : 3) }}" class="badge">{{ $job->remote_type }}</a>
+                                            <a href="{{ route('jobs.list') }}?job-remote={{ $job->remote_type === 'Full Time' ? 1 : ($job->remote_type === 'Contract' ? 2 : 3) }}" class="badge">{{ $job->remote_type }}</a>
                                         </p>
                                     </div>
                                 </div>
