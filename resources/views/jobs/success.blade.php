@@ -176,8 +176,8 @@
             </div>
 
             <div class="actions">
-                <a href="{{ url()->previous() }}" class="btn btn-outline">Quay lại</a>
-                <a href="{{ route('jobs.index') }}" class="btn btn-primary">Xem thêm công việc</a>
+                <a href="{{ route('jobs.list') }}" class="btn btn-outline">Quay lại</a>
+                <a href="{{ route('jobs.list') }}" class="btn btn-primary">Xem thêm công việc</a>
             </div>
 
             <p style="margin-top:12px; color:#475569; font-size:13px;">

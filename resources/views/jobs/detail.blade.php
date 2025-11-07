@@ -11,7 +11,7 @@
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb justify-content-center">
                                 <li class="breadcrumb-item"><a href="{{ route('page.index') }}">Home</a></li>
-                                <li class="breadcrumb-item"><a href="{{ route('jobs.index') }}">Job Listings</a></li>
+                                <li class="breadcrumb-item"><a href="{{ route('jobs.list') }}">Job Listings</a></li>
                                 <li class="breadcrumb-item active" aria-current="page">{{ $job->title }}</li>
                             </ol>
                         </nav>
@@ -29,10 +29,10 @@
                                 <img src="{{ asset('page/images/jobs/it-professional-works-startup-project.jpg') }}" class="job-image img-fluid" alt="{{ $job->title }}">
                                 <div class="job-image-box-wrap-info d-flex align-items-center">
                                     <p class="mb-0">
-                                        <a href="{{ route('jobs.index') }}?job-level={{ $job->level === 'Internship' ? 1 : ($job->level === 'Junior' ? 2 : 3) }}" class="badge badge-level">{{ $job->level }}</a>
+                                        <a href="{{ route('jobs.list') }}?job-level={{ $job->level === 'Internship' ? 1 : ($job->level === 'Junior' ? 2 : 3) }}" class="badge badge-level">{{ $job->level }}</a>
                                     </p>
                                     <p class="mb-0">
-                                        <a href="{{ route('jobs.index') }}?job-remote={{ $job->remote_type === 'Full Time' ? 1 : ($job->remote_type === 'Contract' ? 2 : 3) }}" class="badge">{{ $job->remote_type }}</a>
+                                        <a href="{{ route('jobs.list') }}?job-remote={{ $job->remote_type === 'Full Time' ? 1 : ($job->remote_type === 'Contract' ? 2 : 3) }}" class="badge">{{ $job->remote_type }}</a>
                                     </p>
                                 </div>
                             </div>
@@ -108,7 +108,7 @@
                         <p><strong>Over 10k opening jobs</strong> Lorem Ipsum dolor sit amet, consectetur adipsicing kengan omeg kohm tokito adipcingi elit eismuod larehai</p>
                     </div>
                     <div class="col-lg-4 col-12 d-flex ms-auto mb-5 mb-lg-4">
-                        <a href="{{ route('jobs.index') }}" class="custom-btn custom-border-btn btn ms-lg-auto">Browse Job Listings</a>
+                        <a href="{{ route('jobs.list') }}" class="custom-btn custom-border-btn btn ms-lg-auto">Browse Job Listings</a>
                     </div>
 
                     @foreach (\App\Models\Job::where('category', $job->category)->where('id', '!=', $job->id)->take(3)->get() as $similarJob)
@@ -120,10 +120,10 @@
                                     </a>
                                     <div class="job-image-box-wrap-info d-flex align-items-center">
                                         <p class="mb-0">
-                                            <a href="{{ route('jobs.index') }}?job-level={{ $similarJob->level === 'Internship' ? 1 : ($similarJob->level === 'Junior' ? 2 : 3) }}" class="badge badge-level">{{ $similarJob->level }}</a>
+                                            <a href="{{ route('jobs.list') }}?job-level={{ $similarJob->level === 'Internship' ? 1 : ($similarJob->level === 'Junior' ? 2 : 3) }}" class="badge badge-level">{{ $similarJob->level }}</a>
                                         </p>
                                         <p class="mb-0">
-                                            <a href="{{ route('jobs.index') }}?job-remote={{ $similarJob->remote_type === 'Full Time' ? 1 : ($similarJob->remote_type === 'Contract' ? 2 : 3) }}" class="badge">{{ $similarJob->remote_type }}</a>
+                                            <a href="{{ route('jobs.list') }}?job-remote={{ $similarJob->remote_type === 'Full Time' ? 1 : ($similarJob->remote_type === 'Contract' ? 2 : 3) }}" class="badge">{{ $similarJob->remote_type }}</a>
                                         </p>
                                     </div>
                                 </div>

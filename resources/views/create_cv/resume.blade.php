@@ -1,3 +1,5 @@
+@extends('layouts.createcv')
+@section('content')
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -188,3 +190,4 @@ function downloadPDF() {
 </script>
 </body>
 </html>
+@endsection

@@ -62,7 +62,7 @@ class JobController extends Controller
                      ->take(6) 
                      ->get();
 
-        return view('page.list', compact('jobs'));
+        return view('jobs.list', compact('jobs'));
     }
 
     // 📄 Chi tiết công việc
@@ -88,7 +88,7 @@ class JobController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email',
-            'cv' => 'nullable|file|mimes:pdf,doc,docx|max:2048',
+            'cv' => 'required|file',
             'message' => 'nullable|string',
         ]);
 
@@ -126,7 +126,7 @@ class JobController extends Controller
 
         // Nếu không có (người vào trực tiếp), chuyển về index hoặc trang khác
         if (!$name || !$title) {
-            return redirect()->route('jobs.index')->with('error', 'Không tìm thấy thông tin ứng tuyển. Vui lòng thực hiện apply trước.');
+            return redirect()->route('jobs.list')->with('error', 'Không tìm thấy thông tin ứng tuyển. Vui lòng thực hiện apply trước.');
         }
 
         // Trả view success
@@ -136,11 +136,6 @@ class JobController extends Controller
         ]);
     }
 
-    // 📝 Hiển thị form tạo công việc
-    public function create()
-    {
-        return view('jobs.create');
-    }
 
     // 🚀 Xử lý lưu công việc
     public function store(Request $request)
@@ -164,6 +159,6 @@ class JobController extends Controller
             'user_id' => auth()->id(), // Gán người tạo công việc là người dùng hiện tại
         ]);
 
-        return redirect()->route('jobs.index')->with('success', 'Công việc đã được tạo thành công!');
+        return redirect()->route('jobs.list')->with('success', 'Công việc đã được tạo thành công!');
     }
 }

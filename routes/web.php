@@ -15,11 +15,11 @@ use App\Http\Controllers\ResumeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UploadController;
 use App\Http\Controllers\JobController;
-use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\Admin\AdminLogin;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\DashboardController;
 
 // Trang chào mừng
 Route::get('/', function () {
@@ -33,7 +33,7 @@ Route::get('/contact', [ContactController::class, 'showForm'])->name('emails.con
 Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
 
 // Danh sách công việc
-Route::get('/list', [JobController::class, 'index'])->name('jobs.index');
+Route::get('/list', [JobController::class, 'index'])->name('jobs.list');
 Route::get('/list/{id}', [JobController::class, 'show'])->name('jobs.show');
 
 Route::middleware('auth')->group(function () {
