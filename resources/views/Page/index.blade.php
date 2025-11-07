@@ -603,7 +603,7 @@
                                 </form>
 
                                 <button type="button" class="custom-btn custom-border-btn btn me-4" onclick="document.getElementById('pdfFileInput').click()">
-                                    Post your CV
+                                    Dang CV cua ban
                                 </button>
                             </div>
                         </div>
