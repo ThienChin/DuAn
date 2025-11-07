@@ -54,8 +54,8 @@ https://www.tooplate.com/view/2134-gotto-job
   RESET AND GENERAL STYLES               
 -----------------------------------------*/
 * {
-  margin: 0;
-  padding: 0;
+  margin: 0px;
+  padding: 0px;
   box-sizing: border-box;
 }
 
@@ -1163,30 +1163,28 @@ nav[aria-label="breadcrumb"] {
 -----------------------------------------*/
 /* Buộc Khung Logo phải có kích thước */
 .job-card-compact .company-logo-wrapper {
-    width: 50px !important;            
-    height: 50px !important;           
-    min-width: 50px !important;        
-    min-height: 50px !important;       
+    /* ĐÃ CHỈNH SỬA KÍCH THƯỚC LỚN HƠN */
+    width: 250px;              
+    height: 250px;
+    min-width: 250px;
+    min-height: 250px;
     
-    border-radius: 50% !important;     
-    background-color: #ffffff !important; /* Đảm bảo nền trắng */
-    
-    /* Buộc hiển thị */
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-    
-    overflow: hidden !important; 
-    flex-shrink: 0 !important; 
+    border-radius: 50%;
+    /* Đặt background trong suốt để logo (ví dụ Google) tự nổi bật */
+    background-color: transparent; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
 }
 
 /* Buộc Ảnh Logo phải được co giãn bên trong khung */
 .job-card-compact .company-logo-wrapper .logo-image-featured {
-    max-width: 80% !important;      /* Ảnh không lớn hơn 80% khung */
-    max-height: 80% !important;     
-    object-fit: contain !important; /* Quan trọng để giữ tỷ lệ */
+    /* ĐÃ CHỈNH SỬA: Cho phép ảnh chiếm 100% kích thước khung */
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
 }
-
 
 
 .recent-jobs-bottom .custom-btn {

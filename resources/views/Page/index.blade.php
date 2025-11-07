@@ -223,11 +223,12 @@
                                     <div class="job-details d-flex align-items-center">
                                         {{-- KHỐI LOGO MỚI (SỬA Ở ĐÂY) --}}
                                         <div class="company-logo-wrapper me-3"> 
-                                            <img 
-                                                src="{{ asset($featuredJob->company_logo_url)  }}" 
-                                                class="logo-image-featured" 
-                                                alt="{{ $featuredJob->title }} - Logo"
-                                            >
+                                        <img 
+                                        src="{{ asset($featuredJob->company_logo_url) }}" 
+                                        class="logo-image-featured" 
+                                        alt="{{ $featuredJob->title }} - Logo"
+                                        style="width: 80px ; height=80px;"
+                                        >
                                         </div>
                                         {{-- Khối Text: Tiêu đề và Meta --}}
                                         <div>
