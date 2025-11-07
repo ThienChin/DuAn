@@ -117,54 +117,71 @@
                         </div>
                     </div>
                     @foreach ($jobs as $job)
-                        <div class="col-lg-4 col-md-6 col-12">
-                            <div class="job-thumb job-thumb-box">
-                                <div class="job-image-box-wrap">
-                                    <a href="{{ route('jobs.show', $job->id) }}">
-                                        <img src="{{ asset('page/images/jobs/it-professional-works-startup-project.jpg') }}" class="job-image img-fluid" alt="">
-                                    </a>
-                                    <div class="job-image-box-wrap-info d-flex align-items-center">
-                                        <p class="mb-0">
-                                            <a href="{{ route('jobs.list') }}?job-level={{ $job->level === 'Internship' ? 1 : ($job->level === 'Junior' ? 2 : 3) }}" class="badge badge-level">{{ $job->level }}</a>
-                                        </p>
-                                        <p class="mb-0">
-                                            <a href="{{ route('jobs.list') }}?job-remote={{ $job->remote_type === 'Full Time' ? 1 : ($job->remote_type === 'Contract' ? 2 : 3) }}" class="badge">{{ $job->remote_type }}</a>
-                                        </p>
-                                    </div>
-                                </div>
-                                <div class="job-body">
-                                    <h4 class="job-title">
-                                        <a href="{{ route('jobs.show', $job->id) }}" class="job-title-link">{{ $job->title }}</a>
-                                    </h4>
-                                    <div class="d-flex align-items-center">
-                                        <div class="job-image-wrap d-flex align-items-center bg-white shadow-lg mt-2 mb-4">
-                                            <img src="{{ asset('page/images/logos/google.png') }}" class="job-image me-3 img-fluid" alt="">
-                                            <p class="mb-0">{{ $job->company_name ?? 'Unknown Company' }}</p>
-                                        </div>
-                                        <a href="#" class="bi-bookmark ms-auto me-2"></a>
-                                        <a href="#" class="bi-heart"></a>
-                                    </div>
-                                    <div class="d-flex align-items-center">
-                                        <p class="job-location">
-                                            <i class="custom-icon bi-geo-alt me-1"></i>
-                                            {{ $job->location }}
-                                        </p>
-                                        <p class="job-date">
-                                            <i class="custom-icon bi-clock me-1"></i>
-                                            {{ $job->created_at->diffForHumans() }}
-                                        </p>
-                                    </div>
-                                    <div class="d-flex align-items-center border-top pt-3">
-                                        <p class="job-price mb-0">
-                                            <i class="custom-icon bi-cash me-1"></i>
-                                            {{ number_format($job->salary, 0) }} VND
-                                        </p>
-                                        <a href="{{ route('jobs.show', $job->id) }}" class="custom-btn btn ms-auto">Apply now</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
+    <div class="col-lg-4 col-md-6 col-12">
+        <div class="job-thumb job-thumb-box">
+            
+            <div class="job-image-box-wrap">
+                <a href="{{ route('jobs.show', $job->id) }}">
+                    {{-- 1. ẢNH THUMBNAIL LỚN: Lấy từ jobs_images, nếu không có thì dùng ảnh tĩnh mặc định --}}
+                    <img 
+                        src="{{ asset($job->jobs_images) }}" 
+                        class="job-image img-fluid" 
+                        alt="{{ $job->title ?? 'Job Thumbnail' }}"
+                    >
+                </a>
+                
+                <div class="job-image-box-wrap-info d-flex align-items-center">
+                    <p class="mb-0">
+                        <a href="{{ route('jobs.list') }}?job-level={{ $job->level === 'Internship' ? 1 : ($job->level === 'Junior' ? 2 : 3) }}" class="badge badge-level">{{ $job->level }}</a>
+                    </p>
+                    <p class="mb-0">
+                        <a href="{{ route('jobs.list') }}?job-remote={{ $job->remote_type === 'Full Time' ? 1 : ($job->remote_type === 'Contract' ? 2 : 3) }}" class="badge">{{ $job->remote_type }}</a>
+                    </p>
+                </div>
+            </div>
+            
+            <div class="job-body">
+                <h4 class="job-title">
+                    <a href="{{ route('jobs.show', $job->id) }}" class="job-title-link">{{ $job->title }}</a>
+                </h4>
+                
+                <div class="d-flex align-items-center">
+                    <div class="job-image-wrap d-flex align-items-center bg-white shadow-lg mt-2 mb-4">
+                        {{-- LOGO CÔNG TY NHỎ: Lấy từ cột company_logo_url trong DB --}}
+                        <img 
+                            src="{{ asset($job->company_logo_url) }}" 
+                            class="job-image me-3 img-fluid" 
+                            alt="{{ $job->company_name ?? 'Logo' }}"
+                        >
+                        <p class="mb-0">{{ $job->company_name ?? 'Unknown Company' }}</p>
+                    </div>
+                    
+                    <a href="#" class="bi-bookmark ms-auto me-2"></a>
+                    <a href="#" class="bi-heart"></a>
+                </div>
+                
+                <div class="d-flex align-items-center">
+                    <p class="job-location">
+                        <i class="custom-icon bi-geo-alt me-1"></i>
+                        {{ $job->location }}
+                    </p>
+                    <p class="job-date">
+                        <i class="custom-icon bi-clock me-1"></i>
+                        {{ $job->created_at->diffForHumans() }}
+                    </p>
+                </div>
+                
+                <div class="d-flex align-items-center border-top pt-3">
+                    <p class="job-price mb-0">
+                        <i class="custom-icon bi-cash me-1"></i>
+                        {{ number_format($job->salary, 0) }} VND
+                    </p>
+                    <a href="{{ route('jobs.show', $job->id) }}" class="custom-btn btn ms-auto">Apply now</a>
+                </div>
+            </div>
+        </div>
+    </div>
+@endforeach
                     <div class="col-lg-12 col-12">
     <nav aria-label="Phân trang">
         <ul class="pagination justify-content-center mt-5">
