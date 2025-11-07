@@ -53,7 +53,7 @@
                     <a class="nav-link {{ request()->routeIs('page.about') ? 'active' : '' }}" href="{{ route('page.about') }}">About Gotto</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('jobs.index') ? 'active' : '' }}" href="{{ route('jobs.index') }}">Jobs</a>
+                    <a class="nav-link {{ request()->routeIs('jobs.list') ? 'active' : '' }}" href="{{ route('jobs.list') }}">Jobs</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('emails.contact') ? 'active' : '' }}" href="{{ route('emails.contact') }}">Contact</a>
@@ -299,7 +299,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         <ul class="footer-menu">
                             <li class="footer-menu-item"><a href="{{ route('page.about') }}" class="footer-menu-link">About</a></li> 
 
-                            <li class="footer-menu-item"><a href="{{ route('jobs.index') }}" class="footer-menu-link">Jobs</a></li>
+                            <li class="footer-menu-item"><a href="{{ route('jobs.list') }}" class="footer-menu-link">Jobs</a></li>
 
                             <li class="footer-menu-item"><a href="{{ route('emails.contact') }}" class="footer-menu-link">Contact</a></li>
                         </ul>
@@ -386,5 +386,4 @@ document.addEventListener('DOMContentLoaded', function () {
                 </div>
             </div>
         </footer>
-</html>
 </html>

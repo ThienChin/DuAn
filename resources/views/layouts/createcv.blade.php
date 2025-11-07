@@ -84,7 +84,7 @@ Bootstrap 5 HTML CSS Template
                             <a class="nav-link" href="{{ route('page.about') }}">About Gotto</a>
                         </li>
                           <li class="nav-item">
-                            <a class="dropdown-item" href="{{ route('jobs.index') }}">Job Listings</a>
+                            <a class="dropdown-item" href="{{ route('jobs.list') }}">Job Listings</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('contact.send') }}">Contact</a>
