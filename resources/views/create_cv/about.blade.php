@@ -59,7 +59,7 @@
 
                 <p class="note mb-4">Use formatting to highlight your strengths. Keep it concise and impactful.</p>
                 
-                <button type="button" class="back-btn" onclick="history.back()">← Back</button>
+                <button type="button" class="btn custom-btn" onclick="history.back()">← Back</button>
                 <button type="submit" class="btn custom-btn">Next to Finish It →</button>
                 
             </form>

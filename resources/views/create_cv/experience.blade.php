@@ -75,7 +75,7 @@
                     @enderror
                 </div>
 
-                <button type="button" class="back-btn" onclick="history.back()">← Back</button>
+                <button type="button" class="btn custom-btn" onclick="history.back()">← Back</button>
                 <button type="submit" class="btn custom-btn">Next to Education →</button>
             </form>
         </div>
