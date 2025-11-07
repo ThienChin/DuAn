@@ -60,61 +60,13 @@
                 </li>
             </ul>
 
+            
+
             <!-- Right Side: Authenticated or Guest -->
             <ul class="navbar-nav align-items-center">
                 @auth
-                    <!-- Notification Bell -->
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle position-relative" href="#" 
-                           id="notificationDropdown" 
-                           data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fa-regular fa-bell noti-icon"></i>
-
-                            @if ($unreadNotifications > 0)
-                                <span class="badge bg-danger rounded-pill notification-badge"
-                                      style="font-size: 0.6rem; position: absolute; top: 8px; right: 8px;">
-                                    {{ $unreadNotifications }}
-                                </span>
-                            @endif
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end p-0" style="width: 320px;">
-                            <li class="dropdown-header bg-light p-3 border-bottom d-flex justify-content-between">
-                                <strong>Thông báo</strong>
-                                <span class="badge bg-danger notification-count">{{ $unreadNotifications }}</span>
-                            </li>
-
-                            @forelse (auth()->user()->unreadNotifications()->latest()->take(5)->get() as $noti)
-                                <li>
-                                    <a href="{{ $noti->data['url'] ?? '#' }}"
-                                       class="dropdown-item d-flex py-3 border-bottom notification-item"
-                                       data-id="{{ $noti->id }}"
-                                       style="white-space: normal; text-decoration: none;">
-                                        <i class="fa {{ $noti->data['icon'] ?? 'fa-info-circle' }} text-primary me-3 mt-1"></i>
-                                        <div class="flex-grow-1">
-                                            <div class="small fw-bold">{{ $noti->data['message'] }}</div>
-                                            <small class="text-muted">{{ $noti->created_at->diffForHumans() }}</small>
-                                        </div>
-                                    </a>
-                                </li>
-                            @empty
-                                <li>
-                                    <a class="dropdown-item text-center text-muted py-4" href="#">
-                                        <i class="fa fa-inbox fa-2x mb-2 d-block"></i>
-                                        Chưa có thông báo mới
-                                    </a>
-                                </li>
-                            @endforelse
-
-                            <li>
-                                <a class="dropdown-item text-center py-2 bg-light" href="{{ route('notifications.index') }}">
-                                    <strong>Xem tất cả</strong>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-
                     <!-- User Profile -->
-                    <li class="nav-item dropdown">
+                    <li class="nav-item ms-lg-auto dropdown">
                         <a class="nav-link dropdown-toggle d-flex align-items-center text-decoration-none" 
                            href="#" id="navbarUser" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <img src="{{ asset('page/images/avatar.png') }}" 
@@ -125,36 +77,39 @@
                             <span>{{ auth()->user()->name }}</span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarUser">
-                            <li><a class="dropdown-item" href="{{ route('profile.personal') }}">Hồ sơ cá nhân</a></li>
-                            <li><a class="dropdown-item" href="{{ route('jobs.create') }}">Đăng tin tuyển dụng</a></li>
+                            <li><a class="dropdown-item" href="{{ route('profile.personal') }}">Personal Information</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li>
                                 <form action="{{ route('logout') }}" method="POST" class="d-inline">
                                     @csrf
-                                    <button type="submit" class="dropdown-item text-danger">Đăng xuất</button>
+                                    <button type="submit" class="dropdown-item text-danger">Logout</button>
                                 </form>
                             </li>
                         </ul>
                     </li>
 
-                    <!-- Employer Block -->
-                    <li class="nav-item ms-3 d-none d-lg-block">
-                        <div class="block-for-employer text-center text-lg-start">
-                            <p class="mb-1 small">Bạn là nhà tuyển dụng?</p>
-                            <a href="{{ route('jobs.create') }}" target="_blank" class="btn btn-sm btn-outline-primary">
-                                <span>Đăng tuyển ngay</span>
-                                <i class="fa-solid fa-chevrons-right ms-1"></i>
-                            </a>
-                        </div>
-                    </li>
+                    
                 @else
-                    <li class="nav-item">
+                    <li class="nav-item ms-lg-auto">
                         <a class="nav-link" href="{{ route('register') }}">Register</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link custom-btn btn" href="{{ route('login') }}">Login</a>
                     </li>
                 @endauth
+
+                    <!-- Employer Block -->
+                     @guest
+                    <li class="nav-item ms-3 d-none d-lg-block">
+                        <div class="block-for-employer text-center text-lg-start">
+                            <p class="mb-1 small">Are you employer?</p>
+                            <a href="" target="_blank" class="border-radius">
+                                <span>Post a job</span>
+                                <i class="fa-solid fa-chevrons-right ms-1"></i>
+                            </a>
+                        </div>
+                    </li>
+                    @endguest
             </ul>
         </div>
     </div>
@@ -172,84 +127,6 @@
         'resources/js/custom.js'
     ])
 @endif
-
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    const dropdown = document.querySelector('#notificationDropdown');
-    const badge = document.querySelector('.notification-badge');
-    const countSpan = document.querySelector('.notification-count');
-
-    // Hàm cập nhật badge
-    function updateBadge(count) {
-        if (count <= 0) {
-            if (badge) badge.style.display = 'none';
-            if (countSpan) countSpan.textContent = '0';
-        } else {
-            if (badge) {
-                badge.style.display = 'inline';
-                badge.textContent = count;
-            }
-            if (countSpan) countSpan.textContent = count;
-        }
-    }
-
-    // 1. Click từng thông báo → đánh dấu đã đọc
-    document.querySelectorAll('.notification-item').forEach(item => {
-        item.addEventListener('click', function (e) {
-            const id = this.getAttribute('data-id');
-            const url = this.getAttribute('href');
-
-            // Ngăn nhảy trang nếu không có URL hợp lệ
-            if (!url || url === '#' || url === 'javascript:void(0)') {
-                e.preventDefault();
-            }
-
-            if (!id) return;
-
-            fetch(`/notifications/${id}/read`, {
-                method: 'POST',
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                    'Content-Type': 'application/json',
-                },
-            }).then(() => {
-                // Giảm số lượng
-                let currentCount = parseInt(badge?.textContent || '0') || 0;
-                currentCount--;
-                updateBadge(currentCount);
-
-                // Làm mờ thông báo đã đọc
-                this.style.opacity = '0.6';
-                this.style.pointerEvents = 'none';
-            }).catch(() => {
-                // Nếu lỗi, vẫn cho phép nhảy trang
-                if (url && url !== '#') {
-                    window.location.href = url;
-                }
-            });
-        });
-    });
-
-    // 2. Mở dropdown → đánh dấu tất cả
-    if (dropdown) {
-        dropdown.addEventListener('shown.bs.dropdown', function () {
-            fetch('{{ route("notifications.markAllAsRead") }}', {
-                method: 'POST',
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                    'Content-Type': 'application/json',
-                },
-            }).then(() => {
-                updateBadge(0);
-                document.querySelectorAll('.notification-item').forEach(el => {
-                    el.style.opacity = '0.6';
-                    el.style.pointerEvents = 'none';
-                });
-            });
-        });
-    }
-});
-</script>
 
 </body>
 

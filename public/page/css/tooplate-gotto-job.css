@@ -161,6 +161,14 @@ strong {
 /*---------------------------------------
   NAVIGATION               
 -----------------------------------------*/
+
+.navbar-toggler {
+    z-index: 9999; 
+    position: relative; /* Quan trọng để z-index hoạt động */
+    /* Thêm màu nền hoặc viền tạm thời để dễ nhìn khi debug */
+    background-color: var(--white-color) !important; 
+    border: 1px solid var(--primary-color) !important;
+}
 .navbar {
   background: var(--white-color);
   padding-top: 15px;
@@ -736,6 +744,9 @@ nav[aria-label="breadcrumb"] {
   }
 }
 
+
+
+
 /*---------------------------------------
   NAVBAR TOGGLER               
 -----------------------------------------*/
@@ -804,6 +815,7 @@ nav[aria-label="breadcrumb"] {
 .navbar-toggler .navbar-toggler-icon::after {
   top: 8px;
 }
+
 
 /*---------------------------------------
   SITE HEADER              
@@ -1161,6 +1173,68 @@ nav[aria-label="breadcrumb"] {
 /*---------------------------------------
   JOB              
 -----------------------------------------*/
+
+/* Custom CSS for large Featured Job card */
+.job-featured-large {
+    /* Giữ nguyên màu sắc và padding, nhưng có thể giảm padding cho mobile */
+    padding: 20px; 
+    /* Đảm bảo chiều rộng là 100% của cột */
+    width: 100%;
+}
+
+/* Áp dụng khi màn hình nhỏ hơn 991px (Tablet/Mobile) */
+@media screen and (max-width: 991px) {
+    /* Đặt bố cục stack (logo trên, chữ dưới) */
+    .job-featured-large {
+        flex-direction: column; /* Đổi sang bố cục dọc */
+        align-items: center !important; /* Căn giữa theo chiều ngang */
+        text-align: center; /* Căn giữa chữ */
+    }
+
+    /* Giảm kích thước vùng chứa logo */
+    .job-featured-large .company-logo-wrapper {
+        width: 150px; /* Giảm kích thước logo */
+        height: 150px;
+        min-width: 150px;
+        min-height: 150px;
+        margin: 0 0 20px 0 !important; /* Bỏ margin ngang, thêm margin dưới */
+    }
+
+    /* Đảm bảo chi tiết công việc chiếm hết chiều rộng */
+    .job-featured-large .job-details {
+        flex-grow: 1; 
+        width: 100%;
+        margin-bottom: 20px; /* Thêm khoảng cách với nút Apply */
+    }
+
+    /* Đảm bảo nút Apply now đúng vị trí */
+    .job-featured-large .job-action-btn-wrap {
+        width: 100%; /* Cho nút chiếm hết chiều rộng để dễ bấm */
+        justify-content: center;
+    }
+}
+
+/* Tinh chỉnh thêm cho màn hình siêu nhỏ (Mobile dưới 480px) */
+@media screen and (max-width: 480px) {
+    .job-featured-large {
+        padding: 15px; /* Giảm padding thêm */
+    }
+
+    .job-featured-large .company-logo-wrapper {
+        width: 120px; /* Giảm kích thước logo thêm */
+        height: 120px;
+        min-width: 120px;
+        min-height: 120px;
+        margin-bottom: 15px !important;
+    }
+
+    /* Đảm bảo các thông tin icon (địa điểm, lương) được hiển thị dọc */
+    .job-featured-large .job-details > div {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+}
 /* Buộc Khung Logo phải có kích thước */
 .job-card-compact .company-logo-wrapper {
     /* ĐÃ CHỈNH SỬA KÍCH THƯỚC LỚN HƠN */
@@ -1785,3 +1859,4 @@ nav[aria-label="breadcrumb"] {
     flex-direction: column;
   }
 }
+
