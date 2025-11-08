@@ -136,29 +136,4 @@ class JobController extends Controller
         ]);
     }
 
-
-    // 🚀 Xử lý lưu công việc
-    public function store(Request $request)
-    {
-        $validatedData = $request->validate([
-            'title' => 'required|string|max:255',
-            'location' => 'required|string|max:255',
-            'salary' => 'required|numeric',
-            'level' => 'required|in:Internship,Junior,Senior',
-            'remote_type' => 'required|in:Full Time,Contract,Part Time',
-            'company_name' => 'required|string|max:255',
-        ]);
-
-        Job::create([
-            'title' => $validatedData['title'],
-            'location' => $validatedData['location'],
-            'salary' => $validatedData['salary'],
-            'level' => $validatedData['level'],
-            'remote_type' => $validatedData['remote_type'],
-            'company_name' => $validatedData['company_name'],
-            'user_id' => auth()->id(), // Gán người tạo công việc là người dùng hiện tại
-        ]);
-
-        return redirect()->route('jobs.list')->with('success', 'Công việc đã được tạo thành công!');
-    }
 }

@@ -20,6 +20,7 @@ use App\Http\Controllers\MessageController;
 use App\Http\Controllers\Admin\AdminLogin;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\EmployerController;
 
 // Trang chào mừng
 Route::get('/', function () {
@@ -67,11 +68,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/apply/success', [JobController::class, 'applySuccess'])->name('jobs.apply.success');
 });
 
-    // Tạo job (dành cho nhà tuyển dụng)
-    Route::get('/jobs/create', [JobController::class, 'create'])->name('jobs.create');
-    Route::post('/jobs', [JobController::class, 'store'])->name('jobs.store');
+Route::get('/employer', [EmployerController::class, 'index'])->name('Employer.homeEmployer');
+Route::get('/infoEmployer', [EmployerController::class, 'infoEmployer'])->name('Employer.infoEmployer');
+Route::get('/create', [EmployerController::class, 'create'])->name('Employer.create');
+Route::post('/store', [EmployerController::class, 'store'])->name('Employer.store');
 
-    // CV & Thông tin cá nhân
+
+// CV & Thông tin cá nhân
 Route::get('/home', [HomeController::class, 'index'])->name('page.index');
 Route::get('/about', [HomeController::class, 'about'])->name('page.about');
 
