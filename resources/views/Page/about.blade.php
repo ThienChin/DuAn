@@ -26,14 +26,20 @@
             </header>
 
 
+
+
             <section class="about-section">
                 <div class="container">
                     <div class="row justify-content-center align-items-center">
 
                         <div class="col-lg-5 col-12">
                             <div class="about-info-text">
-                                <h2 class="mb-0">Introducing Gotto Job</h2>
-
+                                <h2 class="mb-0">Corporate Philosophy</h2>
+                                <p> Nowadays, "choosing" has become even more difficult. In an age where unreliable information is overflowing flooded with the internet, many people feel insecure, not knowing which new option is best for their trunk.
+                                <br>
+                                 We want to bring a future where everyone can have peace of mind and be satisfied when get the best choice for yourself; where individuals and businesses provide services and products products with real value will be selected and will last for a long time.
+                                <br>
+                                 We - Gotto, hope for a time At some point in the future, it will be possible to change the way we look at the Internet, which will change the lives of 8 billion people in the world and contribute to promoting the development of mankind.</p>
                                 <h4 class="mb-2">Get hired. Get your new job</h4>
 
                                 <p>Thank you for visiting our Gotto Job website. Are you looking for the right Job? Please visit Gotto website to get free job application form.</p>
@@ -41,7 +47,7 @@
                                 <div class="d-flex align-items-center mt-4">
                                     <a href="#services-section" class="custom-btn custom-border-btn btn me-4">Explore Services</a>
 
-                                    <a href="contact.html" class="custom-link smoothscroll">Contact</a>
+                                    <a href="{{ route('emails.contact') }}" class="custom-link smoothscroll">Contact</a>
                                 </div>
                             </div>
                         </div>
@@ -63,52 +69,30 @@
             </section>
 
 
-            <section class="services-section section-padding" id="services-section">
+                <section class="services-section section-padding" id="services-section">
                 <div class="container">
-                    <div class="row">
-
-                        <div class="col-lg-12 col-12 text-center">
+                    <div class="row justify-content-center"> <div class="col-lg-12 col-12 text-center">
                             <h2 class="mb-5">We deliver best services</h2>
                         </div>
 
-                        <div class="services-block-wrap col-lg-4 col-md-6 col-12">
-                            <div class="services-block">
+                        <div class="services-block-wrap col-lg-6 col-md-6 col-12 mb-4"> <div class="services-block">
                                 <div class="services-block-title-wrap">
                                     <i class="services-block-icon bi-window"></i>
-                                
-                                    <h4 class="services-block-title">Website design</h4>
+                                    <h4 class="services-block-title">CV design</h4>
                                 </div>
-
                                 <div class="services-block-body">
-                                    <p>Tooplate provides a variety of free Bootstrap 5 website templates for your commercial or business websites.</p>
+                                    <p>Gotto offers a variety of free CV (resume) and portfolio design templates, built on a modern HTML/CSS/Bootstrap platform, to help you create impressive profiles for personal, commercial, or business purposes.</p>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="services-block-wrap col-lg-4 col-md-6 col-12 my-4 my-lg-0 my-md-0">
-                            <div class="services-block">
+                        <div class="services-block-wrap col-lg-6 col-md-6 col-12 mb-4"> <div class="services-block">
                                 <div class="services-block-title-wrap">
                                     <i class="services-block-icon bi-twitch"></i>
-                                
                                     <h4 class="services-block-title">Marketing</h4>
                                 </div>
-
                                 <div class="services-block-body">
-                                    <p>You can download any free template for your website. Please tell your friends about Tooplate.</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="services-block-wrap col-lg-4 col-md-6 col-12">
-                            <div class="services-block">
-                                <div class="services-block-title-wrap">
-                                    <i class="services-block-icon bi-play-circle-fill"></i>
-                                
-                                    <h4 class="services-block-title">Video</h4>
-                                </div>
-
-                                <div class="services-block-body">
-                                    <p>You are not allowed to redistribute the template ZIP file on any other template collection website.</p>
+                                    <p>Download free professional CV templates and instantly upload your personal profile to our platform for immediate sharing! Please tell your friends about Gotto.</p>
                                 </div>
                             </div>
                         </div>

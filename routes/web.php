@@ -19,6 +19,8 @@ use App\Http\Controllers\User\UploadController;
 use App\Http\Controllers\Admin\AdminLogin;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\FeaturedJobController;
+
 
 
 // Trang chào mừng
@@ -87,6 +89,12 @@ Route::prefix('admin')->group(function () {
         Route::get('/create', [AdminController::class, 'create'])->name('admin.create');
         Route::post('/create', [AdminController::class, 'store'])->name('admin.store');
     });
+});
+
+Route::middleware('auth:admin')->group(function () {
+    Route::get('/admin/featured-jobs', [FeaturedJobController::class, 'index'])->name('admin.featured.index');
+    Route::post('/admin/featured-jobs', [FeaturedJobController::class, 'store'])->name('admin.featured.store');
+    Route::delete('/admin/featured-jobs/{id}', [FeaturedJobController::class, 'destroy'])->name('admin.featured.destroy');
 });
 
 
