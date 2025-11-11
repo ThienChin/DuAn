@@ -27,6 +27,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@100;300;400;600;700&display=swap" rel="stylesheet">
 </head>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" 
+        crossorigin="anonymous"></script>
+
 <body id="top">
 
 <nav class="navbar navbar-expand-lg">
@@ -64,6 +69,27 @@
 
             <!-- Right Side: Authenticated or Guest -->
             <ul class="navbar-nav align-items-center">
+
+                <li class="nav-item ms-lg-auto me-3 dropdown">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center text-decoration-none" 
+                        href="#" id="navbarLanguage" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-globe me-2"></i> 
+                            <span class="d-none d-md-inline">{{ strtoupper(session('locale', config('app.locale'))) }}</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarLanguage">
+                            <li>
+                                <a class="dropdown-item @if(session('locale', config('app.locale')) == 'vi') active @endif" href="{{ route('language.switch', 'vi') }}">
+                                    <span class="flag-icon flag-icon-vn me-2"></span> Tiếng Việt (VI)
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item @if(session('locale') == 'en') active @endif" href="{{ route('language.switch', 'en') }}">
+                                    <span class="flag-icon flag-icon-us me-2"></span> English (EN)
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    
                 @auth
                     <!-- User Profile -->
                     <li class="nav-item ms-lg-auto dropdown">
@@ -87,8 +113,6 @@
                             </li>
                         </ul>
                     </li>
-
-                    
                 @else
                     <li class="nav-item ms-lg-auto">
                         <a class="nav-link" href="{{ route('register') }}">Register</a>
@@ -102,9 +126,9 @@
                      @guest
                     <li class="nav-item ms-3 d-none d-lg-block">
                         <div class="block-for-employer text-center text-lg-start">
-                            <p class="mb-1 small">Bạn là nhà tuyển dụng?</p>
+                            <p class="mb-1 small">Are you an employer?</p>
                             <a href="{{ route('employer.intro') }}" target="_blank" class="btn btn-sm btn-outline-primary">
-                                <span>Đăng tuyển ngay</span>
+                                <span>Hire now</span>
                                 <i class="fa-solid fa-chevrons-right ms-1"></i>
                             </a>
                         </div>
@@ -136,7 +160,7 @@
 
                     <div class="col-lg-4 col-md-6 col-12 mb-3">
                         <div class="d-flex align-items-center mb-4">
-                            <img src="images/logo.png" class="img-fluid logo-image">
+                            <img src="page/images/logo.png" class="img-fluid logo-image">
 
                             <div class="d-flex flex-column">
                                 <strong class="logo-text">Gotto</strong>

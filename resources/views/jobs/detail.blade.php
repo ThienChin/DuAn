@@ -21,9 +21,9 @@
         </header>
 
         <section class="job-section section-padding">
-            <div class="container">
+            <div class="container-fluid p-0">
                 <div class="row">
-                    <div class="col-lg-8 col-12">
+                    <div class="col-lg-11 col-12 px-0">
                         <div class="job-thumb job-thumb-box">
                             <div class="job-image-box-wrap">
                                 <img src="{{ asset('page/images/jobs/it-professional-works-startup-project.jpg') }}" class="job-image img-fluid" alt="{{ $job->title }}">
@@ -41,7 +41,7 @@
                                     <span class="job-title-link">{{ $job->title }}</span>
                                 </h4>
                                 <div class="d-flex align-items-center">
-                                    <div class="job-image-wrap d-flex align-items-center bg-white shadow-lg mt-2 mb-4">
+                                    <div class="job-image-wrap d-flex align-items-center bg-white shadow-lg mt-2 mb-4 min-width:[]">
                                         <img src="{{ asset('page/images/logos/google.png') }}" class="job-image me-3 img-fluid" alt="{{ $job->company_name }}">
                                         <p class="mb-0">{{ $job->company_name ?? 'Unknown Company' }}</p>
                                     </div>
@@ -77,7 +77,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4 col-12">
+                    <div class="col-lg-1 col-12">
                         <div class="job-sidebar">
                             <h5>Apply Now</h5>
                             <p>Interested in this job? Click the button below to apply.</p>

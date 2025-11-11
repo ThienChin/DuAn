@@ -996,13 +996,28 @@ nav[aria-label="breadcrumb"] {
   border: 0;
 }
 
+.job-section {
+    /* Quan trọng: Vô hiệu hóa mọi giới hạn chiều rộng nếu có từ theme */
+    max-width: none !important;
+    width: 100% !important;
+    
+    /* Vô hiệu hóa padding/margin ngang của section */
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+/* Ghi đè cho khối job-thumb-box */
 .job-thumb-box {
-  border: 1px solid var(--border-color);
-  position: relative;
-  overflow: hidden;
-  max-width: 400px;
-  margin-bottom: 48px;
-  padding: 0;
+    max-width: none !important;
+    width: 100% !important;
+}
+
+/* Đảm bảo row không có margin âm khi sử dụng m-0 */
+.job-section .row {
+    margin: 0 !important;
+    padding: 0 !important;
 }
 
 .job-thumb-box .job-body {
@@ -1138,6 +1153,7 @@ nav[aria-label="breadcrumb"] {
 .job-section-btn-wrap {
   margin-left: auto;
 }
+
 
 /*---------------------------------------
   CTA               

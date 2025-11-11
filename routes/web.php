@@ -20,6 +20,7 @@ use App\Http\Controllers\Admin\AdminLogin;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\FeaturedJobController;
+use App\Http\Controllers\LanguageController;
 
 
 
@@ -96,5 +97,9 @@ Route::middleware('auth:admin')->group(function () {
     Route::post('/admin/featured-jobs', [FeaturedJobController::class, 'store'])->name('admin.featured.store');
     Route::delete('/admin/featured-jobs/{id}', [FeaturedJobController::class, 'destroy'])->name('admin.featured.destroy');
 });
+
+
+Route::get('lang/{locale}', [LanguageController::class, 'switchLanguage'])
+    ->name('language.switch');
 
 
