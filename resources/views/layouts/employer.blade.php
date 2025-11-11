@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Gotto Online Job Portal')</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <style>
         :root {
             --gotto-primary: #6c63ff;
@@ -66,7 +67,7 @@
 
 <nav class="navbar navbar-expand-lg py-3 shadow-sm bg-white">
     <div class="container">
-        <a class="navbar-brand d-flex align-items-center" href="{{ route('Employer.homeEmployer') }}">
+        <a class="navbar-brand d-flex align-items-center" href="{{ route('employer.intro') }}">
             <img src="{{ asset('page/images/logo.png') }}" class="img-fluid logo-image me-2" alt="Logo" style="height: 40px; width: auto;">
             <div class="d-flex flex-column lh-1">
                 <strong class="logo-text" style="font-size: 1.1rem; color: #5a47d1;">Gotto</strong>
@@ -80,6 +81,7 @@
 
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav mx-auto fw-semibold">
+                <li class="nav-item"><a class="nav-link text-dark" href="{{ route('employer.intro') }}">GIỚI THIỆU</a></li>
                 <li class="nav-item"><a class="nav-link text-dark" href="#">VIỆC LÀM</a></li>
                 <li class="nav-item"><a class="nav-link text-dark" href="#">ỨNG VIÊN</a></li>
                 <li class="nav-item"><a class="nav-link text-dark" href="#">BẢNG GIÁ</a></li>
@@ -100,12 +102,11 @@
                             <span class="fw-semibold text-dark">{{ auth('employer')->user()->name }}</span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarUser">
-                            {{-- Giả định route này là hồ sơ của Employer --}}
-                            <li><a class="dropdown-item" href="">Hồ sơ công ty</a></li> 
+                            <li><a class="dropdown-item" href="{{ route('employer.dashboard') }}">Hồ sơ công ty</a></li> 
                             <li><hr class="dropdown-divider"></li>
                             <li>
                                 {{-- SỬA: DÙNG ROUTE LOGOUT RIÊNG CỦA EMPLOYER --}}
-                                <form action="{{ route('employer.logout') }}" method="POST" class="d-inline">
+                                <form action="{{ route('logout') }}" method="POST" class="d-inline">
                                     @csrf
                                     <button type="submit" class="dropdown-item text-danger">Đăng xuất</button>
                                 </form>

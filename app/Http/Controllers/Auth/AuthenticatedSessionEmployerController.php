@@ -37,7 +37,7 @@ class AuthenticatedSessionEmployerController extends Controller
         // 2. Chuyển hướng đến dashboard riêng của Employer
         // Sử dụng route() hoặc đường dẫn tuyệt đối, giống như Controller User mặc định
         // *Giả định bạn đã đặt tên cho route dashboard của Employer là 'employer.dashboard'*
-        return redirect()->intended(route('Employer.homeEmployer', absolute: false));
+        return redirect()->intended(route('employer.create', absolute: false));
     }
 
     /**
@@ -52,6 +52,6 @@ class AuthenticatedSessionEmployerController extends Controller
         $request->session()->regenerateToken();
 
         // Chuyển hướng về trang chủ hoặc trang đăng nhập Employer
-        return redirect('Employer.homeEmployer'); 
+        return redirect('employer/intro'); 
     }
 }

@@ -14,7 +14,9 @@ class JobController extends Controller
     // 🧭 Hiển thị danh sách công việc
     public function index(Request $request)
     {
-        $query = Job::query();
+        $query = Job::where('status', 'approved');
+
+
         // Sắp xếp
         $sort = $request->input('sort');
         if ($sort === 'latest') {

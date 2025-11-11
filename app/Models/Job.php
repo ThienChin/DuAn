@@ -17,12 +17,15 @@ class Job extends Model
         'description',
         'is_featured',
         'posted_at',
+        'jobs_images',
+        'company_logo_url',
         'company_name',
         'company_description',
         'website',
         'phone',
         'email',
         'remote',
+        'status',
     ];
 
     protected $casts = [

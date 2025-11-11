@@ -25,7 +25,7 @@
             Kết nối hàng nghìn ứng viên tiềm năng và xây dựng thương hiệu tuyển dụng chuyên nghiệp của bạn.
         </p>
         <div>
-            <a href="{{ route('Employer.infoEmployer') }}" class="btn btn-light text-primary fw-semibold px-4 py-2 rounded-pill shadow-sm me-3">
+            <a href="{{ route('employer.login') }}" class="btn btn-light text-primary fw-semibold px-4 py-2 rounded-pill shadow-sm me-3">
                 Đăng tuyển ngay
             </a>
         </div>

@@ -1,14 +1,16 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\User; // nếu model user của bạn tên khác thì đổi lại
+use App\Models\User;
 use App\Models\Aboutcv;
 use App\Models\Education;
 use App\Models\Experience;
 use App\Models\Contract;
+
 
 class ProfileController extends Controller
 {

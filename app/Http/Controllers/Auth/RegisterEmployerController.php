@@ -4,8 +4,6 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\Employer;
-// Bỏ RouteServiceProvider không dùng nữa
-use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -61,7 +59,7 @@ class RegisterEmployerController extends Controller
 
         // 3. 🚨 SỬA: Chuyển hướng về trang login của Employer sau khi đăng ký thành công.
         // Đây là luồng chuẩn: đăng ký -> thông báo thành công -> đăng nhập
-        return redirect()->route('Employer.homeEmployer')
+        return redirect()->route('employer.intro')
                          ->with('status', 'Đăng ký nhà tuyển dụng thành công! Vui lòng đăng nhập.');
     }
 }

@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User;
 
 use Illuminate\Http\Request;
-// Loại bỏ use App\Models\Job; (Tùy chọn)
+use App\Http\Controllers\Controller;
 use App\Models\FeaturedJob; // Chỉ cần Model này
 use App\Models\Job; // Chỉ cần Model này
 

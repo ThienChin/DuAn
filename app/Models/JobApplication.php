@@ -14,12 +14,20 @@ class JobApplication extends Model
         'user_id',
         'name',
         'email',
+        'phone',
         'cv',
         'message',
+        'status',
     ];
 
     public function job()
     {
         return $this->belongsTo(Job::class);
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
 }

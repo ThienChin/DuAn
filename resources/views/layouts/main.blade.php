@@ -103,7 +103,7 @@
                     <li class="nav-item ms-3 d-none d-lg-block">
                         <div class="block-for-employer text-center text-lg-start">
                             <p class="mb-1 small">Bạn là nhà tuyển dụng?</p>
-                            <a href="{{ route('Employer.homeEmployer') }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                            <a href="{{ route('employer.intro') }}" target="_blank" class="btn btn-sm btn-outline-primary">
                                 <span>Đăng tuyển ngay</span>
                                 <i class="fa-solid fa-chevrons-right ms-1"></i>
                             </a>

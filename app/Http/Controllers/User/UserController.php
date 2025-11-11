@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\File; // ❗ ĐÃ THÊM: Cần thiết cho việc xóa file vật lý
+use Illuminate\Support\Facades\File;
 use App\Models\Upload; 
 
 

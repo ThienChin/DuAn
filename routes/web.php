@@ -1,26 +1,25 @@
 <?php
 
 require __DIR__.'/auth.php';
+require __DIR__.'/employer.php';
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ContactController;
-use App\Http\Controllers\ContractController;
-use App\Http\Controllers\ExperienceController;
-use App\Http\Controllers\EducationController;
-use App\Http\Controllers\AboutcvController;
-use App\Http\Controllers\ResumeController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\UploadController;
 use App\Http\Controllers\JobController;
-use App\Http\Controllers\NotificationController;
-use App\Http\Controllers\MessageController;
+use App\Http\Controllers\User\HomeController;
+use App\Http\Controllers\User\ContractController;
+use App\Http\Controllers\User\ExperienceController;
+use App\Http\Controllers\User\EducationController;
+use App\Http\Controllers\User\AboutcvController;
+use App\Http\Controllers\User\ResumeController;
+use App\Http\Controllers\User\UserController;
+use App\Http\Controllers\User\UploadController;
 use App\Http\Controllers\Admin\AdminLogin;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\EmployerController;
+
 
 // Trang chào mừng
 Route::get('/', function () {
@@ -39,24 +38,6 @@ Route::get('/list/{id}', [JobController::class, 'show'])->name('jobs.show');
 
 Route::middleware('auth')->group(function () {
 
-    // Test thông báo
-    Route::get('/test-notification', function () {
-        auth()->user()->notify(new \App\Notifications\TestNotification());
-        return redirect()->route('page.index')->with('success', 'Đã gửi 1 thông báo thử nghiệm!');
-    })->name('test.notification');
-
-    // ĐÁNH DẤU 1 THÔNG BÁO ĐÃ ĐỌC
-    Route::post('/notifications/{id}/read', [NotificationController::class, 'markAsRead'])
-         ->name('notifications.read');
-
-    // ĐÁNH DẤU TẤT CẢ THÔNG BÁO
-    Route::post('/notifications/mark-all-as-read', [NotificationController::class, 'markAllAsRead'])
-         ->name('notifications.markAllAsRead');
-
-    // Danh sách thông báo & tin nhắn
-    Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
-    Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');
-
     // Profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -68,20 +49,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/apply/success', [JobController::class, 'applySuccess'])->name('jobs.apply.success');
 });
 
-Route::get('/employer', [EmployerController::class, 'index'])->name('Employer.homeEmployer');
-Route::get('/infoEmployer', [EmployerController::class, 'infoEmployer'])->name('Employer.infoEmployer');
-Route::get('/create', [EmployerController::class, 'create'])->name('Employer.create');
-Route::post('/store', [EmployerController::class, 'store'])->name('Employer.store');
 
 
-// CV & Thông tin cá nhân
-Route::get('/home', [HomeController::class, 'index'])->name('page.index');
-Route::get('/about', [HomeController::class, 'about'])->name('page.about');
 
-Route::get('/send-mail', [MailController::class, 'send'])->name('send.mail');
-
-Route::get('/contact', [ContactController::class, 'showForm'])->name('emails.contact');
-Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
 
 Route::middleware(['auth'])->group(function () {
 
@@ -119,8 +89,4 @@ Route::prefix('admin')->group(function () {
     });
 });
 
-
-// Bao gồm các route xác thực từ auth.php
-    Route::delete('/profile/cv/{id}', [UserController::class, 'deleteCv'])->name('create_cv.delete');
-    Route::get('/profile/cv/delete-confirm/{id}', [UserController::class, 'confirmDeleteCv'])->name('cv.delete.confirm.view');
 

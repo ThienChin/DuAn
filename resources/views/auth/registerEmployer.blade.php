@@ -1,4 +1,5 @@
-@extends('layouts.employer') @section('title', 'Đăng ký Nhà Tuyển Dụng - Gotto')
+@extends('layouts.employer')
+@section('title', 'Đăng ký Nhà Tuyển Dụng - Gotto')
 
 @section('content')
 <div class="container py-5">
@@ -123,7 +124,7 @@
 
                         <p class="text-center mt-4">
                             Bạn đã có tài khoản?
-                            <a href="{{ route('login') }}" class="text-decoration-none" style="color: var(--gotto-primary);">Đăng nhập</a>
+                            <a href="{{ route('employer.login') }}" class="text-decoration-none" style="color: var(--gotto-primary);">Đăng nhập</a>
                             <span class="text-muted"></span>
                         </p>
                     </form>

@@ -1,14 +1,32 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Employer;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Job;
+
 
 class EmployerController extends Controller
 {
-    public function index() {
-        return view('employer.homeEmployer');
+    public function intro()
+    {
+        return view('Employer.intro');
     }
+
+    public function dashboard()
+    {
+        return view('Employer.dashboard');
+    }
+
+
+    public function myJobs()
+    {
+        $jobs = Job::where->where('user_id', auth()->id())->latest()->get();
+
+        return view('Employer.myJob', compact('jobs'));
+    }
+
 
     // Trang 1: thông tin nhà tuyển dụng
     public function infoEmployer()
@@ -24,7 +42,6 @@ class EmployerController extends Controller
         return view('Employer.create');
     }
 
-    // Xử lý lưu tin
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -34,18 +51,22 @@ class EmployerController extends Controller
             'remote_type' => 'required',
             'salary' => 'required|numeric',
             'description' => 'required',
-            'company_name' => 'required|string|max:255',
         ]);
 
         Job::create($validated + [
+            'company_name' => $request->company_name,
             'is_featured' => $request->boolean('is_featured'),
             'posted_at' => now(),
             'email' => $request->email,
             'phone' => $request->phone,
             'website' => $request->website,
             'category' => $request->category,
+            'status' => 'pending', // ✅ CHỜ DUYỆT
         ]);
 
-        return redirect()->route('Employer.create')->with('success', 'Đăng tin thành công!');
+        return redirect()
+            ->route('Employer.create')
+            ->with('success', 'Tin đã gửi và đang chờ admin duyệt!');
     }
+
 }
