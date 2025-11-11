@@ -77,5 +77,5 @@ Route::middleware('guest:employer')->group(function () {
 Route::middleware('auth:employer')->group(function () { 
     // Logout Employer
     Route::post('logout/employer', [AuthenticatedSessionEmployerController::class, 'destroy'])
-        ->name('logout');
+        ->name('employer.logout');
 }); 

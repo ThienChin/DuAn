@@ -8,10 +8,8 @@
         <div class="col-lg-3">
             <div class="list-group shadow-sm bg-white rounded-3 p-3">
                 <h5 class="mb-3 text-muted">QUẢN LÝ CHUNG</h5>
-                <a href="#" class="list-group-item list-group-item-action active" aria-current="true" style="background-color: var(--gotto-primary); border-color: var(--gotto-primary);"><i class="bi bi-house-door-fill me-2"></i> Trang chủ Dashboard</a> 
-                <a href="#" class="list-group-item list-group-item-action"><i class="bi bi-search me-2"></i> Tìm ứng viên phù hợp</a>
-                <a href="#" class="list-group-item list-group-item-action"><i class="bi bi-robot me-2"></i> Ứng viên AI gợi ý <span class="badge bg-danger ms-2">NEW</span></a>
-                <a href="#" class="list-group-item list-group-item-action"><i class="bi bi-upload me-2"></i> Đăng tin tuyển dụng</a>
+                <a href="{{ route('employer.dashboard') }}" class="list-group-item list-group-item-action active" aria-current="true" style="background-color: var(--gotto-primary); border-color: var(--gotto-primary);"><i class="bi bi-house-door-fill me-2"></i> Trang chủ Dashboard</a> 
+                <a href="{{ route('employer.create') }}" class="list-group-item list-group-item-action"><i class="bi bi-upload me-2"></i> Đăng tin tuyển dụng</a>
                 <a href="#" class="list-group-item list-group-item-action"><i class="bi bi-list-task me-2"></i> Tất cả tuyển dụng</a>
 
                 <h5 class="mt-4 mb-3 text-muted">ỨNG VIÊN</h5>

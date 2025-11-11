@@ -106,7 +106,7 @@
                             <li><hr class="dropdown-divider"></li>
                             <li>
                                 {{-- SỬA: DÙNG ROUTE LOGOUT RIÊNG CỦA EMPLOYER --}}
-                                <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                                <form action="{{ route('employer.logout') }}" method="POST" class="d-inline">
                                     @csrf
                                     <button type="submit" class="dropdown-item text-danger">Đăng xuất</button>
                                 </form>

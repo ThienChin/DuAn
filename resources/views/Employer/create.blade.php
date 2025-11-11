@@ -3,90 +3,132 @@
 @section('title', 'Đăng Tin Tuyển Dụng')
 
 @section('content')
-<div class="container my-5">
+<div class="container-fluid py-4" style="max-width: 1400px;">
+    
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="alert alert-info text-center" role="alert">
+                Quý khách đang sử dụng gói tài khoản **MIỄN PHÍ** hoặc tài khoản giới hạn.
+                Hãy nâng cấp để có quyền lợi cao hơn như **HIỂN THỊ HỒ SƠ ỨNG VIÊN**...
+            </div>
+        </div>
+    </div>
+
     <div class="row">
         <div class="col-lg-3">
-            <div class="list-group shadow-sm bg-white rounded-3 p-3">
+            <div class="list-group shadow-sm bg-white rounded-3 p-3 mb-4">
                 <h5 class="mb-3 text-muted">QUẢN LÝ CHUNG</h5>
-                <a href="#" class="list-group-item list-group-item-action"><i class="bi bi-search me-2"></i> Tìm ứng viên phù hợp</a>
-                <a href="#" class="list-group-item list-group-item-action"><i class="bi bi-robot me-2"></i> Ứng viên AI gợi ý <span class="badge bg-danger ms-2">NEW</span></a>
-                <a href="#" class="list-group-item list-group-item-action active" aria-current="true" style="background-color: var(--gotto-primary); border-color: var(--gotto-primary);"><i class="bi bi-upload me-2"></i> Đăng tin tuyển dụng</a>
+                <a href="{{ route('employer.dashboard') }}" class="list-group-item list-group-item-action"><i class="bi bi-house-door-fill me-2"></i> Trang chủ Dashboard</a> 
+                <a href="{{ route('employer.create') }}" class="list-group-item list-group-item-action active" aria-current="true" style="background-color: var(--gotto-primary); border-color: var(--gotto-primary);"><i class="bi bi-upload me-2"></i> Đăng tin tuyển dụng</a>
                 <a href="#" class="list-group-item list-group-item-action"><i class="bi bi-list-task me-2"></i> Tất cả tuyển dụng</a>
 
                 <h5 class="mt-4 mb-3 text-muted">ỨNG VIÊN</h5>
-                <a href="#" class="list-group-item list-group-item-action"><i class="bi bi-cash me-2"></i> Mua dịch vụ</a>
-                <a href="#" class="list-group-item list-group-item-action"><i class="bi bi-pin-map me-2"></i> Vị trí phỏng vấn</a>
-                <a href="#" class="list-group-item list-group-item-action"><i class="bi bi-calendar-check me-2"></i> Biểu lịch phỏng vấn</a>
                 <a href="#" class="list-group-item list-group-item-action"><i class="bi bi-bookmark-fill me-2"></i> Hồ sơ đã lưu</a>
                 <a href="#" class="list-group-item list-group-item-action"><i class="bi bi-file-earmark-person me-2"></i> Hồ sơ đã ứng tuyển</a>
-                <a href="#" class="list-group-item list-group-item-action"><i class="bi bi-card-list me-2"></i> Ứng viên ứng tuyển - CV rút gọn</a>
-                <a href="#" class="list-group-item list-group-item-action"><i class="bi bi-heart me-2"></i> Ứng viên quan tâm tin tuyển dụng <span class="badge bg-danger ms-2">NEW</span></a>
                 <a href="#" class="list-group-item list-group-item-action"><i class="bi bi-eye-fill me-2"></i> Hồ sơ đã xem</a>
-
-                <h5 class="mt-4 mb-3 text-muted">QUẢN LÝ DỊCH VỤ</h5>
-                <a href="#" class="list-group-item list-group-item-action"><i class="bi bi-bell me-2"></i> Thông báo hồ sơ phù hợp</a>
+                <a href="#" class="list-group-item list-group-item-action"><i class="bi bi-cash me-2"></i> Mua dịch vụ</a>
             </div>
+             
+             <a href="#">
+                <img src="https://via.placeholder.com/300x400/3498db/ffffff?text=DICH+VU+50%+OFF" class="img-fluid rounded-3 shadow-sm" alt="Promotion Banner">
+             </a>
         </div>
 
-        <div class="col-lg-6">
-            <div class="card shadow-sm border-0 mb-4">
-                <div class="card-body p-4">
-                    <h4 class="card-title mb-4 fw-bold" style="color: var(--gotto-primary);">THÔNG TIN CÔNG VIỆC</h4>
-                    
-                    <form>
+        <div class="col-lg-9">
+            <form method="POST" action="{{ route('employer.store') }}">
+                @csrf 
+
+                <div class="card shadow-sm border-0 mb-4 p-3 bg-white">
+                    <div class="row">
+                        <div class="col-md-8 border-end">
+                            <div class="p-3">
+                                <h5 class="text-danger fw-bold">QUYỀN LỢI ĐĂNG TUYỂN DỤNG</h5>
+                                <p class="small text-muted">Quý khách đang không sử dụng dịch vụ nâng cao, vui lòng liên hệ CSKH để được tư vấn.</p>
+                                <div class="row small">
+                                    <div class="col-6 mb-2">
+                                        <i class="bi bi-check-circle-fill text-success me-2"></i> Được đề xuất ứng viên phù hợp
+                                    </div>
+                                    <div class="col-6 mb-2">
+                                        <i class="bi bi-x-circle-fill text-danger me-2"></i> **Không** giới hạn tin đăng
+                                    </div>
+                                    <div class="col-6 mb-2">
+                                        <i class="bi bi-check-circle-fill text-success me-2"></i> Cho phép chỉnh sửa tin đăng
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="p-3">
+                                <h5 class="fw-bold text-success">QUY TẮC ĐĂNG TIN</h5>
+                                <ul class="list-unstyled small">
+                                    <li class="mb-1"><i class="bi bi-dot me-2"></i> **KHÔNG** sao chép tin đăng của công ty khác.</li>
+                                    <li class="mb-1"><i class="bi bi-dot me-2"></i> Tin đăng phải có nội dung **RÕ RÀNG**, phù hợp luật pháp.</li>
+                                    <li class="mb-1"><i class="bi bi-dot me-2"></i> **KHÔNG** sử dụng các ký tự đặc biệt % @ $ ~...</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card shadow-sm border-0 mb-4">
+                    <div class="card-header bg-white border-bottom">
+                        <h5 class="card-title fw-bold text-primary">THÔNG TIN CÔNG VIỆC</h5>
+                    </div>
+                    <div class="card-body p-4">
                         <div class="mb-3">
-                            <label for="jobTitle" class="form-label fw-semibold">Vị trí tuyển dụng:</label>
-                            <input type="text" class="form-control" id="jobTitle" placeholder="VD: Nhân Viên Kinh Doanh, Trưởng Nhóm Marketing...">
+                            <label for="title" class="form-label fw-semibold">Vị trí tuyển dụng (Title): <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="title" name="title" placeholder="VD: Nhân Viên Kinh Doanh..." required>
                             <small class="form-text text-danger">(Lưu ý: Vị trí tuyển dụng **sẽ không được chỉnh sửa** sau khi tin tuyển dụng được duyệt!)</small>
                         </div>
-
+                        
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="jobCode" class="form-label fw-semibold">Mã số:</label>
-                                <input type="text" class="form-control" id="jobCode" placeholder="Nhập mã số tuyển dụng">
+                                <input type="text" class="form-control" id="jobCode" name="job_code" placeholder="Nhập mã số tuyển dụng">
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="quantity" class="form-label fw-semibold">Số lượng tuyển:</label>
-                                <input type="number" class="form-control" id="quantity" placeholder="Số lượng tuyển dụng" min="1">
+                                <input type="number" class="form-control" id="quantity" name="quantity" placeholder="Số lượng tuyển dụng" min="1">
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label for="level" class="form-label fw-semibold">Cấp bậc: <span class="text-danger">*</span></label>
-                                <select class="form-select" id="level">
-                                    <option>Mới tốt nghiệp / Thực tập sinh</option>
-                                    <option>Nhân viên</option>
-                                    <option>Trưởng nhóm</option>
+                                <label for="level" class="form-label fw-semibold">Cấp bậc (Level): <span class="text-danger">*</span></label>
+                                <select class="form-select" id="level" name="level" required>
+                                    <option value="Internship">Mới tốt nghiệp / Thực tập sinh</option>
+                                    <option value="Junior">Nhân viên (Junior)</option>
+                                    <option value="Senior">Trưởng nhóm/Quản lý (Senior)</option>
                                 </select>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label for="workType" class="form-label fw-semibold">Loại hình công việc: <span class="text-danger">*</span></label>
-                                <select class="form-select" id="workType">
-                                    <option>Làm việc Online / Tự xa</option>
-                                    <option>Toàn thời gian</option>
-                                    <option>Bán thời gian</option>
+                                <label for="remote_type" class="form-label fw-semibold">Loại hình công việc (Remote Type): <span class="text-danger">*</span></label>
+                                <select class="form-select" id="remote_type" name="remote_type" required>
+                                    <option value="Full Time">Toàn thời gian</option>
+                                    <option value="Part Time">Bán thời gian</option>
+                                    <option value="Contract">Hợp đồng</option>
                                 </select>
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label for="salary" class="form-label fw-semibold">Mức lương: <span class="text-danger">*</span></label>
+                                <label for="salary" class="form-label fw-semibold">Mức lương (Salary): <span class="text-danger">*</span></label>
                                 <div class="input-group">
-                                    <select class="form-select" id="salary">
-                                        <option>Thương lượng</option>
-                                        <option>5 - 7 triệu</option>
-                                        <option>7 - 10 triệu</option>
+                                    <select class="form-select" id="salary_type" name="salary_type">
+                                        <option value="negotiable">Thương lượng</option>
+                                        <option value="range">Theo khoảng</option>
+                                        <option value="fixed">Cố định</option>
                                     </select>
                                     <span class="input-group-text">x</span>
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3 pt-4">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="commissionCheck">
-                                    <label class="form-check-label fw-semibold" for="commissionCheck">
-                                        Đảm nhận hoa hồng / Phần trăm hoa hồng
+                                    {{-- Dùng trường `remote` từ Job Model --}}
+                                    <input class="form-check-input" type="checkbox" value="1" id="remote" name="remote">
+                                    <label class="form-check-label fw-semibold" for="remote">
+                                        Làm việc Online / Từ xa (Remote)
                                     </label>
                                 </div>
                             </div>
@@ -94,73 +136,104 @@
 
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label for="workLocation" class="form-label fw-semibold">Địa điểm làm việc: <span class="text-danger">*</span></label>
-                                <select class="form-select" id="workLocation">
-                                    <option>Chọn địa điểm làm việc</option>
-                                    <option>Hà Nội</option>
-                                    <option>TP Hồ Chí Minh</option>
-                                </select>
+                                <label for="location" class="form-label fw-semibold">Địa điểm làm việc (Location): <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="location" name="location" placeholder="Chọn địa điểm làm việc" required>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label for="industry" class="form-label fw-semibold">Ngành nghề: <span class="text-danger">*</span></label>
-                                <select class="form-select" id="industry">
-                                    <option>Chọn ngành nghề</option>
-                                    <option>IT Phần mềm</option>
-                                    <option>Kinh doanh / Bán hàng</option>
+                                <label for="category" class="form-label fw-semibold">Ngành nghề (Category): <span class="text-danger">*</span></label>
+                                <select class="form-select" id="category" name="category" required>
+                                    <option value="">Chọn ngành nghề</option>
+                                    <option value="IT Phần mềm">IT Phần mềm</option>
+                                    <option value="Kinh doanh / Bán hàng">Kinh doanh / Bán hàng</option>
                                 </select>
                             </div>
                         </div>
 
                         <div class="mb-4">
-                            <label for="jobContent" class="form-label fw-semibold">Mô tả công việc: <span class="text-danger">*</span></label>
-                            <textarea class="form-control" id="jobContent" rows="10">
-                                - Nhận đơn hàng qua mail.
-                                - Tìm kiếm khách hàng mới cho công ty, chăm sóc khách hàng cũ của công ty.
-                                - Tìm kiếm khách hàng, khách hàng tiềm năng.
-                                - Đàm phán, thương lượng và chốt hợp đồng với khách hàng.
-                                - Kiểm tra và theo dõi tình hình thanh toán của khách hàng.
-                                - Liên hệ khách hàng để làm đơn đặt hàng, giao hàng.
-                                - Các công việc hành chính khác, khi có yêu cầu từ ban lãnh đạo.
-                                - Chi tiết trao đổi tại buổi phỏng vấn.
+                            <label for="description" class="form-label fw-semibold">Mô tả công việc (Description): <span class="text-danger">*</span></label>
+                            <textarea class="form-control" id="description" name="description" rows="10" required>
+- Nhận đơn hàng qua mail.
+- Tìm kiếm khách hàng mới cho công ty...
                             </textarea>
                         </div>
+                    </div>
+                </div>
 
-                        <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-primary btn-lg fw-semibold" style="background-color: var(--gotto-primary); border-color: var(--gotto-primary);">Tiếp tục</button>
+                <div class="card shadow-sm border-0 mb-4">
+                    <div class="card-header bg-white border-bottom">
+                        <h5 class="card-title fw-bold text-primary">YÊU CẦU CÔNG VIỆC</h5>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="experience" class="form-label fw-semibold">Kinh nghiệm:</label>
+                                <select class="form-select" id="experience" name="experience">
+                                    <option>Không yêu cầu kinh nghiệm</option>
+                                    <option>1 - 2 năm</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="degree" class="form-label fw-semibold">Bằng cấp:</label>
+                                <select class="form-select" id="degree" name="degree">
+                                    <option>Không yêu cầu</option>
+                                    <option>Đại học</option>
+                                </select>
+                            </div>
                         </div>
-                    </form>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="gender" class="form-label fw-semibold">Giới tính:</label>
+                                <select class="form-select" id="gender" name="gender">
+                                    <option>Không yêu cầu</option>
+                                    <option>Nam</option>
+                                    <option>Nữ</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="age" class="form-label fw-semibold">Độ tuổi:</label>
+                                <input type="text" class="form-control" id="age" name="age" placeholder="VD: 22 - 30 tuổi">
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="required_skills" class="form-label fw-semibold">Kỹ năng / Yêu cầu khác:</label>
+                            <textarea class="form-control" id="required_skills" name="required_skills" rows="5" placeholder="Nhập chi tiết các kỹ năng mềm, kiến thức chuyên môn..."></textarea>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-
-        <div class="col-lg-3">
-            <div class="card shadow-sm border-0 mb-4">
-                <div class="card-body p-3">
-                    <h5 class="text-success mb-3 fw-bold">📢 Rõ ràng, đầy đủ.</h5>
-                    <ul class="list-unstyled small">
-                        <li class="mb-2 d-flex">
-                            <span class="badge bg-secondary rounded-pill me-2">3</span>
-                            <span>**KHÔNG** đề cập nội dung tuyển dụng trong thông tin giới thiệu về công ty.</span>
-                        </li>
-                        <li class="mb-2 d-flex">
-                            <span class="badge bg-secondary rounded-pill me-2">4</span>
-                            <span>**KHÔNG** để các nội dung như: Tuyển gấp, hot, cần gấp, lương cao. **KHÔNG** sử dụng các ký tự đặc biệt % @ $ ~...</span>
-                        </li>
-                        <li class="mb-2 d-flex">
-                            <span class="badge bg-secondary rounded-pill me-2">5</span>
-                            <span>Tin **KHÔNG** được trùng với tin đã đăng trước còn hạn, hoặc ở một tài khoản khác của cùng một doanh nghiệp đã đăng trước.</span>
-                        </li>
-                        <li class="mb-2 d-flex">
-                            <span class="badge bg-secondary rounded-pill me-2">6</span>
-                            <span>**KHÔNG** để email liên hệ, số điện thoại liên hệ, website công ty ở các phần nội dung yêu cầu hay mô tả công việc.</span>
-                        </li>
-                    </ul>
+                
+                <div class="card shadow-sm border-0 mb-4">
+                    <div class="card-header bg-white border-bottom">
+                        <h5 class="card-title fw-bold text-primary">THÔNG TIN LIÊN HỆ</h5>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="email" class="form-label fw-semibold">Email liên hệ (Email):</label>
+                                <input type="email" class="form-control" id="email" name="email" placeholder="tuyendung@company.com" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="phone" class="form-label fw-semibold">Số điện thoại (Phone):</label>
+                                <input type="tel" class="form-control" id="phone" name="phone" placeholder="0901234567">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="website" class="form-label fw-semibold">Website (Website):</label>
+                            <input type="url" class="form-control" id="website" name="website" placeholder="https://company.com">
+                        </div>
+                        <div class="mb-3">
+                            <label for="company_name" class="form-label fw-semibold">Tên người liên hệ (Contact Name):</label>
+                            <input type="text" class="form-control" id="contact_name" name="contact_name" placeholder="VD: Mr. Duy">
+                        </div>
+                    </div>
                 </div>
-            </div>
 
-            <a href="#" class="d-block">
-                <img src="https://via.placeholder.com/300x250/{{ substr(str_shuffle('0123456789abcdef'), 0, 6) }}/fff?text=TIET+KIEM+CHI+PHI+%2B+TANG+TOC+TUYEN+DUNG" class="img-fluid rounded-3 shadow-sm" alt="Promotion Banner">
-            </a>
+                <div class="d-flex justify-content-end gap-2 mb-5">
+                    <button type="button" class="btn btn-secondary px-5">HỦY</button>
+                    <button type="submit" class="btn btn-success px-5">ĐĂNG TUYỂN</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
