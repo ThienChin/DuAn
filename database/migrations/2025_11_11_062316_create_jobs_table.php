@@ -11,35 +11,39 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('featured_jobs', function (Blueprint $table) {
+        Schema::create('jobs', function (Blueprint $table) {
             $table->id();
+            
+            // Cột cơ bản
             $table->string('title');
             $table->string('location');
-            
-            // Cột 'salary'
-            $table->decimal('salary', 15, 2);
-            
-            // CỘT MỚI ĐƯỢC THÊM: company_logo_url
-            // Dùng để lưu đường dẫn đến logo nhỏ của công ty (dạng URL string)
-            $table->string('company_logo_url')->nullable(); 
-
-            // Các cột còn lại
             $table->enum('level', ['Internship', 'Junior', 'Senior']);
             $table->enum('remote_type', ['Full Time', 'Contract', 'Part Time']);
+            $table->decimal('salary', 15, 2);
             $table->string('category')->nullable();
             $table->text('description');
+            
+            // Featured
             $table->boolean('is_featured')->default(false);
             $table->timestamp('posted_at')->nullable();
             
-            // Cột jobs_images (trước đó bạn muốn đặt là jobs_oimages)
+            // Ảnh
             $table->string('jobs_images')->nullable(); 
-            
+            $table->string('company_logo_url')->nullable();
+
+            // Thông tin công ty
             $table->string('company_name');
             $table->text('company_description')->nullable();
             $table->string('website')->nullable();
             $table->string('phone')->nullable();
             $table->string('email')->nullable();
             $table->boolean('remote')->default(false);
+
+            // ✅ STATUS
+            $table->enum('status', ['pending', 'approved', 'rejected'])
+                  ->default('pending')
+                  ->comment('pending = đợi duyệt, approved = đã duyệt, rejected = từ chối');
+
             $table->timestamps();
         });
     }

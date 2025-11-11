@@ -199,91 +199,101 @@
                 </section>
 
 
-                <section class="featured-jobs-section section-padding">
-                <div class="container">
-                    <div class="row">
+<section class="featured-jobs-section section-padding">
+    <div class="container">
+        <div class="row">
 
-                        <div class="col-lg-12 col-12 text-center">
-                            <h2 class="mb-4">Featured Jobs</h2> 
-                            <p class="text-secondary mb-5">Featured and Recommended Jobs.</p>
-                        </div>
-                        
-                        <div class="col-lg-12 col-12"> 
-                            <div class="row">
-                                
-                            {{-- LẶP QUA DANH SÁCH CÔNG VIỆC NỔI BẬT ($featuredJobs) --}}
-                            {{-- SỬA: Đổi biến lặp từ $job thành $featuredJob --}}
-                        @forelse ($featuredJobs as $featuredJob)
-                                    <div class="col-lg-12 col-12 mb-3"> 
+            <div class="col-lg-12 col-12 text-center">
+                <h2 class="mb-4">Featured Jobs</h2> 
+                <p class="text-secondary mb-5">Featured and Recommended Jobs.</p>
+            </div>
+            
+            <div class="col-lg-12 col-12"> 
+                <div class="row">
+                    
+                {{-- LẶP QUA DANH SÁCH CÁC MỤC FEATURED JOB --}}
+                @forelse ($featuredJobs as $item) 
+                    @php
+                        // Gán đối tượng Job thực tế vào biến $job
+                        $job = $item->job;
+                    @endphp
+                    
+                    {{-- BẮT BUỘC: Kiểm tra nếu đối tượng Job tồn tại --}}
+                    @if ($job) 
+                        <div class="col-lg-12 col-12 mb-3"> 
                             
-                                    {{-- job-card-compact: Thẻ nằm ngang, nhỏ gọn --}}
-                                    <div class="job-card-compact custom-block d-flex justify-content-between align-items-center"> 
-                                
-                                    {{-- Khối chi tiết chính: Logo và Text --}}
-                                    <div class="job-details d-flex align-items-center">
-                                        {{-- KHỐI LOGO MỚI (SỬA Ở ĐÂY) --}}
-                                        <div class="company-logo-wrapper me-3"> 
-                                        <img 
-                                        src="{{ asset($featuredJob->company_logo_url) }}" 
-                                        class="logo-image-featured" 
-                                        alt="{{ $featuredJob->title }} - Logo"
-                                        style="width: 80px ; height=80px;"
-                                        >
-                                        </div>
-                                        {{-- Khối Text: Tiêu đề và Meta --}}
-                                        <div>
-                                            <h5>{{ $featuredJob->title }}</h5>
-                                            <p class="mb-0 text-muted job-meta-sm d-flex align-items-center flex-wrap ">
-                                                {{-- Địa điểm --}}
-                                                <span class="text-white">
-                                                    <i class="bi bi-geo-alt-fill me-1 text-white"></i> {{ $featuredJob->location }}
-                                                </span>
-                                                
-                                                {{-- Thời gian đăng --}}
-                                                <span class="text-white">
-                                                    <i class="bi bi-clock-fill ms-3 me-1 text-white"></i> {{ $featuredJob->created_at->diffForHumans() }}
-                                                </span>
-                                                
-                                                {{-- Mức Lương --}}
-                                                <span class="salary-display-sm ms-3 text-white">
-                                                    <i class="bi bi-wallet-fill me-1 text-white"></i> {{ number_format($featuredJob->salary, 0, ',', '.') }} VNĐ
-                                                </span>
-                                            </p>
-                                        </div>
+                            {{-- job-card-compact: Thẻ nằm ngang, nhỏ gọn --}}
+                            <div class="job-card-compact custom-block d-flex justify-content-between align-items-center"> 
+                            
+                                {{-- Khối chi tiết chính: Logo và Text --}}
+                                <div class="job-details d-flex align-items-center">
+                                    {{-- KHỐI LOGO --}}
+                                    <div class="company-logo-wrapper me-3"> 
+                                    <img 
+                                    src="{{ asset($job->company_logo_url ?? 'default-logo.png') }}" 
+                                    class="logo-image-featured" 
+                                    alt="{{ $job->title ?? 'Job' }} - Logo"
+                                    style="width: 80px ; height=80px;"
+                                    >
                                     </div>
-
-                                    {{-- Khối hành động: Badge và Nút Apply --}}
-                                    <div class="job-action-sm d-flex align-items-center">
-                                        
-                                        @if(isset($featuredJob->level))
-                                            <span class="badge bg-info me-2">{{ $featuredJob->level }}</span>
-                                        @endif
-                                        @if(isset($featuredJob->remote_type))
-                                            <span class="badge bg-light me-4">{{ $featuredJob->remote_type }}</span>
-                                        @endif
-
-                                        <a href="{{ route('jobs.show', $featuredJob->id) }}" class="btn custom-btn">
-                                            Apply now 
-                                        </a>
+                                    {{-- Khối Text: Tiêu đề và Meta --}}
+                                    <div>
+                                        <h5>{{ $job->title ?? 'N/A' }}</h5>
+                                        <p class="mb-0 text-muted job-meta-sm d-flex align-items-center flex-wrap ">
+                                            {{-- Địa điểm --}}
+                                            <span class="text-white">
+                                                <i class="bi bi-geo-alt-fill me-1 text-white"></i> {{ $job->location ?? 'N/A' }}
+                                            </span>
+                                            
+                                            {{-- Thời gian đăng (Sử dụng toán tử Null Safe ?->) --}}
+                                            <span class="text-white">
+                                                <i class="bi bi-clock-fill ms-3 me-1 text-white"></i> 
+                                                {{ $job->posted_at?->diffForHumans() ?? ($job->created_at?->diffForHumans() ?? 'N/A') }}
+                                            </span>
+                                            
+                                            {{-- Mức Lương --}}
+                                            <span class="salary-display-sm ms-3 text-white">
+                                                <i class="bi bi-wallet-fill me-1 text-white"></i> {{ number_format($job->salary ?? 0, 0, ',', '.') }} VNĐ
+                                            </span>
+                                        </p>
                                     </div>
+                                </div>
+
+                                {{-- Khối hành động: Badge và Nút Apply --}}
+                                <div class="job-action-sm d-flex align-items-center">
+                                    
+                                    {{-- Level --}}
+                                    @if(isset($job->level))
+                                        <span class="badge bg-info me-2">{{ $job->level }}</span>
+                                    @endif
+                                    {{-- Remote Type --}}
+                                    @if(isset($job->remote_type))
+                                        <span class="badge bg-light me-4">{{ $job->remote_type }}</span>
+                                    @endif
+
+                                    <a href="{{ route('jobs.show', $job->id) }}" class="btn custom-btn">
+                                        Apply now 
+                                    </a>
                                 </div>
                             </div>
-                            @empty
-                                <div class="col-12 text-center">
-                                    <p>No featured jobs to display.</p>
-                                </div>
-                        @endforelse
-                                        
                         </div>
+                    @endif {{-- KẾT THÚC KIỂM TRA @if ($job) --}}
+                @empty
+                    <div class="col-12 text-center">
+                        <p>No featured jobs to display.</p>
                     </div>
-                    
-                    {{-- Nút xem thêm --}}
-                    <div class="col-lg-12 col-12 text-center mt-4">
-                        <a href="{{ route('jobs.list') }}" class="btn custom-btn">View All Jobs</a>
-                    </div>
+                @endforelse
+                                    
                 </div>
             </div>
-        </section>
+            
+            {{-- Nút xem thêm --}}
+            <div class="col-lg-12 col-12 text-center mt-4">
+                <a href="{{ route('jobs.list') }}" class="btn custom-btn">View All Jobs</a>
+            </div>
+        </div>
+    </div>
+</section>
 
 
             <section>

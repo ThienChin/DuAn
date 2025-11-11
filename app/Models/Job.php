@@ -31,7 +31,8 @@ class Job extends Model
     protected $casts = [
         'is_featured' => 'boolean',
         'remote' => 'boolean',
+        'posted_at' => 'datetime',
     ];
 
-    protected $dates = ['posted_at'];
+    // protected $dates = ['posted_at'];
 }
