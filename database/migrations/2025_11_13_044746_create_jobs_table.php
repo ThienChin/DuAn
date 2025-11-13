@@ -13,32 +13,35 @@ return new class extends Migration
     {
         Schema::create('jobs', function (Blueprint $table) {
             $table->id();
-            
+
+            // ✅ Nhà tuyển dụng đăng job (FOREIGN KEY)
+            $table->foreignId('employer_id')
+                ->constrained('employers')
+                ->onDelete('cascade');
+
             // Cột cơ bản
             $table->string('title');
             $table->string('location');
             $table->enum('level', ['Internship', 'Junior', 'Senior']);
             $table->enum('remote_type', ['Full Time', 'Contract', 'Part Time']);
-            $table->decimal('salary', 15, 2);
+            $table->decimal('salary', 15, 2)->nullable(); // Cho phép 'Thương lượng' (NULL/0)
             $table->string('category')->nullable();
             $table->text('description');
-            
-            // ✨ YÊU CẦU ỨNG VIÊN (Các trường mới được thêm vào)
+
+            // ✅ CÁC CỘT MỚI THÊM VÀO THEO MODEL
             $table->string('experience')->nullable();
             $table->string('degree')->nullable();
             $table->string('gender')->nullable();
             $table->string('age')->nullable();
-            $table->text('required_skills')->nullable();
+            $table->text('required_skills')->nullable(); 
 
-            // Featured
+            // Featured & Posted
             $table->boolean('is_featured')->default(false);
             $table->timestamp('posted_at')->nullable();
-            
-            // Ảnh
+
+            // Ảnh & Thông tin công ty
             $table->string('jobs_images')->nullable(); 
             $table->string('company_logo_url')->nullable();
-
-            // Thông tin công ty
             $table->string('company_name');
             $table->text('company_description')->nullable();
             $table->string('website')->nullable();
@@ -46,10 +49,9 @@ return new class extends Migration
             $table->string('email')->nullable();
             $table->boolean('remote')->default(false);
 
-            // ✅ STATUS
+            // ✅ STATUS: admin duyệt job
             $table->enum('status', ['pending', 'approved', 'rejected'])
-                  ->default('pending')
-                  ->comment('pending = đợi duyệt, approved = đã duyệt, rejected = từ chối');
+                ->default('pending');
 
             $table->timestamps();
         });

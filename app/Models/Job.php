@@ -15,6 +15,7 @@ class Job extends Model
         'salary',
         'category',
         'description',
+        'employer_id',
         
         // CÁC TRƯỜNG ĐÃ THÊM LẠI THEO YÊU CẦU:
         'experience',         // Thêm lại
@@ -44,4 +45,8 @@ class Job extends Model
     ];
 
     // protected $dates = ['posted_at'];
+    public function employer()
+    {
+        return $this->belongsTo(Employer::class);
+    }
 }

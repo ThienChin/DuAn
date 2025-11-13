@@ -22,7 +22,7 @@ class EmployerController extends Controller
 
     public function myJobs()
     {
-        $jobs = Job::where->where('user_id', auth()->id())->latest()->get();
+        $jobs = Job::where('employer_id', auth('employer')->id())->latest()->get();
 
         return view('Employer.myJob', compact('jobs'));
     }
@@ -75,6 +75,7 @@ class EmployerController extends Controller
         // 2. TẠO JOB
         // Lấy tất cả các trường đã validate và thêm các trường mặc định/boolean
         Job::create(array_merge($validated, [
+            'employer_id' => auth('employer')->id(),
             'remote' => $request->boolean('remote'), // Xử lý checkbox remote
             'is_featured' => false, // Mặc định là false khi đăng mới
             'posted_at' => now(),
