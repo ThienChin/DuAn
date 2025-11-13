@@ -9,7 +9,7 @@ use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
-use App\Http\Controllers\Auth\RegisterEmployerController;
+use App\Http\Controllers\Auth\RegisteredEmployerController;
 use App\Http\Controllers\Auth\AuthenticatedSessionEmployerController;
 use Illuminate\Support\Facades\Route;
 
@@ -63,10 +63,10 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('guest:employer')->group(function () {
     // Employer Auth Routes
-    Route::get('register/employer', [RegisterEmployerController::class, 'create'])
+    Route::get('register/employer', [RegisteredEmployerController::class, 'create'])
         ->name('employer.register');
 
-    Route::post('register/employer', [RegisterEmployerController::class, 'store']);
+    Route::post('register/employer', [RegisteredEmployerController::class, 'store']);
 
     Route::get('login/employer', [AuthenticatedSessionEmployerController::class, 'create'])
         ->name('employer.login');

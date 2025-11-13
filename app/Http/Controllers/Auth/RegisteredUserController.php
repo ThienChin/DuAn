@@ -49,9 +49,6 @@ class RegisteredUserController extends Controller
         // 1. GỬI EMAIL CHÀO MỪNG (nếu có)
         Mail::to($user->email)->send(new WelcomeMail($user));
 
-        // 2. GỬI THÔNG BÁO CHÀO MỪNG (hiển thị ở chuông)
-        event(new UserRegistered($user));
-
         // 3. GỬI EMAIL XÁC THỰC (mặc định Laravel)
         event(new Registered($user));
 

@@ -136,7 +136,7 @@
 
                     <div class="col-lg-4 col-md-6 col-12 mb-3">
                         <div class="d-flex align-items-center mb-4">
-                            <img src="images/logo.png" class="img-fluid logo-image">
+                            <img src="page/images/logo.png" class="img-fluid logo-image">
 
                             <div class="d-flex flex-column">
                                 <strong class="logo-text">Gotto</strong>

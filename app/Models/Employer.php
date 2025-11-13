@@ -10,6 +10,11 @@ class Employer extends Authenticatable // Kế thừa từ Authenticatable
 {
     use HasFactory;
 
+    public function jobs()
+    {
+        return $this->hasMany(Job::class, 'email', 'email');
+    }
+    
     protected $fillable = [
         'name',
         'company_name',
