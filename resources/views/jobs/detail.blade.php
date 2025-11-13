@@ -102,31 +102,6 @@
         </header>
 
         <section class="job-section section-padding">
-<<<<<<< HEAD
-            <div class="container-fluid p-0">
-                <div class="row">
-                    <div class="col-lg-11 col-12 px-0">
-                        <div class="job-thumb job-thumb-box">
-                            <div class="job-image-box-wrap">
-                                <img src="{{ asset('page/images/jobs/it-professional-works-startup-project.jpg') }}" class="job-image img-fluid" alt="{{ $job->title }}">
-                                <div class="job-image-box-wrap-info d-flex align-items-center">
-                                    <p class="mb-0">
-                                        <a href="{{ route('jobs.list') }}?job-level={{ $job->level === 'Internship' ? 1 : ($job->level === 'Junior' ? 2 : 3) }}" class="badge badge-level">{{ $job->level }}</a>
-                                    </p>
-                                    <p class="mb-0">
-                                        <a href="{{ route('jobs.list') }}?job-remote={{ $job->remote_type === 'Full Time' ? 1 : ($job->remote_type === 'Contract' ? 2 : 3) }}" class="badge">{{ $job->remote_type }}</a>
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="job-body">
-                                <h4 class="job-title">
-                                    <span class="job-title-link">{{ $job->title }}</span>
-                                </h4>
-                                <div class="d-flex align-items-center">
-                                    <div class="job-image-wrap d-flex align-items-center bg-white shadow-lg mt-2 mb-4 min-width:[]">
-                                        <img src="{{ asset('page/images/logos/google.png') }}" class="job-image me-3 img-fluid" alt="{{ $job->company_name }}">
-                                        <p class="mb-0">{{ $job->company_name ?? 'Unknown Company' }}</p>
-=======
             <div class="container-fluid px-5" style="max-width: 1400px;">
                 <div class="row">
                     
@@ -189,7 +164,6 @@
                                             <li><i class="bi bi-person-fill text-success"></i> <strong>Giới tính:</strong> {{ $job->gender ?? 'Không yêu cầu' }}</li>
                                             <li><i class="bi bi-calendar-check-fill text-success"></i> <strong>Độ tuổi:</strong> {{ $job->age ?? 'N/A' }}</li>
                                         </ul>
->>>>>>> Thien
                                     </div>
                                 </div>
 
@@ -226,15 +200,6 @@
                             </div>
                         </div>
                     </div>
-<<<<<<< HEAD
-                    <div class="col-lg-1 col-12">
-                        <div class="job-sidebar">
-                            <h5>Apply Now</h5>
-                            <p>Interested in this job? Click the button below to apply.</p>
-                            <a href="{{ route('jobs.apply.form', $job->id) }}" class="btn btn-primary">
-                                Apply Now
-                            </a>
-=======
                     
                     {{-- Cột Sidebar: col-lg-3 (Giữ nguyên) --}}
                     <div class="col-lg-3 col-12 order-lg-2 order-1 mb-4 mb-lg-0">
@@ -247,7 +212,6 @@
                                     <i class="bi bi-send-fill me-2"></i> Apply Now
                                 </a>
                             </div>
->>>>>>> Thien
 
                             <h5 class="mb-3 border-top pt-3 text-center">Chia Sẻ Công Việc</h5>
                             <div class="social-share d-flex justify-content-center gap-3">

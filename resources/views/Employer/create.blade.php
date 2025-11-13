@@ -29,8 +29,7 @@
 
                 <h5 class="mt-4 mb-3 text-muted">ỨNG VIÊN</h5>
                 <a href="#" class="list-group-item list-group-item-action"><i class="bi bi-bookmark-fill me-2"></i> Hồ sơ đã lưu</a>
-                <a href="#" class="list-group-item list-group-item-action"><i class="bi bi-file-earmark-person me-2"></i> Hồ sơ đã ứng tuyển</a>
-                <a href="#" class="list-group-item list-group-item-action"><i class="bi bi-eye-fill me-2"></i> Hồ sơ đã xem</a>
+                <a href="{{ route('employer.history') }}" class="list-group-item list-group-item-action"><i class="bi bi-file-earmark-person me-2"></i> Hồ sơ đã ứng tuyển</a>
                 <a href="#" class="list-group-item list-group-item-action"><i class="bi bi-cash me-2"></i> Mua dịch vụ</a>
             </div>
              

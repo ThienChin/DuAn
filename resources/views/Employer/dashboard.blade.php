@@ -17,11 +17,9 @@
                 <a href="#" class="list-group-item list-group-item-action"><i class="bi bi-pin-map me-2"></i> Vị trí phỏng vấn</a>
                 <a href="#" class="list-group-item list-group-item-action"><i class="bi bi-calendar-check me-2"></i> Biểu lịch phỏng vấn</a>
                 <a href="#" class="list-group-item list-group-item-action"><i class="bi bi-bookmark-fill me-2"></i> Hồ sơ đã lưu</a>
-                <a href="#" class="list-group-item list-group-item-action"><i class="bi bi-file-earmark-person me-2"></i> Hồ sơ đã ứng tuyển</a>
+                <a href="{{ route('employer.history') }}" class="list-group-item list-group-item-action"><i class="bi bi-file-earmark-person me-2"></i> Hồ sơ đã ứng tuyển</a>
                 <a href="#" class="list-group-item list-group-item-action"><i class="bi bi-card-list me-2"></i> Ứng viên ứng tuyển - CV rút gọn</a>
                 <a href="#" class="list-group-item list-group-item-action"><i class="bi bi-heart me-2"></i> Ứng viên quan tâm tin tuyển dụng <span class="badge bg-danger ms-2">NEW</span></a>
-                <a href="#" class="list-group-item list-group-item-action"><i class="bi bi-eye-fill me-2"></i> Hồ sơ đã xem</a>
-
                 <h5 class="mt-4 mb-3 text-muted">QUẢN LÝ DỊCH VỤ</h5>
                 <a href="#" class="list-group-item list-group-item-action"><i class="bi bi-bell me-2"></i> Thông báo hồ sơ phù hợp</a>
             </div>

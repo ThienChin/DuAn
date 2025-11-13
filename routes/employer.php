@@ -19,3 +19,14 @@ Route::prefix('employer')->name('employer.')->group(function () {
         Route::get('/dasboard', [EmployerController::class, 'dashboard'])->name('dashboard');
     });
 });
+Route::middleware(['auth:employer'])->prefix('employer')->name('employer.')->group(function () {
+    // ... (Các routes hiện có)
+    
+    // ✅ 1. Danh sách hồ sơ ứng tuyển
+    Route::get('/applications', [EmployerController::class, 'showApplication'])->name('history');
+
+    // ✅ 2. Xem/Tải CV
+    // Sử dụng route model binding cho JobApplication
+    Route::get('/applications/{application}/view-cv', [EmployerController::class, 'viewCv'])->name('viewCV');
+    Route::post('/candidate/save/{user}', [EmployerController::class, 'saveCandidate'])->name('candidate.save');
+});
