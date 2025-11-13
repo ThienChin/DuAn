@@ -7,22 +7,16 @@ use Illuminate\Support\Facades\Session;
 
 class LanguageController extends Controller
 {
-    /**
-     * Chuyển đổi ngôn ngữ và lưu vào session.
-     *
-     * @param string $locale
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function switchLanguage($locale)
     {
-        // 1. Kiểm tra ngôn ngữ hợp lệ
-        if (!in_array($locale, ['en', 'vi'])) {
-            $locale = config('app.locale'); // Nếu không hợp lệ, dùng mặc định
-        }
+        // ... (Giữ nguyên phần kiểm tra ngôn ngữ hợp lệ)
 
         // 2. Lưu ngôn ngữ vào Session
         Session::put('locale', $locale);
 
+        // ✅ THÊM DÒNG DEBUG NÀY VÀO ĐÂY
+        dd(Session::get('locale')); 
+        
         // 3. Chuyển hướng về trang trước đó
         return redirect()->back();
     }
