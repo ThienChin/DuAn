@@ -172,20 +172,48 @@
                 </div>
             </nav>
         </div>
-        <aside class="left-sidebar" data-sidebarbg="skin5">
-            <!-- Sidebar scroll-->
-            <div class="scroll-sidebar">
-                <!-- Sidebar navigation-->
-                <nav class="sidebar-nav">
-                    <ul id="sidebarnav" class="p-t-30">
-                        <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('admin.dashboard') }}" aria-expanded="false"><i class="mdi mdi-view-dashboard"></i><span class="hide-menu">Dashboard</span></a></li>
-                        <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('admin.create') }}" aria-expanded="false"><i class="mdi mdi-chart-bar"></i><span class="hide-menu">Categories</span></a></li>
-                    </ul>
-                </nav>
-                <!-- End Sidebar navigation -->
-            </div>
-            <!-- End Sidebar scroll-->
-        </aside>
+            <aside class="left-sidebar" data-sidebarbg="skin5">
+                <div class="scroll-sidebar">
+                    <nav class="sidebar-nav">
+                        <ul id="sidebarnav" class="p-t-30">
+                            {{-- 1. Dashboard --}}
+                            <li class="sidebar-item"> 
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" 
+                                    href="{{ route('admin.dashboard') }}" aria-expanded="false">
+                                    <i class="mdi mdi-view-dashboard"></i><span class="hide-menu">Dashboard</span>
+                                </a>
+                            </li>
+                        
+                            {{-- 2. Quản lý Tin tuyển dụng --}}
+                            <li class="sidebar-item"> 
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" 
+                                href="{{ route('admin.jobs.index') }}" aria-expanded="false">
+                                    <i class="mdi mdi-buffer"></i><span class="hide-menu">Tin Chờ Duyệt</span>
+                                </a>
+                            </li>
+
+                            {{-- 3. Quản lý người dùng --}}
+                            <li class="sidebar-item"> 
+                                <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
+                                    <i class="mdi mdi-account-multiple"></i><span class="hide-menu">Quản lý Người dùng</span>
+                                </a>
+                                <ul aria-expanded="false" class="collapse first-level">
+                                    <li class="sidebar-item">
+                                        <a href="{{ route('admin.users.employers') }}" class="sidebar-link">
+                                            <i class="mdi mdi-bank"></i><span class="hide-menu">Nhà Tuyển Dụng</span>
+                                        </a>
+                                    </li>
+                                    <li class="sidebar-item">
+                                        <a href="{{ route('admin.users.candidates') }}" class="sidebar-link">
+                                            <i class="mdi mdi-account-card-details"></i><span class="hide-menu">Ứng Viên</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </aside>
         
         <div class="page-wrapper">
             <div class="container-fluid">
@@ -193,6 +221,32 @@
             </div>
         </div>
     </div>
-
+    
+    <!-- ============================================================== -->
+    <!-- All Jquery -->
+    <!-- ============================================================== -->
+    <script src="{{ asset('admin/assets/libs/jquery/dist/jquery.min.js') }}"></script>
+    <!-- Bootstrap tether Core JavaScript -->
+    <script src="{{ asset('admin/assets/libs/popper.js/dist/umd/popper.min.js') }}"></script>
+    <script src="{{ asset('admin/assets/libs/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('admin/assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js') }}"></script>
+    <script src="{{ asset('admin/assets/extra-libs/sparkline/sparkline.js') }}"></script>
+    <!--Wave Effects -->
+    <script src="{{ asset('admin/dist/js/waves.js') }}"></script>
+    <!--Menu sidebar -->
+    <script src="{{ asset('admin/dist/js/sidebarmenu.js') }}"></script>
+    <!--Custom JavaScript -->
+    <script src="{{ asset('admin/dist/js/custom.min.js') }}"></script>
+    <!--This page JavaScript -->
+    <!-- <script src="dist/js/pages/dashboards/dashboard1.js"></script> -->
+    <!-- Charts js Files -->
+    <script src="{{ asset('admin/assets/libs/flot/excanvas.js') }}"></script>
+    <script src="{{ asset('admin/assets/libs/flot/jquery.flot.js') }}"></script>
+    <script src="{{ asset('admin/assets/libs/flot/jquery.flot.pie.js') }}"></script>
+    <script src="{{ asset('admin/assets/libs/flot/jquery.flot.time.js') }}"></script>
+    <script src="{{ asset('admin/assets/libs/flot/jquery.flot.stack.js') }}"></script>
+    <script src="{{ asset('admin/assets/libs/flot/jquery.flot.crosshair.js') }}"></script>
+    <script src="{{ asset('admin/assets/libs/flot.tooltip/js/jquery.flot.tooltip.min.js') }}"></script>
+    <script src="{{ asset('admin/dist/js/pages/chart/chart-page-init.js') }}"></script>
 </body>
 </html>

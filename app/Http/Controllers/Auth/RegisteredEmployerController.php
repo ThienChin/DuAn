@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 
-class RegisterEmployerController extends Controller
+class RegisteredEmployerController extends Controller
 {
     /**
      * Hiển thị trang đăng ký nhà tuyển dụng.

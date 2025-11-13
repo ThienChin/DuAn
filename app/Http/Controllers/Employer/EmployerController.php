@@ -44,49 +44,46 @@ class EmployerController extends Controller
 
     public function store(Request $request)
     {
-        // 1. VALIDATION: Thêm các trường cần thiết từ form
+        // 1. VALIDATION: Đã thêm các trường mới từ Model vào Validation
         $validated = $request->validate([
+            // THÔNG TIN CÔNG VIỆC BẮT BUỘC
             'title' => 'required|string|max:255',
             'location' => 'required|string|max:255',
-            'level' => 'required|in:Internship,Junior,Senior', // Kiểm tra giá trị enum
-            'remote_type' => 'required|in:Full Time,Contract,Part Time', // Kiểm tra giá trị enum
-            
-            // Xử lý salary: Nếu là 'Thương lượng', giá trị có thể là null/0.
-            'salary' => 'nullable|numeric|min:0', // Đặt nullable vì có thể là "Thương lượng"
-            
+            'level' => 'required|string|max:255',
+            'remote_type' => 'required|string|max:255',
+            'salary' => 'nullable|numeric|min:0', // Sử dụng nullable để cho phép 'Thương lượng' (input 0)
             'description' => 'required|string',
-            'category' => 'required|string|max:255', // Đã thêm category
+            'category' => 'required|string|max:255',
             
-            // Các trường thông tin công ty/liên hệ
-            'company_name' => 'required|string|max:255', // Thêm validation cho các trường này
+            // YÊU CẦU CÔNG VIỆC (Tùy chọn)
+            'experience' => 'nullable|string|max:255',
+            'degree' => 'nullable|string|max:255',
+            'gender' => 'nullable|string|max:50',
+            'age' => 'nullable|string|max:50',
+            'required_skills' => 'nullable|string',
+            
+            // THÔNG TIN CÔNG TY & LIÊN HỆ
+            'company_name' => 'required|string|max:255',
+            'company_description' => 'nullable|string',
             'email' => 'required|email|max:255',
             'phone' => 'nullable|string|max:20',
             'website' => 'nullable|url|max:255',
-            
-            // Nếu bạn thêm các trường này vào Job Model:
-            // 'job_code' => 'nullable|string|max:50',
-            // 'quantity' => 'nullable|integer|min:1',
-            // 'remote' => 'boolean', // Laravel tự xử lý checkbox nếu name có mặt
+            'company_logo_url' => 'nullable|url|max:255',
+            'jobs_images' => 'nullable|string', // Giữ là string (URL) nếu bạn không xử lý upload
         ]);
 
-        // 2. TẠO JOB: Lấy tất cả các trường đã validate và thêm các trường mặc định/không validate
+        // 2. TẠO JOB
+        // Lấy tất cả các trường đã validate và thêm các trường mặc định/boolean
         Job::create(array_merge($validated, [
-            // Trường boolean/enum (chỉ lưu giá trị)
             'remote' => $request->boolean('remote'), // Xử lý checkbox remote
-            'is_featured' => false, // Luôn false khi đăng mới
-            
-            // Trường timestamp/status
+            'is_featured' => false, // Mặc định là false khi đăng mới
             'posted_at' => now(),
             'status' => 'pending', // Mặc định: Chờ duyệt
-            
-            // Nếu bạn có các trường khác trong form:
-            // 'job_code' => $request->job_code,
-            // 'quantity' => $request->quantity,
         ]));
 
-        // 3. REDIRECT: Trả về trang thông báo
+        // 3. REDIRECT
         return redirect()
-            ->route('employer.create') // Sửa lỗi chính tả thành 'employer.create' (thường là chữ thường)
+            ->route('employer.create')
             ->with('success', 'Tin đã gửi và đang chờ admin duyệt!');
     }
 }

@@ -15,12 +15,21 @@ class Job extends Model
         'salary',
         'category',
         'description',
+        
+        // CÁC TRƯỜNG ĐÃ THÊM LẠI THEO YÊU CẦU:
+        'experience',         // Thêm lại
+        'degree',             // Thêm lại
+        'gender',             // Thêm lại
+        'age',                // Thêm lại
+        'required_skills',    // Thêm lại
+        'company_description',// Thêm lại
+        'jobs_images',        // Thêm lại
+        'company_logo_url',   // Thêm lại
+        // HẾT CÁC TRƯỜNG ĐÃ THÊM LẠI
+        
         'is_featured',
         'posted_at',
-        'jobs_images',
-        'company_logo_url',
         'company_name',
-        'company_description',
         'website',
         'phone',
         'email',
