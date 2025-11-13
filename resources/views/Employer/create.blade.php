@@ -14,6 +14,11 @@
         </div>
     </div>
 
+    {{-- ✨ ĐÃ GIỮ LẠI KHỐI NÀY, LOẠI BỎ KHỐI LẶP LẠI PHÍA TRÊN --}}
+    @if(session('success'))
+        <div class="alert alert-success mt-2">{{ session('success') }}</div>
+    @endif
+
     <div class="row">
         <div class="col-lg-3">
             <div class="list-group shadow-sm bg-white rounded-3 p-3 mb-4">
@@ -38,6 +43,7 @@
             <form method="POST" action="{{ route('employer.store') }}">
                 @csrf 
 
+                {{-- QUYỀN LỢI & QUY TẮC --}}
                 <div class="card shadow-sm border-0 mb-4 p-3 bg-white">
                     <div class="row">
                         <div class="col-md-8 border-end">
@@ -70,6 +76,7 @@
                     </div>
                 </div>
 
+                {{-- THÔNG TIN CÔNG VIỆC --}}
                 <div class="card shadow-sm border-0 mb-4">
                     <div class="card-header bg-white border-bottom">
                         <h5 class="card-title fw-bold text-primary">THÔNG TIN CÔNG VIỆC</h5>
@@ -82,14 +89,7 @@
                         </div>
                         
                         <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="jobCode" class="form-label fw-semibold">Mã số:</label>
-                                <input type="text" class="form-control" id="jobCode" name="job_code" placeholder="Nhập mã số tuyển dụng">
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="quantity" class="form-label fw-semibold">Số lượng tuyển:</label>
-                                <input type="number" class="form-control" id="quantity" name="quantity" placeholder="Số lượng tuyển dụng" min="1">
-                            </div>
+                            {{-- Đã bỏ trường 'Mã số' và 'Số lượng tuyển' --}}
                         </div>
 
                         <div class="row">
@@ -115,20 +115,25 @@
                             <div class="col-md-6 mb-3">
                                 <label for="salary" class="form-label fw-semibold">Mức lương (Salary): <span class="text-danger">*</span></label>
                                 <div class="input-group">
-                                    <select class="form-select" id="salary_type" name="salary_type">
-                                        <option value="negotiable">Thương lượng</option>
-                                        <option value="range">Theo khoảng</option>
-                                        <option value="fixed">Cố định</option>
-                                    </select>
-                                    <span class="input-group-text">x</span>
+                                    <input type="number" class="form-control" id="salary" name="salary" placeholder="Nhập mức lương (VD: 10000000)" min="0" step="1000" required>
+                                    <span class="input-group-text">VND</span>
                                 </div>
+                                <small class="form-text text-muted">Nếu muốn Thương lượng, hãy nhập '0' và ghi rõ trong mô tả.</small>
                             </div>
+                            
                             <div class="col-md-6 mb-3 pt-4">
                                 <div class="form-check">
-                                    {{-- Dùng trường `remote` từ Job Model --}}
                                     <input class="form-check-input" type="checkbox" value="1" id="remote" name="remote">
                                     <label class="form-check-label fw-semibold" for="remote">
                                         Làm việc Online / Từ xa (Remote)
+                                    </label>
+                                </div>
+                                
+                                {{-- ✨ THÊM CHECKBOX YÊU CẦU NỔI BẬT --}}
+                                <div class="form-check mt-2">
+                                    <input class="form-check-input" type="checkbox" value="1" id="request_featured" name="request_featured">
+                                    <label class="form-check-label fw-semibold" for="request_featured">
+                                        Yêu cầu Tin Nổi Bật (Cần mua gói dịch vụ)
                                     </label>
                                 </div>
                             </div>
@@ -159,6 +164,7 @@
                     </div>
                 </div>
 
+                {{-- YÊU CẦU CÔNG VIỆC --}}
                 <div class="card shadow-sm border-0 mb-4">
                     <div class="card-header bg-white border-bottom">
                         <h5 class="card-title fw-bold text-primary">YÊU CẦU CÔNG VIỆC</h5>
@@ -202,15 +208,25 @@
                         </div>
                     </div>
                 </div>
-                
+
+                {{-- THÔNG TIN CÔNG TY & LIÊN HỆ --}}
                 <div class="card shadow-sm border-0 mb-4">
                     <div class="card-header bg-white border-bottom">
-                        <h5 class="card-title fw-bold text-primary">THÔNG TIN LIÊN HỆ</h5>
+                        <h5 class="card-title fw-bold text-primary">THÔNG TIN CÔNG TY & LIÊN HỆ</h5>
                     </div>
                     <div class="card-body p-4">
+                        <div class="mb-3">
+                            <label for="company_name" class="form-label fw-semibold">Tên công ty (Company Name): <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="company_name" name="company_name" placeholder="VD: Công ty TNHH Gotto" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="company_description" class="form-label fw-semibold">Mô tả công ty (Company Description):</label>
+                            <textarea class="form-control" id="company_description" name="company_description" rows="3"></textarea>
+                        </div>
+                        
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label for="email" class="form-label fw-semibold">Email liên hệ (Email):</label>
+                                <label for="email" class="form-label fw-semibold">Email liên hệ (Email): <span class="text-danger">*</span></label>
                                 <input type="email" class="form-control" id="email" name="email" placeholder="tuyendung@company.com" required>
                             </div>
                             <div class="col-md-6 mb-3">
@@ -222,9 +238,16 @@
                             <label for="website" class="form-label fw-semibold">Website (Website):</label>
                             <input type="url" class="form-control" id="website" name="website" placeholder="https://company.com">
                         </div>
-                        <div class="mb-3">
-                            <label for="company_name" class="form-label fw-semibold">Tên người liên hệ (Contact Name):</label>
-                            <input type="text" class="form-control" id="contact_name" name="contact_name" placeholder="VD: Mr. Duy">
+
+                        <div class="row">
+                             <div class="col-md-6 mb-3">
+                                <label for="company_logo_url" class="form-label fw-semibold">Logo công ty (URL):</label>
+                                <input type="text" class="form-control" id="company_logo_url" name="company_logo_url" placeholder="Dán link logo công ty">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="jobs_images" class="form-label fw-semibold">Ảnh công việc (URL):</label>
+                                <input type="text" class="form-control" id="jobs_images" name="jobs_images" placeholder="Dán link ảnh mô tả công việc">
+                            </div>
                         </div>
                     </div>
                 </div>

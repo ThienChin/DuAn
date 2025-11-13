@@ -2,6 +2,7 @@
 
 require __DIR__.'/auth.php';
 require __DIR__.'/employer.php';
+require __DIR__.'/admin.php';
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
@@ -16,11 +17,6 @@ use App\Http\Controllers\User\AboutcvController;
 use App\Http\Controllers\User\ResumeController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\User\UploadController;
-use App\Http\Controllers\Admin\AdminLogin;
-use App\Http\Controllers\Admin\AdminController;
-use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\FeaturedJobController;
-use App\Http\Controllers\LanguageController;
 
 
 
@@ -53,9 +49,6 @@ Route::middleware('auth')->group(function () {
 });
 
 
-
-
-
 Route::middleware(['auth'])->group(function () {
 
     // Route cho các chức năng CV và thông tin cá nhân
@@ -77,26 +70,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/profile/cv/delete-confirm/{id}', [UserController::class, 'confirmDeleteCv'])->name('cv.delete.confirm.view');
 });
 
-// Admin login
-// Route dành cho admin
-Route::prefix('admin')->group(function () {
-    Route::get('/login', [AdminLogin::class, 'showLoginForm'])->name('admin.login');
-    Route::post('/login', [AdminLogin::class, 'login'])->name('admin.login.submit');
-    Route::post('/logout', [AdminLogin::class, 'logout'])->name('admin.logout');
-
-    Route::middleware('admin')->group(function () {
-        Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
-
-        Route::get('/create', [AdminController::class, 'create'])->name('admin.create');
-        Route::post('/create', [AdminController::class, 'store'])->name('admin.store');
-    });
-});
-
-Route::middleware('auth:admin')->group(function () {
-    Route::get('/admin/featured-jobs', [FeaturedJobController::class, 'index'])->name('admin.featured.index');
-    Route::post('/admin/featured-jobs', [FeaturedJobController::class, 'store'])->name('admin.featured.store');
-    Route::delete('/admin/featured-jobs/{id}', [FeaturedJobController::class, 'destroy'])->name('admin.featured.destroy');
-});
 
 
 Route::get('lang/{locale}', [LanguageController::class, 'switchLanguage'])

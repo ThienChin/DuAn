@@ -23,6 +23,13 @@ return new class extends Migration
             $table->string('category')->nullable();
             $table->text('description');
             
+            // ✨ YÊU CẦU ỨNG VIÊN (Các trường mới được thêm vào)
+            $table->string('experience')->nullable();
+            $table->string('degree')->nullable();
+            $table->string('gender')->nullable();
+            $table->string('age')->nullable();
+            $table->text('required_skills')->nullable();
+
             // Featured
             $table->boolean('is_featured')->default(false);
             $table->timestamp('posted_at')->nullable();
