@@ -12,7 +12,7 @@ class Employer extends Authenticatable // Kế thừa từ Authenticatable
 
     public function jobs()
     {
-        return $this->hasMany(Job::class, 'email', 'email');
+        return $this->hasMany(Job::class, 'employer_id', 'id');
     }
     
     protected $fillable = [

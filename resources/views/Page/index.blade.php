@@ -230,7 +230,7 @@
                                     {{-- KHỐI LOGO --}}
                                     <div class="company-logo-wrapper me-3"> 
                                     <img 
-                                    src="{{ asset($job->company_logo_url ?? 'default-logo.png') }}" 
+                                    src="{{ asset('storage/' . $job->company_logo_url ?? 'default-logo.png') }}" 
                                     class="logo-image-featured" 
                                     alt="{{ $job->title ?? 'Job' }} - Logo"
                                     style="width: 80px ; height=80px;"
@@ -364,7 +364,7 @@
                                 <a href="{{ route('jobs.show', $job->id) }}">
                                     {{-- Hình ảnh minh họa công việc (jobs_images) --}}
                                     {{-- Nếu không có ảnh, dùng ảnh default --}}
-                                    <img src="{{ asset($job->jobs_images ?? 'page/images/default.jpg') }}" class="job-image img-fluid" alt="{{ $job->title }}">
+                                    <img src="{{ asset('storage/' . $job->jobs_images ?? 'page/images/default.jpg') }}" class="job-image img-fluid" alt="{{ $job->title }}">
                                 </a>
 
                                 <div class="job-image-box-wrap-info d-flex align-items-center">
@@ -389,7 +389,7 @@
                                     <div class="job-image-wrap d-flex align-items-center bg-white shadow-lg mt-2 mb-4">
                                         {{-- Logo công ty (company_logo_url) --}}
                                         {{-- Dùng company_logo_url để hiển thị logo --}}
-                                        <img src="{{ asset($job->company_logo_url ?? 'page/images/logos/default.png') }}" class="job-image me-3 img-fluid" alt="{{ $job->company_name }}">
+                                        <img src="{{ asset('storage/' . $job->company_logo_url ?? 'page/images/logos/default.png') }}" class="job-image me-3 img-fluid" alt="{{ $job->company_name }}">
 
                                         {{-- Tên công ty --}}
                                         <p class="mb-0">{{ $job->company_name }}</p>

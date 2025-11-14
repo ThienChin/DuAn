@@ -192,25 +192,63 @@
                                 </a>
                             </li>
 
-                            {{-- 3. Quản lý người dùng --}}
                             <li class="sidebar-item"> 
-                                <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
-                                    <i class="mdi mdi-account-multiple"></i><span class="hide-menu">Quản lý Người dùng</span>
+                                {{-- Tạo Menu cha: "Quản Lý Danh Mục" --}}
+                                <a class="sidebar-link has-arrow waves-effect waves-dark" 
+                                    href="javascript:void(0)" 
+                                    aria-expanded="false">
+                                    <i class="mdi mdi-buffer"></i>
+                                    <span class="hide-menu">Quản Lý Danh Mục</span>
                                 </a>
-                                <ul aria-expanded="false" class="collapse first-level">
+                                {{-- Menu con: Các loại danh mục --}}
+                                <ul aria-expanded="false" class="collapse  first-level">
                                     <li class="sidebar-item">
-                                        <a href="{{ route('admin.users.employers') }}" class="sidebar-link">
-                                            <i class="mdi mdi-bank"></i><span class="hide-menu">Nhà Tuyển Dụng</span>
+                                        <a href="{{ route('admin.categories.index', 'category') }}" class="sidebar-link">
+                                            <i class="mdi mdi-chevron-right"></i>
+                                            <span class="hide-menu"> Ngành Nghề/Lĩnh Vực </span>
                                         </a>
                                     </li>
                                     <li class="sidebar-item">
-                                        <a href="{{ route('admin.users.candidates') }}" class="sidebar-link">
-                                            <i class="mdi mdi-account-card-details"></i><span class="hide-menu">Ứng Viên</span>
+                                        <a href="{{ route('admin.categories.index', 'location') }}" class="sidebar-link">
+                                            <i class="mdi mdi-chevron-right"></i>
+                                            <span class="hide-menu"> Địa Điểm/Khu Vực </span>
+                                        </a>
+                                    </li>
+                                    <li class="sidebar-item">
+                                        <a href="{{ route('admin.categories.index', 'level') }}" class="sidebar-link">
+                                            <i class="mdi mdi-chevron-right"></i>
+                                            <span class="hide-menu"> Cấp Bậc/Chức Danh </span>
+                                        </a>
+                                    </li>
+                                    <li class="sidebar-item">
+                                        {{-- Ví dụ: Bổ sung thêm các loại danh mục khác nếu có --}}
+                                        <a href="{{ route('admin.categories.create_page') }}" class="sidebar-link">
+                                            <i class="mdi mdi-plus-box"></i>
+                                            <span class="hide-menu"> Thêm Danh Mục Mới (Trang) </span>
                                         </a>
                                     </li>
                                 </ul>
                             </li>
-                        </ul>
+                        
+                        {{-- 4. Quản lý người dùng (Giữ nguyên) --}}
+                        <li class="sidebar-item"> 
+                            <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
+                                <i class="mdi mdi-account-multiple"></i><span class="hide-menu">Quản lý Người dùng</span>
+                            </a>
+                            <ul aria-expanded="false" class="collapse first-level">
+                                <li class="sidebar-item">
+                                    <a href="{{ route('admin.users.employers') }}" class="sidebar-link">
+                                        <i class="mdi mdi-bank"></i><span class="hide-menu">Nhà Tuyển Dụng</span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a href="{{ route('admin.users.candidates') }}" class="sidebar-link">
+                                        <i class="mdi mdi-account-card-details"></i><span class="hide-menu">Ứng Viên</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
                     </nav>
                 </div>
             </aside>
@@ -248,5 +286,7 @@
     <script src="{{ asset('admin/assets/libs/flot/jquery.flot.crosshair.js') }}"></script>
     <script src="{{ asset('admin/assets/libs/flot.tooltip/js/jquery.flot.tooltip.min.js') }}"></script>
     <script src="{{ asset('admin/dist/js/pages/chart/chart-page-init.js') }}"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

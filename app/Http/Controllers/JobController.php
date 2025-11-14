@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Job;
+use App\Models\Category;
 use App\Models\JobApplication;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -11,6 +12,10 @@ use App\Mail\ApplyMail;
 
 class JobController extends Controller
 {
+    private $categoryRelations = [
+        'categoryItem', 'locationItem', 'levelItem', 'remoteTypeItem',
+        'experienceItem', 'degreeItem', 'genderItem'
+    ];
     // 🧭 Hiển thị danh sách công việc
     public function index(Request $request)
     {

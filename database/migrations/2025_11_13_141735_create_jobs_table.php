@@ -13,27 +13,34 @@ return new class extends Migration
     {
         Schema::create('jobs', function (Blueprint $table) {
             $table->id();
-            
+
+            // ✅ Nhà tuyển dụng đăng job (Giữ nguyên)
+            $table->foreignId('employer_id')
+                ->constrained('employers')
+                ->onDelete('cascade');
+
             // Cột cơ bản
             $table->string('title');
-            $table->string('location');
-            $table->enum('level', ['Internship', 'Junior', 'Senior']);
-            $table->enum('remote_type', ['Full Time', 'Contract', 'Part Time']);
             $table->decimal('salary', 15, 2);
-            $table->string('category')->nullable();
             $table->text('description');
             
-            // ✨ YÊU CẦU ỨNG VIÊN (Các trường mới được thêm vào)
-            $table->string('experience')->nullable();
-            $table->string('degree')->nullable();
-            $table->string('gender')->nullable();
+            // ✅ CÁC CỘT MỚI: Khóa ngoại trỏ đến bảng categories
+            $table->foreignId('category_id')->nullable()->constrained('categories'); // Ngành nghề
+            $table->foreignId('location_id')->nullable()->constrained('categories'); // Địa điểm
+            $table->foreignId('level_id')->nullable()->constrained('categories');    // Cấp bậc
+            $table->foreignId('remote_type_id')->nullable()->constrained('categories'); // Hình thức làm việc
+            $table->foreignId('experience_id')->nullable()->constrained('categories'); // Kinh nghiệm
+            $table->foreignId('degree_id')->nullable()->constrained('categories');     // Bằng cấp
+            $table->foreignId('gender_id')->nullable()->constrained('categories');     // Giới tính
+            
+            // Các cột khác giữ nguyên
             $table->string('age')->nullable();
             $table->text('required_skills')->nullable();
 
             // Featured
             $table->boolean('is_featured')->default(false);
             $table->timestamp('posted_at')->nullable();
-            
+
             // Ảnh
             $table->string('jobs_images')->nullable(); 
             $table->string('company_logo_url')->nullable();
@@ -46,10 +53,9 @@ return new class extends Migration
             $table->string('email')->nullable();
             $table->boolean('remote')->default(false);
 
-            // ✅ STATUS
+            // ✅ STATUS: admin duyệt job
             $table->enum('status', ['pending', 'approved', 'rejected'])
-                  ->default('pending')
-                  ->comment('pending = đợi duyệt, approved = đã duyệt, rejected = từ chối');
+                ->default('pending');
 
             $table->timestamps();
         });
