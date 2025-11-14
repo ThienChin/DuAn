@@ -316,7 +316,7 @@
                                     <p class="job-location">
                                         <i class="custom-icon bi-geo-alt me-1"></i>
                                         {{-- Địa điểm --}}
-                                        {{ $job->location }}
+                                        {{ optional($job->locationItem)->value ?? 'N/A' }}
                                     </p>
 
                                     <p class="job-date">

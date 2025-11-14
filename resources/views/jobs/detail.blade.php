@@ -80,7 +80,6 @@
                                             {{-- ✨ Dùng categoryItem --}}
                                             <li><i class="bi bi-tag-fill text-primary"></i> <strong>Ngành Nghề:</strong> {{ $job->categoryItem->value ?? 'N/A' }}</li>
                                             <li><i class="bi bi-globe text-primary"></i> <strong>Từ Xa:</strong> {{ $job->remote ? 'Có' : 'Không' }}</li>
-                                            <li><i class="bi bi-check-circle-fill text-primary"></i> <strong>Nổi Bật:</strong> {{ $job->is_featured ? 'Có' : 'Không' }}</li>
                                         </ul>
                                     </div>
 

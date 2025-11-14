@@ -50,19 +50,22 @@ class AdminJobController extends Controller
         ]); 
     }
 
+    /**
+     * Hiển thị chi tiết một tin tuyển dụng.
+     */
     public function show(Job $job)
     {
-        // SỬA: Thêm remoteTypeItem vào eager loading
+        // Tải tất cả các quan hệ danh mục cùng một lúc
         $job->load([
-            'locationItem',
-            'levelItem',
-            'categoryItem',
-            'experienceItem',
-            'genderItem',
+            'locationItem', 
+            'levelItem', 
+            'categoryItem', 
+            'experienceItem', 
+            'genderItem', 
             'degreeItem',
-            'remoteTypeItem' // <-- ĐÃ THÊM
+            'remoteTypeItem' // Nếu có
         ]);
-
+        
         return view('admin.jobs.job_detail', compact('job'));
     }
 

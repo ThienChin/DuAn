@@ -69,26 +69,6 @@
 
             <!-- Right Side: Authenticated or Guest -->
             <ul class="navbar-nav align-items-center">
-
-                <li class="nav-item ms-lg-auto me-3 dropdown">
-                        <a class="nav-link dropdown-toggle d-flex align-items-center text-decoration-none" 
-                        href="#" id="navbarLanguage" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fas fa-globe me-2"></i> 
-                            <span class="d-none d-md-inline">{{ strtoupper(session('locale', config('app.locale'))) }}</span>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarLanguage">
-                            <li>
-                                <a class="dropdown-item @if(session('locale', config('app.locale')) == 'vi') active @endif" href="{{ route('language.switch', 'vi') }}">
-                                    <span class="flag-icon flag-icon-vn me-2"></span> Tiếng Việt (VI)
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item @if(session('locale') == 'en') active @endif" href="{{ route('language.switch', 'en') }}">
-                                    <span class="flag-icon flag-icon-us me-2"></span> English (EN)
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
                     
                 @auth
                     <!-- User Profile -->

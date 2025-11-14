@@ -218,7 +218,7 @@ class EmployerController extends Controller
         return view('Employer.history', compact('applications'));
     }
 
-        public function saveCandidate(Request $request, \App\Models\User $user) 
+    public function saveCandidate(Request $request, \App\Models\User $user) 
     {
         if (!auth('employer')->check()) {
             return redirect()->route('employer.login');

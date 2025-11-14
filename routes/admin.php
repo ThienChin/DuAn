@@ -46,11 +46,14 @@ Route::prefix('admin')->group(function () {
             Route::get('/employers/{employer}', [AdminUserController::class, 'employerShow'])->name('admin.users.employer_show');
             Route::get('/jobs/employer/{id}', [AdminJobController::class, 'employerJobsIndex'])->name('admin.jobs.employer_index');
             
+            
             // Ứng viên
             Route::get('/candidates', [AdminUserController::class, 'candidatesIndex'])->name('admin.users.candidates');
             Route::get('/candidates/{user}', [AdminUserController::class, 'candidateShow'])->name('admin.users.candidate_show');
             Route::get('edit/{user}', [AdminUserController::class, 'edit'])->name('admin.users.edit');
             Route::put('update/{user}', [AdminUserController::class, 'update'])->name('admin.users.update');
+            Route::get('users/applications/{application}', [AdminUserController::class, 'applicationShow'])
+                    ->name('admin.users.applications.show');
             
         });
         
@@ -68,9 +71,6 @@ Route::prefix('admin')->group(function () {
             // [DELETE] Xóa một danh mục
             Route::delete('{category}', [AdminCategoryController::class, 'destroy'])->name('destroy');
         });
-        
-        // Route lẻ (Cần kiểm tra lại controller này thuộc về ai)
-        Route::get('{job_application}', [AdminApplicationController::class, 'show'])->name('admin.users.applications.show');
         
     }); // KẾT THÚC MIDDLEWARE ADMIN
 });

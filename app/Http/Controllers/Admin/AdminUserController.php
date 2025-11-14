@@ -84,7 +84,26 @@ class AdminUserController extends Controller
         ]);
     }
 
-public function edit(User $user)
+    /**
+     * Hiển thị chi tiết đơn ứng tuyển (JobApplication)
+     */
+    public function applicationShow(JobApplication $application)
+    {
+        // Eager load:
+        // 1. user: Thông tin ứng viên
+        // 2. job: Thông tin công việc
+        // 3. job.locationItem: Load mối quan hệ Category con cho Location của Job
+        $application->load([
+            'user', 
+            'job' => function ($query) {
+                $query->with(['locationItem']); // Tải cụ thể locationItem cho Job
+            }
+        ]); 
+
+        return view('admin.users.application_detail', compact('application'));
+    }
+
+    public function edit(User $user)
     {   
         // Nếu dùng view riêng (chuyển trang):
         return view('admin.users.edit_candidates', compact('user'));

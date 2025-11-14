@@ -30,8 +30,7 @@ return new class extends Migration
             $table->boolean('is_viewed_by_employer')->default(false); 
             $table->timestamp('viewed_at')->nullable(); 
             
-            // Cột status đã có trong model nhưng thiếu ở đây, nếu cần bạn có thể thêm:
-            // $table->string('status')->default('pending');
+            $table->string('status')->default('pending');
             
             $table->timestamps();
         });

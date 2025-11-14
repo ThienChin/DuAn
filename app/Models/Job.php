@@ -73,7 +73,7 @@ class Job extends Model
     // --- QUAN HỆ VỚI CATEGORY ---
     public function locationItem()
     {
-        return $this->belongsTo(Category::class, 'location_id', 'key');    
+        return $this->belongsTo(Category::class, 'location_id');
     }
 
     public function levelItem()
