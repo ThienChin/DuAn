@@ -96,6 +96,78 @@
         <section class="job-section section-padding">
             <div class="container">
                 <div class="row align-items-center">
+
+                    {{-- KHỐI FEATURED JOBS (Giữ nguyên nếu có) --}}
+                    @if (isset($featuredJobs) && $featuredJobs->count() > 0)
+                    <div class="col-lg-12 col-12 mb-5">
+                        <h4 class="mb-4 text-primary"><i class="bi bi-star-fill me-2"></i>Featured Jobs</h4>
+                        <div class="row">
+                            @forelse ($featuredJobs as $item) 
+                                @php
+                                    $job = $item->job;
+                                @endphp
+                                
+                                @if ($job) 
+                                    <div class="col-lg-12 col-12 mb-3"> 
+                                        
+                                        <div class="job-card-compact custom-block d-flex justify-content-between align-items-center"> 
+                                        
+                                            <div class="job-details d-flex align-items-center">
+                                                {{-- THAY ĐỔI: Thêm style cho logo company --}}
+                                                <div class="company-logo-wrapper me-3" style="width: 80px; height: 80px; overflow: hidden; display: flex; align-items: center; justify-content: center;"> 
+                                                    <img 
+                                                        src="{{ asset('storage/' . $job->company_logo_url) }}" 
+                                                        class="logo-image-featured" 
+                                                        alt="{{ $job->title ?? 'Job' }} - Logo"
+                                                        style="width: 100%; height: 100%; object-fit: cover;" {{-- Fix kích thước ảnh --}}
+                                                    >
+                                                </div>
+                                                <div>
+                                                    <h5>{{ $job->title ?? 'N/A' }}</h5>
+                                                    <p class="mb-0 text-muted job-meta-sm d-flex align-items-center flex-wrap "> 
+                                                        <span>
+                                                            <i class="bi bi-geo-alt-fill me-1 text-secondary"></i> {{ $job->location ?? 'N/A' }}
+                                                        </span>
+                                                        
+                                                        <span>
+                                                            <i class="bi bi-clock-fill ms-3 me-1 text-secondary"></i> 
+                                                            {{ $job->posted_at?->diffForHumans() ?? ($job->created_at?->diffForHumans() ?? 'N/A') }}
+                                                        </span>
+                                                        
+                                                        <span class="salary-display-sm ms-3">
+                                                            <i class="bi bi-wallet-fill me-1 text-secondary"></i> {{ number_format($job->salary ?? 0, 0, ',', '.') }} VNĐ
+                                                        </span>
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                            <div class="job-action-sm d-flex align-items-center">
+                                                
+                                                @if(isset($job->level))
+                                                    <span class="badge bg-info me-2">{{ $job->level }}</span>
+                                                @endif
+                                                @if(isset($job->remote_type))
+                                                    <span class="badge bg-secondary me-4">{{ $job->remote_type }}</span>
+                                                @endif
+
+                                                <a href="{{ route('jobs.show', $job->id) }}" class="btn custom-btn">
+                                                    Apply now 
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
+                            @empty
+                                <div class="col-12 text-center">
+                                    <p>No featured jobs to display.</p>
+                                </div>
+                            @endforelse
+                        </div>
+                    </div>
+                    @endif
+                    {{-- KẾT THÚC: KHỐI FEATURED JOBS --}}
+
+
                     <div class="col-lg-6 col-12 mb-lg-4">
                         <h3>Results of {{ $jobs->firstItem() }}-{{ $jobs->lastItem() }} of {{ $jobs->total() }} jobs</h3>
                     </div>
@@ -116,106 +188,122 @@
                             <a href="#" class="sorting-icon bi-grid"></a>
                         </div>
                     </div>
-                    @foreach ($jobs as $job)
-    <div class="col-lg-4 col-md-6 col-12">
-        <div class="job-thumb job-thumb-box">
-            
-            <div class="job-image-box-wrap">
-                <a href="{{ route('jobs.show', $job->id) }}">
-                    {{-- 1. ẢNH THUMBNAIL LỚN: Lấy từ jobs_images, nếu không có thì dùng ảnh tĩnh mặc định --}}
-                    <img 
-                        src="{{ asset($job->jobs_images) }}" 
-                        class="job-image img-fluid" 
-                        alt="{{ $job->title ?? 'Job Thumbnail' }}"
-                    >
-                </a>
-                
-                <div class="job-image-box-wrap-info d-flex align-items-center">
-                    <p class="mb-0">
-                        <a href="{{ route('jobs.list') }}?job-level={{ $job->level === 'Internship' ? 1 : ($job->level === 'Junior' ? 2 : 3) }}" class="badge badge-level">{{ $job->level }}</a>
-                    </p>
-                    <p class="mb-0">
-                        <a href="{{ route('jobs.list') }}?job-remote={{ $job->remote_type === 'Full Time' ? 1 : ($job->remote_type === 'Contract' ? 2 : 3) }}" class="badge">{{ $job->remote_type }}</a>
-                    </p>
-                </div>
-            </div>
-            
-            <div class="job-body">
-                <h4 class="job-title">
-                    <a href="{{ route('jobs.show', $job->id) }}" class="job-title-link">{{ $job->title }}</a>
-                </h4>
-                
-                <div class="d-flex align-items-center">
-                    <div class="job-image-wrap d-flex align-items-center bg-white shadow-lg mt-2 mb-4">
-                        {{-- LOGO CÔNG TY NHỎ: Lấy từ cột company_logo_url trong DB --}}
-                        <img 
-                            src="{{ asset($job->company_logo_url) }}" 
-                            class="job-image me-3 img-fluid" 
-                            alt="{{ $job->company_name ?? 'Logo' }}"
-                        >
-                        <p class="mb-0">{{ $job->company_name ?? 'Unknown Company' }}</p>
-                    </div>
                     
-                    <a href="#" class="bi-bookmark ms-auto me-2"></a>
-                    <a href="#" class="bi-heart"></a>
-                </div>
-                
-                <div class="d-flex align-items-center">
-                    <p class="job-location">
-                        <i class="custom-icon bi-geo-alt me-1"></i>
-                        {{ $job->location }}
-                    </p>
-                    <p class="job-date">
-                        <i class="custom-icon bi-clock me-1"></i>
-                        {{ $job->created_at->diffForHumans() }}
-                    </p>
-                </div>
-                
-                <div class="d-flex align-items-center border-top pt-3">
-                    <p class="job-price mb-0">
-                        <i class="custom-icon bi-cash me-1"></i>
-                        {{ number_format($job->salary, 0) }} VND
-                    </p>
-                    <a href="{{ route('jobs.show', $job->id) }}" class="custom-btn btn ms-auto">Apply now</a>
-                </div>
-            </div>
-        </div>
-    </div>
-@endforeach
+                    {{-- THẺ CÔNG VIỆC CHÍNH (Áp dụng Fix Chiều Cao & Ảnh) --}}
+                    {{-- Đảm bảo row có align-items-stretch --}}
+                    <div class="row align-items-center align-items-stretch">
+                    @foreach ($jobs as $job)
+                        {{-- THAY ĐỔI COL: Thêm d-flex để buộc cột giãn ra hết chiều cao --}}
+                        <div class="col-lg-4 col-md-6 col-12 d-flex mb-4"> 
+                            {{-- THAY ĐỔI THẺ CHÍNH: Thêm h-100 và d-flex flex-column --}}
+                            <div class="job-thumb job-thumb-box h-100 d-flex flex-column">
+                                
+                                {{-- THAY ĐỔI: Thêm style cho job-image-box-wrap để fix chiều cao ảnh --}}
+                                <div class="job-image-box-wrap" style="height: 200px; overflow: hidden;"> {{-- Đặt chiều cao cố định cho vùng ảnh --}}
+                                    <a href="{{ route('jobs.show', $job->id) }}">
+                                        {{-- Hình ảnh minh họa công việc (jobs_images) --}}
+                                        <img 
+                                            src="{{ asset('storage/' . $job->jobs_images ?? 'page/images/default.jpg') }}" 
+                                            class="job-image img-fluid" 
+                                            alt="{{ $job->title ?? 'Job Thumbnail' }}"
+                                            style="width: 100%; height: 100%; object-fit: cover;" {{-- Đảm bảo ảnh bao phủ và cắt phần thừa --}}
+                                        >
+                                    </a>
+                                    
+                                    <div class="job-image-box-wrap-info d-flex align-items-center">
+                                        {{-- Cấp độ (Level) --}}
+                                        <p class="mb-0">
+                                            <a href="job-listings.html" class="badge badge-level">{{ $job->level }}</a>
+                                        </p>
+                                        {{-- Loại hình công việc (Remote Type) --}}
+                                        <p class="mb-0">
+                                            <a href="job-listings.html" class="badge">{{ $job->remote_type }}</a>
+                                        </p>
+                                    </div>
+                                </div>
+                                
+                                {{-- THÂN THẺ: Thêm flex-grow-1 --}}
+                                <div class="job-body flex-grow-1 d-flex flex-column"> 
+                                    <h4 class="job-title">
+                                        {{-- Tên công việc (Title) --}}
+                                        <a href="{{ route('jobs.show', $job->id) }}" class="job-title-link">{{ $job->title }}</a>
+                                    </h4>
+                                    
+                                    <div class="d-flex align-items-center">
+                                        {{-- THAY ĐỔI: Thêm style cho logo company trong job-image-wrap --}}
+                                        <div class="job-image-wrap d-flex align-items-center bg-white shadow-lg mt-2 mb-4" style="width: 50px; height: 50px; overflow: hidden; border-radius: 50%; justify-content: center;"> {{-- Đặt kích thước cố định cho logo --}}
+                                            {{-- Logo công ty --}}
+                                            <img 
+                                                src="{{ asset('storage/' . $job->company_logo_url ?? 'page/images/logos/default.png') }}" 
+                                                class="job-image me-3 img-fluid" 
+                                                alt="{{ $job->company_name }}"
+                                                style="width: 100%; height: 100%; object-fit: cover;" {{-- Đảm bảo logo bao phủ và cắt phần thừa --}}
+                                            >
+                                            {{-- <p class="mb-0">{{ $job->company_name }}</p> đã bị xóa để gọn hơn nếu logo đã quá lớn --}}
+                                        </div>
+                                        <p class="mb-0 ms-2">{{ $job->company_name }}</p> {{-- Đặt tên công ty bên cạnh logo --}}
+                                        
+                                        <a href="#" class="bi-bookmark ms-auto me-2"></a>
+                                        <a href="#" class="bi-heart"></a>
+                                    </div>
+                                    
+                                    <div class="d-flex align-items-center"> 
+                                        <p class="job-location">
+                                            <i class="custom-icon bi-geo-alt me-1"></i>
+                                            {{ $job->location }}
+                                        </p>
+                                        <p class="job-date">
+                                            <i class="custom-icon bi-clock me-1"></i>
+                                            {{ $job->created_at->diffForHumans() }}
+                                        </p>
+                                    </div>
+                                    
+                                    {{-- CHÂN THẺ: Dùng mt-auto để đẩy xuống cuối --}}
+                                    <div class="d-flex align-items-center border-top pt-3 mt-auto">
+                                        <p class="job-price mb-0">
+                                            <i class="custom-icon bi-cash me-1"></i>
+                                            {{ number_format($job->salary, 0, ',', '.') }} VND
+                                        </p>
+                                        <a href="{{ route('jobs.show', $job->id) }}" class="custom-btn btn ms-auto">Apply now</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                    </div> {{-- Đóng thẻ Row chứa Jobs --}}
+                    
+                    {{-- PHÂN TRANG --}}
                     <div class="col-lg-12 col-12">
-    <nav aria-label="Phân trang">
-        <ul class="pagination justify-content-center mt-5">
-            <!-- Nút Previous -->
-            @if ($jobs->onFirstPage())
-                <li class="page-item disabled">
-                    <span class="page-link">« Trước</span>
-                </li>
-            @else
-                <li class="page-item">
-                    <a class="page-link" href="{{ $jobs->previousPageUrl() }}">« Trước</a>
-                </li>
-            @endif
+                        <nav aria-label="Phân trang">
+                            <ul class="pagination justify-content-center mt-5">
+                                @if ($jobs->onFirstPage())
+                                    <li class="page-item disabled">
+                                        <span class="page-link">« Trước</span>
+                                    </li>
+                                @else
+                                    <li class="page-item">
+                                        <a class="page-link" href="{{ $jobs->previousPageUrl() }}">« Trước</a>
+                                    </li>
+                                @endif
 
-            <!-- Số trang -->
-            @foreach ($jobs->getUrlRange(1, $jobs->lastPage()) as $page => $url)
-                <li class="page-item {{ $page == $jobs->currentPage() ? 'active' : '' }}">
-                    <a class="page-link" href="{{ $url }}">{{ $page }}</a>
-                </li>
-            @endforeach
+                                @foreach ($jobs->getUrlRange(1, $jobs->lastPage()) as $page => $url)
+                                    <li class="page-item {{ $page == $jobs->currentPage() ? 'active' : '' }}">
+                                        <a class="page-link" href="{{ $url }}">{{ $page }}</a>
+                                    </li>
+                                @endforeach
 
-            <!-- Nút Next -->
-            @if ($jobs->hasMorePages())
-                <li class="page-item">
-                    <a class="page-link" href="{{ $jobs->nextPageUrl() }}">Tiếp »</a>
-                </li>
-            @else
-                <li class="page-item disabled">
-                    <span class="page-link">Tiếp »</span>
-                </li>
-            @endif
-        </ul>
-    </nav>
-</div>
+                                @if ($jobs->hasMorePages())
+                                    <li class="page-item">
+                                        <a class="page-link" href="{{ $jobs->nextPageUrl() }}">Tiếp »</a>
+                                    </li>
+                                @else
+                                    <li class="page-item disabled">
+                                        <span class="page-link">Tiếp »</span>
+                                    </li>
+                                @endif
+                            </ul>
+                        </nav>
+                    </div>
                 </div>
             </div>
         </section>

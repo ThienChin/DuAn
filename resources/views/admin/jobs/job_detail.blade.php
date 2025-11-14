@@ -117,7 +117,7 @@
                             <div class="col-6">
                                 <h6>Logo</h6>
                                 @if ($job->company_logo_url)
-                                    <img src="{{ $job->company_logo_url }}" class="img-fluid rounded border p-1" style="max-height: 80px; object-fit: contain;" alt="Logo">
+                                    <img src="{{ asset('storage/' . $job->company_logo_url ?? 'default-logo.png') }}" class="img-fluid rounded border p-1" style="max-height: 80px; object-fit: contain;" alt="Logo">
                                 @else
                                     <p class="text-muted small">N/A</p>
                                 @endif
@@ -125,7 +125,7 @@
                             <div class="col-6">
                                 <h6>Ảnh Job</h6>
                                 @if ($job->jobs_images)
-                                    <img src="{{ $job->jobs_images }}" class="img-fluid rounded border p-1" style="max-height: 80px; object-fit: cover;" alt="Job Image">
+                                    <img src="{{ asset('storage/' . $job->jobs_images) }}" class="img-fluid rounded border p-1" style="max-height: 80px; object-fit: cover;" alt="Job Image">
                                 @else
                                     <p class="text-muted small">N/A</p>
                                 @endif

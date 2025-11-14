@@ -4,8 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\JobApplication; // <<< Import Model Ứng tuyển
+use App\Models\Resume;         // <<< Import Model Resume
+use App\Models\Upload;
 use App\Models\Employer; // Giả định Model Nhà tuyển dụng
 use App\Models\User;     // Giả định Model Ứng viên
+use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
 
 class AdminUserController extends Controller
 {
@@ -50,22 +55,57 @@ class AdminUserController extends Controller
 
     public function candidateShow(User $user)
     {
-        // Trả về view chi tiết Candidate
-        return view('admin.users.candidate_detail', compact('user'));
+        // 1. Lấy dữ liệu thống kê
+        $totalApplications = JobApplication::where('user_id', $user->id)->count();
+        $totalUploads = Upload::where('user_id', $user->id)->count();
+
+        // 2. Lấy lần hoạt động cuối
+        // Giả định 'updated_at' của User là chỉ báo tốt nhất cho hoạt động chung
+        $lastActivity = $user->updated_at 
+            ? Carbon::parse($user->updated_at)->diffForHumans() 
+            : 'Mới đăng ký';
+
+        $applications = JobApplication::with('job')
+            ->where('user_id', $user->id)
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+        // 3. Chuẩn bị mảng thống kê để truyền qua view
+        $stats = [
+            'total_applications' => $totalApplications,
+            'total_files_uploaded' => $totalUploads,
+            'last_activity' => $lastActivity,
+        ];
+        
+        // 4. Trả về view với dữ liệu User và Thống kê
+        return view('admin.users.candidate_detail', [
+            'user' => $user,
+            'stats' => $stats, // Truyền biến stats
+            'applications' => $applications,
+        ]);
     }
 
+public function edit(User $user)
+    {   
+        // Nếu dùng view riêng (chuyển trang):
+        return view('admin.users.edit_candidates', compact('user'));
+    }
+
+
+    /**
+     * [PUT/PATCH] Xử lý việc cập nhật thông tin sau khi form được gửi.
+     */
     public function update(Request $request, User $user)
     {
         $request->validate([
             'name' => 'required|string|max:255',
+            // Đảm bảo email là duy nhất, trừ chính email hiện tại của user này.
             'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
-            // Thêm validation cho các trường khác nếu có
         ]);
 
         $user->name = $request->input('name');
         $user->email = $request->input('email');
         
-        // Lưu ý: Nếu bạn muốn cho phép Admin thay đổi mật khẩu, cần thêm logic hash:
+        // Nếu bạn muốn cho phép Admin thay đổi mật khẩu (cần thêm trường 'password' trong form):
         /*
         if ($request->filled('password')) {
             $user->password = Hash::make($request->input('password'));
@@ -74,7 +114,10 @@ class AdminUserController extends Controller
 
         $user->save();
 
-        return redirect()->back()->with('success', 'Thông tin ứng viên đã được cập nhật thành công.');
+        // Chuyển hướng về trang chi tiết ứng viên sau khi cập nhật thành công
+        return redirect()->route('admin.users.candidate_show', $user->id)
+                         ->with('editUserId', $user->id)
+                         ->with('success', 'Thông tin ứng viên đã được cập nhật thành công.');
     }
 
     public function deleteCv(User $user)

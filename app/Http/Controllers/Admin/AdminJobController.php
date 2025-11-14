@@ -28,7 +28,7 @@ class AdminJobController extends Controller
         $jobs = $query->latest('posted_at')->paginate(20)->withQueryString();
 
         // Trả về view quản lý chung (Giả định vẫn dùng tên view pending.blade.php)
-        return view('admin.pending', compact('jobs')); 
+        return view('admin.jobs.pending', compact('jobs')); 
     }
 
     public function employerJobsIndex($employerId) 
@@ -41,7 +41,7 @@ class AdminJobController extends Controller
                 ->paginate(20);
 
         // Giả định bạn dùng lại view quản lý jobs chung (ví dụ: admin.pending)
-        return view('admin.pending', [
+        return view('admin.jobs.pending', [
             'jobs' => $jobs,
             'title' => 'Danh sách tin tuyển dụng của công ty: ' . $employer->company_name,
             // Có thể truyền thêm biến khác nếu cần
@@ -53,7 +53,7 @@ class AdminJobController extends Controller
      */
     public function show(Job $job)
     {
-        return view('admin.job_detail', compact('job'));
+        return view('admin.jobs.job_detail', compact('job'));
     }
 
     /**
@@ -90,7 +90,7 @@ class AdminJobController extends Controller
     public function edit(Job $job)
     {
         // Trả về view chỉnh sửa. Bạn cần tạo file 'admin.job_edit'.
-        return view('admin.job_edit', compact('job'));
+        return view('admin.jobs.job_edit', compact('job'));
     }
 
     /**
@@ -120,8 +120,8 @@ class AdminJobController extends Controller
             'website' => 'nullable|url|max:255',
             'phone' => 'nullable|string|max:20',
             'email' => 'nullable|email|max:255',
-            // 'jobs_images' => 'nullable|string|max:255', // Nếu có
-            // 'company_logo_url' => 'nullable|string|max:255', // Nếu có
+            'company_logo_url' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // File ảnh, tối đa 2MB
+            'jobs_images' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // File ảnh, tối đa 2MB
         ]);
         
         // Xử lý các trường Boolean/Checkbox cần thiết (is_featured và remote)

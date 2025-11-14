@@ -13,32 +13,15 @@ return new class extends Migration
     {
         Schema::create('jobs', function (Blueprint $table) {
             $table->id();
-
-<<<<<<<< HEAD:database/migrations/2025_11_13_044746_create_jobs_table.php
-            // ✅ Nhà tuyển dụng đăng job (FOREIGN KEY)
-========
-            // ✅ Nhà tuyển dụng đăng job (Giữ nguyên)
->>>>>>>> Thien:database/migrations/2025_11_13_141735_create_jobs_table.php
             $table->foreignId('employer_id')
                 ->constrained('employers')
                 ->onDelete('cascade');
 
             // Cột cơ bản
             $table->string('title');
-<<<<<<<< HEAD:database/migrations/2025_11_13_044746_create_jobs_table.php
-            $table->string('location');
-            $table->enum('level', ['Internship', 'Junior', 'Senior']);
             $table->enum('remote_type', ['Full Time', 'Contract', 'Part Time']);
             $table->decimal('salary', 15, 2)->nullable(); // Cho phép 'Thương lượng' (NULL/0)
             $table->string('category')->nullable();
-            $table->text('description');
-
-            // ✅ CÁC CỘT MỚI THÊM VÀO THEO MODEL
-            $table->string('experience')->nullable();
-            $table->string('degree')->nullable();
-            $table->string('gender')->nullable();
-========
-            $table->decimal('salary', 15, 2);
             $table->text('description');
             
             // ✅ CÁC CỘT MỚI: Khóa ngoại trỏ đến bảng categories
@@ -49,21 +32,12 @@ return new class extends Migration
             $table->foreignId('experience_id')->nullable()->constrained('categories'); // Kinh nghiệm
             $table->foreignId('degree_id')->nullable()->constrained('categories');     // Bằng cấp
             $table->foreignId('gender_id')->nullable()->constrained('categories');     // Giới tính
-            
-            // Các cột khác giữ nguyên
->>>>>>>> Thien:database/migrations/2025_11_13_141735_create_jobs_table.php
             $table->string('age')->nullable();
             $table->text('required_skills')->nullable(); 
 
             // Featured & Posted
             $table->boolean('is_featured')->default(false);
             $table->timestamp('posted_at')->nullable();
-
-<<<<<<<< HEAD:database/migrations/2025_11_13_044746_create_jobs_table.php
-            // Ảnh & Thông tin công ty
-========
-            // Ảnh
->>>>>>>> Thien:database/migrations/2025_11_13_141735_create_jobs_table.php
             $table->string('jobs_images')->nullable(); 
             $table->string('company_logo_url')->nullable();
             $table->string('company_name');

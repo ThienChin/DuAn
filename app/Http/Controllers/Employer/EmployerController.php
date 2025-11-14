@@ -5,8 +5,11 @@ namespace App\Http\Controllers\Employer;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Job;
-use App\Models\JobApplication;
-use Illuminate\Support\Facades\Storage;
+use App\Models\Category;;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage; // ✨ ĐÃ THÊM: Sử dụng Facade Storage
+
+
 
 class EmployerController extends Controller
 {
@@ -23,7 +26,14 @@ class EmployerController extends Controller
 
     public function myJobs()
     {
-        $jobs = Job::where('employer_id', auth('employer')->id())->latest()->get();
+        // Sử dụng Auth::guard('employer') để lấy ID của nhà tuyển dụng đã đăng nhập
+        $employerId = Auth::guard('employer')->id(); 
+
+        // Tải các Job, đồng thời tải luôn mối quan hệ với Category để tránh N+1 query
+        $jobs = Job::where('employer_id', $employerId)
+                    ->with(['locationItem', 'levelItem']) // Tải Location và Level Category
+                    ->latest() // Sắp xếp theo ngày đăng mới nhất
+                    ->get();
 
         return view('Employer.myJob', compact('jobs'));
     }
@@ -35,59 +45,28 @@ class EmployerController extends Controller
         return view('Employer.infoEmployer');
     }
 
-    // Trang 2: đăng tin tuyển dụng
     public function create(Request $request)
     {
-        // Nếu bạn muốn, có thể nhận dữ liệu từ trang trước qua query (GET)
-        // $employerName = $request->input('name');
-        return view('Employer.create');
+        // 1. Lấy tất cả danh mục và nhóm theo key để truyền sang View
+        $categoriesData = Category::all()->groupBy('key');
+
+        $data = [
+            // Các danh mục chính
+            'locations' => $categoriesData->get('location', collect())->sortBy('order'),
+            'levels' => $categoriesData->get('level', collect())->sortBy('order'),
+            'categories' => $categoriesData->get('category', collect())->sortBy('order'),
+            'remote_types' => $categoriesData->get('remote_type', collect())->sortBy('order'),
+            
+            // Các danh mục yêu cầu (tùy chọn)
+            'experiences' => $categoriesData->get('experience', collect())->sortBy('order'),
+            'degrees' => $categoriesData->get('degree', collect())->sortBy('order'),
+            'genders' => $categoriesData->get('gender', collect())->sortBy('order'),
+        ];
+        
+        // 2. Truyền dữ liệu sang view Employer.create
+        return view('Employer.create', $data);
     }
 
-    public function store(Request $request)
-    {
-        // 1. VALIDATION: Đã thêm các trường mới từ Model vào Validation
-        $validated = $request->validate([
-            // THÔNG TIN CÔNG VIỆC BẮT BUỘC
-            'title' => 'required|string|max:255',
-            'location' => 'required|string|max:255',
-            'level' => 'required|string|max:255',
-            'remote_type' => 'required|string|max:255',
-            'salary' => 'nullable|numeric|min:0', // Sử dụng nullable để cho phép 'Thương lượng' (input 0)
-            'description' => 'required|string',
-            'category' => 'required|string|max:255',
-            
-            // YÊU CẦU CÔNG VIỆC (Tùy chọn)
-            'experience' => 'nullable|string|max:255',
-            'degree' => 'nullable|string|max:255',
-            'gender' => 'nullable|string|max:50',
-            'age' => 'nullable|string|max:50',
-            'required_skills' => 'nullable|string',
-            
-            // THÔNG TIN CÔNG TY & LIÊN HỆ
-            'company_name' => 'required|string|max:255',
-            'company_description' => 'nullable|string',
-            'email' => 'required|email|max:255',
-            'phone' => 'nullable|string|max:20',
-            'website' => 'nullable|url|max:255',
-            'company_logo_url' => 'nullable|url|max:255',
-            'jobs_images' => 'nullable|string', // Giữ là string (URL) nếu bạn không xử lý upload
-        ]);
-
-        // 2. TẠO JOB
-        // Lấy tất cả các trường đã validate và thêm các trường mặc định/boolean
-        Job::create(array_merge($validated, [
-            'employer_id' => auth('employer')->id(),
-            'remote' => $request->boolean('remote'), // Xử lý checkbox remote
-            'is_featured' => false, // Mặc định là false khi đăng mới
-            'posted_at' => now(),
-            'status' => 'pending', // Mặc định: Chờ duyệt
-        ]));
-
-        // 3. REDIRECT
-        return redirect()
-            ->route('employer.create')
-            ->with('success', 'Tin đã gửi và đang chờ admin duyệt!');
-    }
     public function showApplication()
     {
         // Kiểm tra xem Employer đã đăng nhập chưa
@@ -114,9 +93,30 @@ class EmployerController extends Controller
         return view('Employer.history', compact('applications'));
     }
 
-    // =================================================================
-    // ✅ CHỨC NĂNG: XEM/DOWNLOAD CV
-    // =================================================================
+        public function saveCandidate(Request $request, \App\Models\User $user) 
+    {
+        if (!auth('employer')->check()) {
+            return redirect()->route('employer.login');
+        }
+
+        $employer = auth('employer')->user();
+        
+        // 1. Kiểm tra xem ứng viên đã được lưu chưa
+        if ($employer->savedCandidates()->where('user_id', $user->id)->exists()) {
+            // Nếu đã lưu, xóa khỏi danh sách (Toggle function)
+            $employer->savedCandidates()->detach($user->id);
+            $message = 'Đã hủy lưu hồ sơ ứng viên ' . $user->name . '.';
+        } else {
+            // Nếu chưa lưu, thêm vào danh sách
+            // Giả định cột khóa ngoại trong bảng trung gian là user_id
+            $employer->savedCandidates()->attach($user->id);
+            $message = 'Đã lưu hồ sơ ứng viên ' . $user->name . ' thành công!';
+        }
+
+        // Chuyển hướng về trang trước đó (danh sách ứng tuyển)
+        return back()->with('success', $message);
+    }
+
     public function viewCv(JobApplication $application)
     {
         // 1. Lấy ID Employer đang đăng nhập
@@ -144,27 +144,94 @@ class EmployerController extends Controller
         return view('Employer.viewCV')
             ->with('error', 'File CV không tồn tại hoặc đã bị xóa.');
     }
-    public function saveCandidate(Request $request, \App\Models\User $user) 
+
+    /**
+     * Xử lý việc lưu trữ tin tuyển dụng mới.
+     */
+    public function store(Request $request)
 {
-    if (!auth('employer')->check()) {
-        return redirect()->route('employer.login');
-    }
+    // --- BƯỚC 1: VALIDATION ---
+    $request->validate([
+        'title' => 'required|string|max:255',
+        'category' => 'required|string|max:255',
+        'location' => 'required|string|max:255',
+        'level' => 'required|string|max:255',
+        'remote_type' => 'required|string|max:255',
+        'description' => 'required|string',
+        'company_name' => 'required|string|max:255',
+        'email' => 'required|email|max:255',
 
-    $employer = auth('employer')->user();
+        'salary' => 'nullable|numeric|min:0',
+        'remote' => 'nullable|boolean',
+        'experience' => 'nullable|string|max:255',
+        'degree' => 'nullable|string|max:255',
+        'gender' => 'nullable|string|max:50',
+        'age' => 'nullable|string|max:50',
+        'required_skills' => 'nullable|string',
+        'company_description' => 'nullable|string',
+        'website' => 'nullable|url|max:255',
+        'phone' => 'nullable|string|max:20',
+
+        'company_logo_url' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        'jobs_images' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+    ]);
+
+    // --- BƯỚC 2: LẤY EMPLOYER ID ---
+    $employerId = Auth::guard('employer')->id();
+
+    // --- BƯỚC 3: XỬ LÝ UPLOAD FILE ---
+    $logoPathForDB = null;
+    $imagePathForDB = null;
+
+    // Ảnh công việc
+    if ($request->hasFile('jobs_images')) {
+        $imagePathForDB = $request->file('jobs_images')->store('jobs', 'public');  
+        // => jobs/ten_file.jpg
+    }
     
-    // 1. Kiểm tra xem ứng viên đã được lưu chưa
-    if ($employer->savedCandidates()->where('user_id', $user->id)->exists()) {
-        // Nếu đã lưu, xóa khỏi danh sách (Toggle function)
-        $employer->savedCandidates()->detach($user->id);
-        $message = 'Đã hủy lưu hồ sơ ứng viên ' . $user->name . '.';
-    } else {
-        // Nếu chưa lưu, thêm vào danh sách
-        // Giả định cột khóa ngoại trong bảng trung gian là user_id
-        $employer->savedCandidates()->attach($user->id);
-        $message = 'Đã lưu hồ sơ ứng viên ' . $user->name . ' thành công!';
+
+    // Logo công ty
+    if ($request->hasFile('company_logo_url')) {
+        $logoPathForDB = $request->file('company_logo_url')->store('logos', 'public');
+        // => logos/ten_file.png
     }
 
-    // Chuyển hướng về trang trước đó (danh sách ứng tuyển)
-    return back()->with('success', $message);
+    // --- BƯỚC 4: TẠO JOB ---
+    $job = Job::create([
+        'employer_id' => $employerId,
+
+        'title' => $request->title,
+        'category' => $request->category,
+        'location' => $request->location,
+        'level' => $request->level,
+        'remote_type' => $request->remote_type,
+        'description' => $request->description,
+
+        'salary' => $request->salary,
+        'experience' => $request->experience,
+        'degree' => $request->degree,
+        'gender' => $request->gender,
+        'age' => $request->age,
+        'required_skills' => $request->required_skills,
+
+        'company_name' => $request->company_name,
+        'company_description' => $request->company_description,
+        'website' => $request->website,
+        'phone' => $request->phone,
+        'email' => $request->email,
+
+        'remote' => $request->boolean('remote'),
+        'is_featured' => false,
+        'posted_at' => now(),
+        'status' => 'pending',
+
+        'jobs_images' => $imagePathForDB,        // LƯU DẠNG: jobs/xxx.png
+        'company_logo_url' => $logoPathForDB,    // LƯU DẠNG: logos/xxx.png
+    ]);
+
+    return redirect()
+        ->route('employer.myJobs')
+        ->with('success', 'Tin tuyển dụng đã được gửi đi và đang chờ duyệt!');
 }
+
 }
