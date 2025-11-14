@@ -19,21 +19,21 @@ return new class extends Migration
 
             // Cột cơ bản
             $table->string('title');
-            $table->enum('remote_type', ['Full Time', 'Contract', 'Part Time']);
+
             $table->decimal('salary', 15, 2)->nullable(); // Cho phép 'Thương lượng' (NULL/0)
             $table->string('category')->nullable();
             $table->text('description');
             
-            // ✅ CÁC CỘT MỚI: Khóa ngoại trỏ đến bảng categories
-            $table->foreignId('category_id')->nullable()->constrained('categories'); // Ngành nghề
-            $table->foreignId('location_id')->nullable()->constrained('categories'); // Địa điểm
-            $table->foreignId('level_id')->nullable()->constrained('categories');    // Cấp bậc
-            $table->foreignId('remote_type_id')->nullable()->constrained('categories'); // Hình thức làm việc
-            $table->foreignId('experience_id')->nullable()->constrained('categories'); // Kinh nghiệm
-            $table->foreignId('degree_id')->nullable()->constrained('categories');     // Bằng cấp
-            $table->foreignId('gender_id')->nullable()->constrained('categories');     // Giới tính
+            // ✅ CÁC CỘT KHÓA NGOẠI trỏ đến bảng categories
+            $table->foreignId('category_id')->nullable()->constrained('categories');     // Ngành nghề
+            $table->foreignId('location_id')->nullable()->constrained('categories');     // Địa điểm
+            $table->foreignId('level_id')->nullable()->constrained('categories');        // Cấp bậc
+            $table->foreignId('remote_type_id')->nullable()->constrained('categories');  // Hình thức làm việc (Mục đích của bạn)
+            $table->foreignId('experience_id')->nullable()->constrained('categories');   // Kinh nghiệm
+            $table->foreignId('degree_id')->nullable()->constrained('categories');       // Bằng cấp
+            $table->foreignId('gender_id')->nullable()->constrained('categories');       // Giới tính
             $table->string('age')->nullable();
-            $table->text('required_skills')->nullable(); 
+            $table->text('required_skills')->nullable();  
 
             // Featured & Posted
             $table->boolean('is_featured')->default(false);
@@ -45,7 +45,7 @@ return new class extends Migration
             $table->string('website')->nullable();
             $table->string('phone')->nullable();
             $table->string('email')->nullable();
-            $table->boolean('remote')->default(false);
+            $table->boolean('remote')->default(false); // Làm việc Remote hay tại văn phòng
 
             // ✅ STATUS: admin duyệt job
             $table->enum('status', ['pending', 'approved', 'rejected'])
@@ -61,5 +61,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('jobs');
+    
     }
 };

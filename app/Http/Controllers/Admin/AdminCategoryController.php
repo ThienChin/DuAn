@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Category;
+use App\Models\Job;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 
 class AdminCategoryController extends Controller
@@ -36,13 +38,49 @@ class AdminCategoryController extends Controller
         return view('admin.categories.index', compact('categories', 'key', 'title', 'keys'));
     }
 
+
     /**
-     * [GET] Hiển thị form độc lập để tạo mới danh mục (Trang Create).
+     * Cập nhật một danh mục hiện có.
      */
-    public function create()
+    public function update(Request $request, Category $category)
     {
-        $keys = $this->keys; 
-        return view('admin.categories.create_page', compact('keys'));
+        // 1. Validation
+        // Lấy category_id từ input ẩn (đã được thêm vào edit_modal)
+        $categoryId = $request->input('category_id'); 
+        
+        // Loại trừ category hiện tại khỏi ràng buộc unique (unique:categories,value,id)
+        $validated = $request->validate([
+            'value' => [
+                'required',
+                'string',
+                'max:255',
+                // Đảm bảo không có 2 giá trị cùng KEY và cùng VALUE (ngoại trừ chính nó)
+                Rule::unique('categories')->where(function ($query) use ($category) {
+                    return $query->where('key', $category->key);
+                })->ignore($category->id),
+            ],
+            'order' => 'nullable|integer|min:0',
+        ]);
+        
+        // 2. Cập nhật dữ liệu
+        try {
+            $category->update([
+                'value' => $validated['value'],
+                'order' => $validated['order'] ?? 0, // Đảm bảo order không phải null nếu rỗng
+            ]);
+            
+            // 3. Chuyển hướng thành công
+            return redirect()->route('admin.categories.index', $category->key)
+                             ->with('success', "Cập nhật danh mục '{$category->value}' thành công!");
+
+        } catch (\Exception $e) {
+            // 4. Xử lý lỗi
+            // Nếu có lỗi, chuyển hướng về modal sửa lỗi (dùng old('category_id') để script tự mở modal)
+            return redirect()->back()
+                             ->withInput(['category_id' => $category->id, 'key' => $category->key]) 
+                             ->withErrors(['value' => 'Lỗi không xác định khi cập nhật.'])
+                             ->with('error', 'Không thể cập nhật danh mục: ' . $e->getMessage());
+        }
     }
     
     /**
@@ -85,11 +123,38 @@ class AdminCategoryController extends Controller
     /**
      * [DELETE] Xóa một danh mục.
      */
+
     public function destroy(Category $category)
     {
         $key = $category->key; 
-        $category->delete();
 
-        return redirect()->route('admin.category.index', $key)->with('success', 'Danh mục đã được xóa thành công!');
+        // Kiểm tra xem ID của Category này có đang được sử dụng trong BẤT KỲ cột khóa ngoại nào trong bảng Jobs không
+        $jobCount = Job::where('category_id', $category->id)
+            ->orWhere('location_id', $category->id)
+            ->orWhere('level_id', $category->id)
+            ->orWhere('experience_id', $category->id)
+            ->orWhere('degree_id', $category->id)
+            ->orWhere('gender_id', $category->id)
+            ->orWhere('remote_type_id', $category->id)
+            ->count();
+
+        if ($jobCount > 0) { 
+            // 1. Gửi thông báo LỖI với key 'error'
+            return redirect()->back()->with('error', 
+                'Không thể xóa danh mục "' . $category->value . '" vì nó đang được sử dụng bởi ' . $jobCount . ' tin tuyển dụng. Vui lòng cập nhật các tin tuyển dụng đó trước.'
+            );
+        }
+        
+        // 2. Nếu không có Jobs nào liên quan, tiến hành xóa
+        try {
+            $category->delete();
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Lỗi không xác định khi xóa: ' . $e->getMessage());
+        }
+
+        // 3. Chuyển hướng thành công
+        return redirect()->route('admin.categories.index', $key)->with('success', 
+            "Danh mục '{$category->value}' đã được xóa thành công!"
+        );
     }
 }

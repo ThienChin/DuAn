@@ -1,39 +1,42 @@
-{{-- Tên file: resources/views/admin/categories/create_modal.blade.php --}}
-
+{{-- File: admin/categories/create_modal.blade.php --}}
 <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header bg-success text-white">
-                <h5 class="modal-title" id="createModalLabel">Thêm Giá Trị Mới cho: **{{ $title }}**</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            
             <form action="{{ route('admin.categories.store') }}" method="POST">
                 @csrf
-                
-                {{-- Khóa ẩn quyết định loại danh mục hiện tại --}}
-                <input type="hidden" name="key" value="{{ $key }}"> 
-                
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title" id="createModalLabel">Thêm Giá Trị Mới cho: {{ $title }}</h5>
+                    
+                    {{-- SỬA HIỂN THỊ: Dùng cấu trúc chuẩn <button class="close"> và data-dismiss (v4/v3) --}}
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: white; opacity: 1;">
+                        <span aria-hidden="true">&times;</span> 
+                    </button>
+                </div>
                 <div class="modal-body">
                     
-                    {{-- Tên Giá Trị (VALUE) --}}
+                    <input type="hidden" name="key" value="{{ $key }}">
+                    
                     <div class="mb-3">
-                        <label for="create_value" class="form-label">Tên Giá Trị (Ví dụ: Senior, Hà Nội...)</label>
-                        <input type="text" name="value" id="create_value" class="form-control" 
-                               value="{{ old('value') }}" required>
+                        <label for="create-value" class="form-label required">Giá trị (Value):</label>
+                        <input type="text" class="form-control @error('value') is-invalid @enderror" id="create-value" name="value" value="{{ old('value') }}" required>
+                        @if ($errors->has('value') && old('key') == $key)
+                            <div class="invalid-feedback d-block">{{ $errors->first('value') }}</div>
+                        @endif
                     </div>
                     
-                    {{-- Thứ tự (ORDER) --}}
                     <div class="mb-3">
-                        <label for="create_order" class="form-label">Thứ tự hiển thị (0 = Mặc định)</label>
-                        <input type="number" name="order" id="create_order" class="form-control" 
-                               placeholder="0, 1, 2..." value="{{ old('order') }}">
+                        <label for="create-order" class="form-label">Thứ tự (Order):</label>
+                        <input type="number" class="form-control @error('order') is-invalid @enderror" id="create-order" name="order" value="{{ old('order', 0) }}" min="0">
+                        @if ($errors->has('order') && old('key') == $key)
+                            <div class="invalid-feedback d-block">{{ $errors->first('order') }}</div>
+                        @endif
                     </div>
+
                 </div>
-                
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                    <button type="submit" class="btn btn-success">Lưu và Thêm</button>
+                    {{-- SỬA CHỨC NĂNG: Dùng data-dismiss (v4/v3) --}}
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button> 
+                    <button type="submit" class="btn btn-success"><i class="mdi mdi-content-save"></i> Lưu Giá Trị</button>
                 </div>
             </form>
         </div>

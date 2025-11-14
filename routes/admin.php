@@ -37,6 +37,8 @@ Route::prefix('admin')->group(function () {
         Route::put('/jobs/{job}', [AdminJobController::class, 'update'])->name('admin.jobs.update');
         Route::delete('/jobs/{job}', [AdminJobController::class, 'destroy'])->name('admin.jobs.destroy');
 
+        Route::put('jobs/{job}/status', [AdminJobController::class, 'updateStatus'])->name('admin.jobs.update_status');
+
         // ✨ ROUTES QUẢN LÝ NGƯỜI DÙNG (USERS)
         Route::prefix('users')->group(function () {
             // Nhà tuyển dụng
@@ -49,18 +51,19 @@ Route::prefix('admin')->group(function () {
             Route::get('/candidates/{user}', [AdminUserController::class, 'candidateShow'])->name('admin.users.candidate_show');
             Route::get('edit/{user}', [AdminUserController::class, 'edit'])->name('admin.users.edit');
             Route::put('update/{user}', [AdminUserController::class, 'update'])->name('admin.users.update');
+            
         });
         
         // ✨ ROUTES QUẢN LÝ DANH MỤC (CATEGORIES)
         Route::prefix('categories')->name('admin.categories.')->group(function () {
-            // [GET] Hiển thị form tạo mới (TRANG RIÊNG)
-            Route::get('create', [AdminCategoryController::class, 'create'])->name('create_page'); 
 
             // [GET] Hiển thị danh sách giá trị theo loại danh mục (INDEX)
             Route::get('{key}', [AdminCategoryController::class, 'index'])->name('index'); 
 
             // [POST] Xử lý lưu (Dùng chung cho Create và Update)
             Route::post('store', [AdminCategoryController::class, 'store'])->name('store');
+
+            Route::put('{category}', [AdminCategoryController::class, 'update'])->name('update');
 
             // [DELETE] Xóa một danh mục
             Route::delete('{category}', [AdminCategoryController::class, 'destroy'])->name('destroy');

@@ -3,15 +3,23 @@
 <div class="modal fade" id="editModal-{{ $category->id }}" tabindex="-1" aria-labelledby="editModalLabel-{{ $category->id }}" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header bg-warning text-white">
-                <h5 class="modal-title" id="editModalLabel-{{ $category->id }}">Chỉnh Sửa Giá Trị: {{ $category->value }}</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
             
-            <form action="{{ route('admin.categories.store') }}" method="POST">
+            {{-- SỬA LỖI LOGIC: Form phải gửi đến route UPDATE --}}
+            <form action="{{ route('admin.categories.update', $category->id) }}" method="POST">
                 @csrf
+                @method('PUT')
+
+                <div class="modal-header bg-warning text-white">
+                    <h5 class="modal-title" id="editModalLabel-{{ $category->id }}">Chỉnh Sửa Giá Trị: {{ $category->value }}</h5>
+                    
+                    {{-- SỬA LỖI ĐÓNG MODAL & HIỂN THỊ: Dùng data-dismiss và cấu trúc HTML V4/V3 --}}
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: white; opacity: 1;">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
                 
-                {{-- KHÓA ẨN: Quan trọng nhất, để Controller biết đây là UPDATE --}}
+                
+                {{-- KHÓA ẨN: Quan trọng nhất --}}
                 <input type="hidden" name="category_id" value="{{ $category->id }}">
                 <input type="hidden" name="key" value="{{ $category->key }}"> 
                 
@@ -27,9 +35,10 @@
                         <label for="edit_value_{{ $category->id }}" class="form-label">Tên Giá Trị</label>
                         <input type="text" name="value" id="edit_value_{{ $category->id }}" class="form-control @error('value') is-invalid @enderror" 
                                value="{{ old('value', $category->value) }}" required>
-                        @error('value')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
+                        {{-- SỬA HIỂN THỊ LỖI: Chỉ hiển thị lỗi nếu lỗi đó liên quan đến việc sửa Modal hiện tại --}}
+                        @if ($errors->has('value') && old('category_id') == $category->id)
+                            <div class="invalid-feedback d-block">{{ $errors->first('value') }}</div>
+                        @endif
                     </div>
                     
                     {{-- Thứ tự (ORDER) --}}
@@ -37,14 +46,16 @@
                         <label for="edit_order_{{ $category->id }}" class="form-label">Thứ tự hiển thị</label>
                         <input type="number" name="order" id="edit_order_{{ $category->id }}" class="form-control @error('order') is-invalid @enderror" 
                                value="{{ old('order', $category->order) }}">
-                        @error('order')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
+                        {{-- SỬA HIỂN THỊ LỖI: Chỉ hiển thị lỗi nếu lỗi đó liên quan đến việc sửa Modal hiện tại --}}
+                        @if ($errors->has('order') && old('category_id') == $category->id)
+                            <div class="invalid-feedback d-block">{{ $errors->first('order') }}</div>
+                        @endif
                     </div>
                 </div>
                 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    {{-- SỬA LỖI ĐÓNG MODAL: Dùng data-dismiss V4 --}}
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
                     <button type="submit" class="btn btn-warning">Lưu Thay Đổi</button>
                 </div>
             </form>
