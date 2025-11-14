@@ -15,6 +15,9 @@
     <link href="{{ asset('admin/assets/libs/flot/css/float-chart.css') }}" rel="stylesheet">
     <!-- Custom CSS -->
     <link href="{{ asset('admin/dist/css/style.min.css') }}" rel="stylesheet">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -220,13 +223,6 @@
                                             <span class="hide-menu"> Cấp Bậc/Chức Danh </span>
                                         </a>
                                     </li>
-                                    <li class="sidebar-item">
-                                        {{-- Ví dụ: Bổ sung thêm các loại danh mục khác nếu có --}}
-                                        <a href="{{ route('admin.categories.create_page') }}" class="sidebar-link">
-                                            <i class="mdi mdi-plus-box"></i>
-                                            <span class="hide-menu"> Thêm Danh Mục Mới (Trang) </span>
-                                        </a>
-                                    </li>
                                 </ul>
                             </li>
                         
@@ -285,8 +281,10 @@
     <script src="{{ asset('admin/assets/libs/flot/jquery.flot.stack.js') }}"></script>
     <script src="{{ asset('admin/assets/libs/flot/jquery.flot.crosshair.js') }}"></script>
     <script src="{{ asset('admin/assets/libs/flot.tooltip/js/jquery.flot.tooltip.min.js') }}"></script>
-    <script src="{{ asset('admin/dist/js/pages/chart/chart-page-init.js') }}"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    
+    @yield('scripts') 
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Job;
 use App\Models\Employer;
+use App\Models\Category;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class AdminJobController extends Controller
 {
@@ -48,11 +50,19 @@ class AdminJobController extends Controller
         ]); 
     }
 
-    /**
-     * Hiển thị chi tiết bài đăng
-     */
     public function show(Job $job)
     {
+        // SỬA: Thêm remoteTypeItem vào eager loading
+        $job->load([
+            'locationItem',
+            'levelItem',
+            'categoryItem',
+            'experienceItem',
+            'genderItem',
+            'degreeItem',
+            'remoteTypeItem' // <-- ĐÃ THÊM
+        ]);
+
         return view('admin.jobs.job_detail', compact('job'));
     }
 
@@ -89,52 +99,139 @@ class AdminJobController extends Controller
 
     public function edit(Job $job)
     {
-        // Trả về view chỉnh sửa. Bạn cần tạo file 'admin.job_edit'.
-        return view('admin.jobs.job_edit', compact('job'));
+        // Lấy dữ liệu danh mục dựa trên trường 'key'
+        $categories = Category::where('key', 'category')->get();
+        $locations = Category::where('key', 'location')->get();
+        $levels = Category::where('key', 'level')->get();
+        
+        // Thêm 3 danh mục mới
+        $experiences = Category::where('key', 'experience')->get();
+        $genders = Category::where('key', 'gender')->get();
+        $degrees = Category::where('key', 'degree')->get();
+
+        // THÊM: Lấy danh mục Remote Type
+        $remoteTypes = Category::where('key', 'remote_type')->get();
+
+        // Truyền tất cả các biến cần thiết sang view
+        return view('admin.jobs.job_edit', compact(
+            'job', 
+            'categories', 
+            'locations', 
+            'levels',
+            // Các biến mới
+            'experiences',
+            'genders',
+            'degrees',
+            'remoteTypes' // <-- ĐÃ THÊM
+        ));
     }
 
     /**
-     * Xử lý cập nhật thông tin bài đăng.
+     * Cập nhật tin tuyển dụng - Chỉ cập nhật những trường được gửi
      */
     public function update(Request $request, Job $job)
     {
-        // Cần phải có tất cả các trường bạn muốn lưu trong validation
-        $validated = $request->validate([
+        // 1. Danh sách các trường có thể cập nhật
+        $fillableFields = [
+            'title', 'company_name', 'location_id', 'level_id', 'category_id',
+            'experience_id', 'gender_id', 'degree_id', 'remote_type_id', 'salary', // SỬA: 'remote_type' -> 'remote_type_id'
+            'description', 'status', 'is_featured', 'remote', 'age',
+            // Thêm các trường khác để validation có thể chạy
+            'company_logo_url', 'jobs_images',
+        ];
+
+        // 2. VALIDATION: Chỉ validate những field có trong request VÀ có trong $fillableFields
+        $rules = [
             'title' => 'required|string|max:255',
-            'location' => 'required|string|max:255',
-            'level' => 'required|string|max:50',
-            'remote_type' => 'required|string|max:50',
-            'salary' => 'nullable|numeric|min:0', // Đã là numeric, OK
-            'description' => 'required|string',
-            'category' => 'nullable|string|max:100',
             'company_name' => 'required|string|max:255',
-            'status' => 'required|in:pending,approved,rejected', 
+            'location_id' => 'nullable|integer|exists:categories,id',
+            'level_id' => 'nullable|integer|exists:categories,id',
+            'category_id' => 'nullable|integer|exists:categories,id',
+            'experience_id' => 'nullable|integer|exists:categories,id',
+            'gender_id' => 'nullable|integer|exists:categories,id',
+            'degree_id' => 'nullable|integer|exists:categories,id',
             
-            // Cần thêm tất cả các trường khác có trong Model Job của bạn
-            'experience' => 'nullable|string|max:255',
-            'degree' => 'nullable|string|max:255',
-            'gender' => 'nullable|string|max:50',
+            // SỬA: Validation cho ID
+            'remote_type_id' => 'nullable|integer|exists:categories,id', 
+            
+            'salary' => 'nullable|numeric|min:0',
+            'description' => 'required|string',
+            'status' => 'required|in:pending,approved,rejected',
+            // Checkbox/Boolean
+            'is_featured' => 'boolean', 
+            'remote' => 'boolean', 
             'age' => 'nullable|string|max:50',
-            'required_skills' => 'nullable|string',
-            'company_description' => 'nullable|string',
-            'website' => 'nullable|url|max:255',
-            'phone' => 'nullable|string|max:20',
-            'email' => 'nullable|email|max:255',
-            'company_logo_url' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // File ảnh, tối đa 2MB
-            'jobs_images' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // File ảnh, tối đa 2MB
-        ]);
+
+            // File
+            'company_logo_url' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'jobs_images' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ];
+
+        // Chỉ validate những field được gửi trong request và có trong rules
+        $validated = $request->validate(array_intersect_key($rules, $request->all()));
+
+        // 3. XỬ LÝ CÁC TRƯỜNG ĐẶC BIỆT/THIẾU
         
-        // Xử lý các trường Boolean/Checkbox cần thiết (is_featured và remote)
-        // Nếu checkbox KHÔNG được gửi lên, nó sẽ là false (0)
-        $validated['is_featured'] = $request->has('is_featured'); 
-        $validated['remote'] = $request->has('remote');
+        // --- Checkbox (is_featured, remote): Nếu không có trong request, set 0
+        $validated['is_featured'] = $request->has('is_featured') ? 1 : 0;
+        $validated['remote'] = $request->has('remote') ? 1 : 0;
         
-        // Cập nhật Job
-        // Lỗi có thể do bạn chưa khai báo đủ trường trong $fillable của Model Job
+        // --- Các trường ID (bao gồm remote_type_id): nếu gửi rỗng (empty string) → set NULL
+        $nullableIdFields = ['location_id', 'level_id', 'category_id', 'experience_id', 'gender_id', 'degree_id', 'remote_type_id']; // <-- ĐÃ THÊM 'remote_type_id'
+        foreach ($nullableIdFields as $field) {
+            if (isset($validated[$field]) && ($validated[$field] === '' || $validated[$field] === null)) {
+                $validated[$field] = null;
+            }
+        }
+
+        // --- salary: nếu rỗng → null
+        if (isset($validated['salary']) && $validated['salary'] === '') {
+            $validated['salary'] = null;
+        }
+
+        // 4. XỬ LÝ UPLOAD FILE (Giữ nguyên logic file)
+        $storagePath = 'public/jobs/uploads';
+        
+        // Xử lý logo
+        if ($request->hasFile('company_logo_url')) {
+            if ($job->company_logo_url && Storage::exists($job->company_logo_url)) {
+                Storage::delete($job->company_logo_url);
+            }
+            $validated['company_logo_url'] = $request->file('company_logo_url')->store($storagePath);
+        } elseif ($request->has('company_logo_url') && $request->input('company_logo_url') === 'null') {
+            if ($job->company_logo_url && Storage::exists($job->company_logo_url)) {
+                Storage::delete($job->company_logo_url);
+            }
+            $validated['company_logo_url'] = null;
+        } else {
+            unset($validated['company_logo_url']);
+        }
+
+        // Xử lý jobs_images
+        if ($request->hasFile('jobs_images')) {
+            if ($job->jobs_images && Storage::exists($job->jobs_images)) {
+                Storage::delete($job->jobs_images);
+            }
+            $validated['jobs_images'] = $request->file('jobs_images')->store($storagePath);
+        } elseif ($request->has('jobs_images') && $request->input('jobs_images') === 'null') {
+            if ($job->jobs_images && Storage::exists($job->jobs_images)) {
+                Storage::delete($job->jobs_images);
+            }
+            $validated['jobs_images'] = null;
+        } else {
+            unset($validated['jobs_images']);
+        }
+
+        // 5. CẬP NHẬT posted_at nếu chuyển sang approved
+        if ($job->status !== 'approved' && ($validated['status'] ?? $job->status) === 'approved') {
+            $validated['posted_at'] = now();
+        }
+
+        // 6. CẬP NHẬT JOB
         $job->update($validated);
 
         return redirect()->route('admin.jobs.show', $job->id)
-                        ->with('success', "Cập nhật tin tuyển dụng '{$job->title}' thành công!");
+            ->with('success', "Cập nhật tin tuyển dụng '{$job->title}' thành công!");
     }
 
     public function destroy(Job $job)
@@ -147,5 +244,31 @@ class AdminJobController extends Controller
         // Chuyển hướng về trang quản lý chung
         return redirect()->route('admin.jobs.index')
                         ->with('success', "Đã xóa vĩnh viễn tin tuyển dụng '{$jobTitle}' thành công.");
+    }
+
+    public function updateStatus(Request $request, Job $job)
+    {
+        $newStatus = $request->input('action');
+        
+        if (!in_array($newStatus, ['approved', 'rejected', 'pending'])) {
+            return redirect()->back()->with('error', 'Trạng thái cập nhật không hợp lệ.');
+        }
+
+        try {
+            $job->status = $newStatus;
+            
+            if ($newStatus === 'approved') {
+                if (!$job->posted_at) {
+                    $job->posted_at = now();
+                }
+            }
+
+            $job->save();
+
+            return redirect()->route('admin.jobs.show', $job->id)->with('success', 'Tin tuyển dụng "' . $job->title . '" đã được cập nhật thành công.');
+
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Lỗi khi cập nhật trạng thái tin tuyển dụng: ' . $e->getMessage());
+        }
     }
 }

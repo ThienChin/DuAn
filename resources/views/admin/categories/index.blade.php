@@ -1,14 +1,25 @@
 @extends('layouts.admin')
 
 @section('content')
+{{-- THÊM PHẦN HIỂN THỊ THÔNG BÁO LỖI (ERROR) --}}
+@if (session('error'))
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{ session('error') }}
+        
+        {{-- Sửa lỗi nút đóng ALERT --}}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+@endif
 <div class="row">
     <div class="col-12">
         <div class="card shadow-sm">
             <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
                 <h3 class="card-title mb-0"><i class="mdi mdi-buffer me-2"></i> Quản Lý Danh Mục: {{ $title }}</h3>
                 
-                {{-- Nút Mở Modal Thêm Nhanh (Dùng cho Create Modal) --}}
-                <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#createModal">
+                {{-- Nút Mở Modal Thêm Nhanh: SỬA THÀNH CÚ PHÁP V4 --}}
+                <button type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#createModal">
                     <i class="mdi mdi-plus-circle-outline"></i> Thêm Nhanh
                 </button>
             </div>
@@ -19,7 +30,11 @@
                 @if (session('success'))
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
                         {{ session('success') }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        
+                        {{-- SỬA LỖI NÚT ĐÓNG ALERT: Dùng cú pháp V4 và cấu trúc HTML chuẩn --}}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
                 @endif
                 
@@ -43,12 +58,12 @@
                             @forelse ($categories as $category)
                             <tr>
                                 <td>{{ $category->id }}</td>
-                                <td><span class="badge bg-secondary">{{ $category->key }}</span></td>
+                                <td><span>{{ $category->key }}</span></td>          
                                 <td>{{ $category->value }}</td>
                                 <td>{{ $category->order ?? '0' }}</td>
                                 <td>
-                                    {{-- Nút Sửa (Mở Modal Sửa) --}}
-                                    <button class="btn btn-sm btn-warning me-2" data-bs-toggle="modal" data-bs-target="#editModal-{{ $category->id }}">
+                                    {{-- Nút Sửa (Mở Modal Sửa): SỬA THÀNH CÚ PHÁP V4 --}}
+                                    <button class="btn btn-sm btn-warning me-2" data-toggle="modal" data-target="#editModal-{{ $category->id }}">
                                         <i class="mdi mdi-pencil"></i> Sửa
                                     </button>
                                     
@@ -61,6 +76,7 @@
                                 </td>
                             </tr>
                             {{-- INCLUDE MODAL SỬA CHO TỪNG DANH MỤC --}}
+                            {{-- LƯU Ý: Cần đảm bảo file edit_modal cũng đã dùng cú pháp V4 --}}
                             @include('admin.categories.edit_modal', ['category' => $category, 'keys' => $keys]) 
                             
                             @empty
@@ -78,7 +94,8 @@
 {{-- INCLUDE MODAL THÊM MỚI VÀ SCRIPT TỰ MỞ KHI CÓ LỖI --}}
 {{-- *************************************************************** --}}
 
-{{-- 1. Modal Thêm Mới (Cần đảm bảo file này tồn tại) --}}
+{{-- 1. Modal Thêm Mới --}}
+{{-- LƯU Ý: Cần đảm bảo file create_modal cũng đã dùng cú pháp V4 --}}
 @include('admin.categories.create_modal', ['key' => $key, 'title' => $title]) 
 
 {{-- 2. Script tự động mở Modal khi có lỗi Validation --}}
