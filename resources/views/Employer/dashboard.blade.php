@@ -41,35 +41,26 @@
             <div class="row g-3 mb-4">
                 <div class="col-md-4 col-lg-2">
                     <div class="card p-3 text-center shadow-sm border-0 h-100">
-                        <div id="count-view" class="h3 mb-1 fw-bold" style="color: #4834d4;">0</div>
+                        {{-- Thay 0 bằng biến $postedJobsCount --}}
+                        <div id="count-jobs" class="h3 mb-1 fw-bold" style="color: #4834d4;">{{ $postedJobsCount ?? 0 }}</div> 
                         <p class="text-muted mb-0">Việc làm đã đăng</p>
                     </div>
                 </div>
+
                 <div class="col-md-4 col-lg-2">
                     <div class="card p-3 text-center shadow-sm border-0 h-100">
-                        <div id="count-view" class="h3 mb-1 fw-bold" style="color: #ff7675;">0</div>
+                        <div id="count-applications" class="h3 mb-1 fw-bold" style="color: #ff7675;">{{ $applicationsCount ?? 0 }}</div>
                         <p class="text-muted mb-0">Hồ sơ ứng tuyển</p>
                     </div>
                 </div>
 
                 <div class="col-md-4 col-lg-2">
                     <div class="card p-3 text-center shadow-sm border-0 h-100">
-                        <div class="h3 mb-1 fw-bold" style="color: #ff6b6b;">0</div>
+                        <div id="count-viewed-applications" class="h3 mb-1 fw-bold" style="color: #ff6b6b;">{{ $viewedApplicationsCount ?? 0 }}</div>
                         <p class="text-muted mb-0">Lượt xem hồ sơ</p>
                     </div>
                 </div>
-                <div class="col-md-4 col-lg-2">
-                    <div class="card p-3 text-center shadow-sm border-0 h-100">
-                        <div class="h3 mb-1 fw-bold" style="color: #7bed9f;">0</div>
-                        <p class="text-muted mb-0">Số lần làm mới</p>
-                    </div>
-                </div>
-                <div class="col-md-4 col-lg-2">
-                    <div class="card p-3 text-center shadow-sm border-0 h-100">
-                        <div class="h3 mb-1 fw-bold" style="color: #a29bfe;">0</div>
-                        <p class="text-muted mb-0">Lượt xem việc làm</p>
-                    </div>
-                </div>
+
             </div>
 
             <div class="card shadow-sm border-0 mb-4 p-4">

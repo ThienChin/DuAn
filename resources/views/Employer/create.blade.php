@@ -82,12 +82,13 @@
                                 @error('category') <div class="invalid-feedback">{{ $message }}</div> @enderror
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label for="location" class="form-label fw-semibold required">Địa điểm làm việc:</label>
+                                <label for="location" class="form-label fw-semibold">Địa điểm làm việc *</label>
                                 <select class="form-select @error('location') is-invalid @enderror" id="location" name="location" required>
-                                    <option value="">-- Chọn Địa Điểm --</option>
-                                    @foreach ($locations as $loc)
-                                        <option value="{{ $loc->value }}" {{ old('location') == $loc->value ? 'selected' : '' }}>
-                                            {{ $loc->value }}
+                                    <option value="">Chọn địa điểm</option>
+                                    @foreach($locations as $item)
+                                        {{-- ✨ ĐIỀU CHỈNH QUAN TRỌNG: Gửi item->key (ID/Slug) thay vì item->name --}}
+                                        <option value="{{ $item->key }}" {{ old('location') == $item->key ? 'selected' : '' }}>
+                                            {{ $item->name }}
                                         </option>
                                     @endforeach
                                 </select>

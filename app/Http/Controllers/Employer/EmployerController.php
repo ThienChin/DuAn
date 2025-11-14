@@ -5,10 +5,10 @@ namespace App\Http\Controllers\Employer;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Job;
-use App\Models\Category;;
+use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage; // ✨ ĐÃ THÊM: Sử dụng Facade Storage
-
+use App\Models\JobApplication;
 
 
 class EmployerController extends Controller
@@ -20,7 +20,34 @@ class EmployerController extends Controller
 
     public function dashboard()
     {
-        return view('Employer.dashboard');
+        // Lấy ID của nhà tuyển dụng hiện tại
+        $employerId = Auth::guard('employer')->id(); 
+
+        // 1. Đếm số Việc làm đã đăng
+        $postedJobsCount = Job::where('employer_id', $employerId)->count(); 
+
+        // 2. Đếm số Hồ sơ ứng tuyển (cho TẤT CẢ công việc của nhà tuyển dụng này)
+        // Chúng ta cần lấy ID của tất cả các Job của Employer này trước
+        $jobIds = Job::where('employer_id', $employerId)->pluck('id');
+
+        // Sau đó đếm số lượng hồ sơ ứng tuyển liên quan đến các Job ID đó
+        $applicationsCount = JobApplication::whereIn('job_id', $jobIds)->count();
+
+        $viewedApplicationsCount = JobApplication::whereIn('job_id', $jobIds)
+                                            ->where('is_viewed_by_employer', true)
+                                            ->count();
+        
+        // Hoặc nếu bạn muốn đếm hồ sơ đã được lưu (saved candidates),
+        // bạn cần truy cập qua mối quan hệ của model Employer:
+        // $savedCandidatesCount = auth('employer')->user()->savedCandidates()->count();
+
+
+        return view('Employer.dashboard', [
+            'postedJobsCount' => $postedJobsCount,
+            'applicationsCount' => $applicationsCount,
+            'viewedApplicationsCount'=>$viewedApplicationsCount,
+            // Thêm các biến đếm khác nếu cần: 'savedCandidatesCount' => $savedCandidatesCount,
+        ]);
     }
 
 
@@ -117,6 +144,8 @@ class EmployerController extends Controller
         return back()->with('success', $message);
     }
 
+
+
     public function viewCv(JobApplication $application)
     {
         // 1. Lấy ID Employer đang đăng nhập
@@ -127,16 +156,25 @@ class EmployerController extends Controller
 
         // **QUAN TRỌNG:** Kiểm tra xem JobApplication này có thuộc về Job của Employer này không
         if ($application->job->employer_id !== $employerId) {
-            // ✅ SỬ DỤNG VIEW VCV KHI KHÔNG CÓ QUYỀN
+            // ... (Xử lý không có quyền)
             return view('Employer.viewCV')
                 ->with('error', 'Bạn không có quyền truy cập hồ sơ này.');
         }
+
+        // ✨✨ ĐOẠN CODE SỬA LỖI: ĐẶT LOGIC CẬP NHẬT LÊN TRÊN CÙNG (SAU KIỂM TRA QUYỀN) ✨✨
+        if (!$application->is_viewed_by_employer) {
+            $application->update([
+                'is_viewed_by_employer' => true,
+                'viewed_at' => now(), 
+            ]);
+        }
+        // ---------------------------------------------------------------------------------
 
         $cvPath = $application->cv;
 
         // 3. Kiểm tra và trả về file
         if (Storage::disk('public')->exists($cvPath)) {
-            // Download file (Nếu thành công, sẽ KHÔNG load View)
+            // Download file (Lệnh RETURN ở đây sẽ kết thúc hàm, nhưng trạng thái đã được cập nhật)
             return Storage::disk('public')->download($cvPath, 'CV_' . $application->name . '_' . time() . '.pdf');
         }
 

@@ -70,7 +70,7 @@ class Job extends Model
     
     public function locationItem()
     {
-        return $this->belongsTo(Category::class, 'location_id');
+        return $this->belongsTo(Category::class, 'location_id', 'key');    
     }
     
     public function levelItem()

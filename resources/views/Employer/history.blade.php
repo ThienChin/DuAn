@@ -11,22 +11,30 @@
                 <h5 class="mb-3 text-muted">QUẢN LÝ CHUNG</h5>
                 <a href="{{ route('employer.dashboard') }}" class="list-group-item list-group-item-action active" aria-current="true" style="background-color: var(--gotto-primary); border-color: var(--gotto-primary);"><i class="bi bi-house-door-fill me-2"></i> Trang chủ Dashboard</a> 
                 <a href="{{ route('employer.create') }}" class="list-group-item list-group-item-action"><i class="bi bi-upload me-2"></i> Đăng tin tuyển dụng</a>
-                <a href="#" class="list-group-item list-group-item-action"><i class="bi bi-list-task me-2"></i> Tất cả tuyển dụng</a>
+                <a href="{{ route('employer.myJobs') }}" class="list-group-item list-group-item-action active" aria-current="true" style="background-color: var(--gotto-primary); border-color: var(--gotto-primary);"><i class="bi bi-list-task me-2"></i> Tất cả tuyển dụng</a>
+
                 
 
                 <h5 class="mt-2 mb-3 text-muted">ỨNG VIÊN</h5>
                 {{-- Các mục menu tương ứng với ảnh chụp màn hình và logic từ create.blade.php --}}
                 
                 {{-- Lưu ý: Cần kiểm tra lại các route và icon chính xác của bạn --}}
-
-                {{-- Vị trí phòng vấn (Chỉ có trong ảnh) --}}
-                <a href="#" class="list-group-item list-group-item-action"><i class="bi bi-person-check me-2"></i> Vị trí phòng vấn</a> 
-                 
-                {{-- Hồ sơ đã lưu (Có trong ảnh & create.blade.php) --}}
-                <a href="#" class="list-group-item list-group-item-action"><i class="bi bi-bookmark-fill me-2"></i> Hồ sơ đã lưu</a>
-                
-                {{-- Hồ sơ đã ứng tuyển (Mục đang hoạt động) --}}
+               
+               {{-- Hồ sơ đã ứng tuyển (Mục đang hoạt động) --}}
                 <a href="{{ route('employer.history') }}" class="list-group-item list-group-item-action active" aria-current="true" style="background-color: var(--gotto-primary); border-color: var(--gotto-primary);"><i class="bi bi-file-earmark-person me-2"></i> Hồ sơ đã ứng tuyển</a>
+
+                <h5 class="mt-4 mb-3 text-muted">CÀI ĐẶT</h5>
+                <a href="" class="list-group-item list-group-item-action"><i class="bi bi-building me-2"></i> Thông tin công ty</a>
+                <a href="" class="list-group-item list-group-item-action"><i class="bi bi-gear-fill me-2"></i> Cài đặt tài khoản</a>
+                <a href="{{ route('employer.logout') }}" 
+                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();" 
+                    class="list-group-item list-group-item-action text-danger">
+                    <i class="bi bi-box-arrow-right me-2"></i> Đăng xuất
+                </a>
+
+                <form id="logout-form" action="{{ route('employer.logout') }}" method="POST" class="d-none">
+                    @csrf
+                </form>
             </div>
              
              {{-- Banner quảng cáo (Dựa trên create.blade.php) --}}

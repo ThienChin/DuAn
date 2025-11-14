@@ -22,8 +22,16 @@ return new class extends Migration
 
             $table->string('name');
             $table->string('email');
+            $table->string('phone')->nullable(); // ✅ ĐÃ THÊM: Cột phone (đảm bảo đồng bộ với Model)
             $table->string('cv')->nullable(); // link tới file CV nếu có upload
             $table->text('message')->nullable();
+            
+            // ✨ ĐÃ THÊM: Cột trạng thái đã xem bởi Employer
+            $table->boolean('is_viewed_by_employer')->default(false); 
+            $table->timestamp('viewed_at')->nullable(); 
+            
+            // Cột status đã có trong model nhưng thiếu ở đây, nếu cần bạn có thể thêm:
+            // $table->string('status')->default('pending');
             
             $table->timestamps();
         });

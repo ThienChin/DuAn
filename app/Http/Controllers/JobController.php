@@ -19,7 +19,8 @@ class JobController extends Controller
     // 🧭 Hiển thị danh sách công việc
     public function index(Request $request)
     {
-        $query = Job::where('status', 'approved');
+        $query = Job::where('status', 'approved')
+        ->with($this->categoryRelations);
 
 
         // Sắp xếp
