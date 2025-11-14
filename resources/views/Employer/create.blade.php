@@ -24,18 +24,26 @@
             <div class="list-group shadow-sm bg-white rounded-3 p-3 mb-4">
                 <h5 class="mb-3 text-muted">QUẢN LÝ CHUNG</h5>
                 <a href="{{ route('employer.dashboard') }}" class="list-group-item list-group-item-action"><i class="bi bi-house-door-fill me-2"></i> Trang chủ Dashboard</a> 
-                <a href="{{ route('employer.create') }}" class="list-group-item list-group-item-action active" aria-current="true" style="background-color: var(--gotto-primary); border-color: var(--gotto-primary);"><i class="bi bi-upload me-2"></i> Đăng tin tuyển dụng</a>
-                <a href="#" class="list-group-item list-group-item-action"><i class="bi bi-list-task me-2"></i> Tất cả tuyển dụng</a>
+                <a href="{{ route('employer.create') }}" class="list-group-item list-group-item-action"><i class="bi bi-upload me-2"></i> Đăng tin tuyển dụng</a>
+                {{-- Đánh dấu ACTIVE cho menu này --}}
+                <a href="{{ route('employer.myJobs') }}" class="list-group-item list-group-item-action active" aria-current="true" style="background-color: var(--gotto-primary); border-color: var(--gotto-primary);"><i class="bi bi-list-task me-2"></i> Tất cả tuyển dụng</a>
 
-                <h5 class="mt-4 mb-3 text-muted">ỨNG VIÊN</h5>
-                <a href="#" class="list-group-item list-group-item-action"><i class="bi bi-bookmark-fill me-2"></i> Hồ sơ đã lưu</a>
-                <a href="{{ route('employer.history') }}" class="list-group-item list-group-item-action"><i class="bi bi-file-earmark-person me-2"></i> Hồ sơ đã ứng tuyển</a>
-                <a href="#" class="list-group-item list-group-item-action"><i class="bi bi-cash me-2"></i> Mua dịch vụ</a>
+                <h5 class="mt-4 mb-3 text-muted">ỨNG VIÊN & HỒ SƠ</h5>
+                <a href="{{ route('employer.history') }}" class="list-group-item list-group-item-action"><i class="bi bi-person-lines-fill me-2"></i> Hồ sơ ứng tuyển</a>
+                
+                <h5 class="mt-4 mb-3 text-muted">CÀI ĐẶT</h5>
+                <a href="" class="list-group-item list-group-item-action"><i class="bi bi-building me-2"></i> Thông tin công ty</a>
+                <a href="" class="list-group-item list-group-item-action"><i class="bi bi-gear-fill me-2"></i> Cài đặt tài khoản</a>
+                <a href="{{ route('employer.logout') }}" 
+                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();" 
+                    class="list-group-item list-group-item-action text-danger">
+                    <i class="bi bi-box-arrow-right me-2"></i> Đăng xuất
+                </a>
+
+                <form id="logout-form" action="{{ route('employer.logout') }}" method="POST" class="d-none">
+                    @csrf
+                </form>
             </div>
-             
-             <a href="#">
-                <img src="https://via.placeholder.com/300x400/3498db/ffffff?text=DICH+VU+50%+OFF" class="img-fluid rounded-3 shadow-sm" alt="Promotion Banner">
-             </a>
         </div>
 
         <div class="col-lg-9">

@@ -6,22 +6,28 @@
 <div class="container my-5">
     <div class="row">
         <div class="col-lg-3">
-            <div class="list-group shadow-sm bg-white rounded-3 p-3">
+            <div class="list-group shadow-sm bg-white rounded-3 p-3 mb-4">
                 <h5 class="mb-3 text-muted">QUẢN LÝ CHUNG</h5>
-                <a href="{{ route('employer.dashboard') }}" class="list-group-item list-group-item-action active" aria-current="true" style="background-color: var(--gotto-primary); border-color: var(--gotto-primary);"><i class="bi bi-house-door-fill me-2"></i> Trang chủ Dashboard</a> 
+                <a href="{{ route('employer.dashboard') }}" class="list-group-item list-group-item-action"><i class="bi bi-house-door-fill me-2"></i> Trang chủ Dashboard</a> 
                 <a href="{{ route('employer.create') }}" class="list-group-item list-group-item-action"><i class="bi bi-upload me-2"></i> Đăng tin tuyển dụng</a>
-                <a href="#" class="list-group-item list-group-item-action"><i class="bi bi-list-task me-2"></i> Tất cả tuyển dụng</a>
+                {{-- Đánh dấu ACTIVE cho menu này --}}
+                <a href="{{ route('employer.myJobs') }}" class="list-group-item list-group-item-action active" aria-current="true" style="background-color: var(--gotto-primary); border-color: var(--gotto-primary);"><i class="bi bi-list-task me-2"></i> Tất cả tuyển dụng</a>
 
-                <h5 class="mt-4 mb-3 text-muted">ỨNG VIÊN</h5>
-                <a href="#" class="list-group-item list-group-item-action"><i class="bi bi-cash me-2"></i> Mua dịch vụ</a>
-                <a href="#" class="list-group-item list-group-item-action"><i class="bi bi-pin-map me-2"></i> Vị trí phỏng vấn</a>
-                <a href="#" class="list-group-item list-group-item-action"><i class="bi bi-calendar-check me-2"></i> Biểu lịch phỏng vấn</a>
-                <a href="#" class="list-group-item list-group-item-action"><i class="bi bi-bookmark-fill me-2"></i> Hồ sơ đã lưu</a>
-                <a href="{{ route('employer.history') }}" class="list-group-item list-group-item-action"><i class="bi bi-file-earmark-person me-2"></i> Hồ sơ đã ứng tuyển</a>
-                <a href="#" class="list-group-item list-group-item-action"><i class="bi bi-card-list me-2"></i> Ứng viên ứng tuyển - CV rút gọn</a>
-                <a href="#" class="list-group-item list-group-item-action"><i class="bi bi-heart me-2"></i> Ứng viên quan tâm tin tuyển dụng <span class="badge bg-danger ms-2">NEW</span></a>
-                <h5 class="mt-4 mb-3 text-muted">QUẢN LÝ DỊCH VỤ</h5>
-                <a href="#" class="list-group-item list-group-item-action"><i class="bi bi-bell me-2"></i> Thông báo hồ sơ phù hợp</a>
+                <h5 class="mt-4 mb-3 text-muted">ỨNG VIÊN & HỒ SƠ</h5>
+                <a href="{{ route('employer.history') }}" class="list-group-item list-group-item-action"><i class="bi bi-person-lines-fill me-2"></i> Hồ sơ ứng tuyển</a>
+                
+                <h5 class="mt-4 mb-3 text-muted">CÀI ĐẶT</h5>
+                <a href="" class="list-group-item list-group-item-action"><i class="bi bi-building me-2"></i> Thông tin công ty</a>
+                <a href="" class="list-group-item list-group-item-action"><i class="bi bi-gear-fill me-2"></i> Cài đặt tài khoản</a>
+                <a href="{{ route('employer.logout') }}" 
+                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();" 
+                    class="list-group-item list-group-item-action text-danger">
+                    <i class="bi bi-box-arrow-right me-2"></i> Đăng xuất
+                </a>
+
+                <form id="logout-form" action="{{ route('employer.logout') }}" method="POST" class="d-none">
+                    @csrf
+                </form>
             </div>
         </div>
 
@@ -34,22 +40,17 @@
             <div class="row g-3 mb-4">
                 <div class="col-md-4 col-lg-2">
                     <div class="card p-3 text-center shadow-sm border-0 h-100">
-                        <div class="h3 mb-1 fw-bold" style="color: #4834d4;">0</div>
+                        <div id="count-view" class="h3 mb-1 fw-bold" style="color: #4834d4;">0</div>
                         <p class="text-muted mb-0">Việc làm đã đăng</p>
                     </div>
                 </div>
                 <div class="col-md-4 col-lg-2">
                     <div class="card p-3 text-center shadow-sm border-0 h-100">
-                        <div class="h3 mb-1 fw-bold" style="color: #ff7675;">0</div>
+                        <div id="count-view" class="h3 mb-1 fw-bold" style="color: #ff7675;">0</div>
                         <p class="text-muted mb-0">Hồ sơ ứng tuyển</p>
                     </div>
                 </div>
-                <div class="col-md-4 col-lg-2">
-                    <div class="card p-3 text-center shadow-sm border-0 h-100">
-                        <div class="h3 mb-1 fw-bold" style="color: #00b894;">0</div>
-                        <p class="text-muted mb-0">Hồ sơ đã lưu</p>
-                    </div>
-                </div>
+
                 <div class="col-md-4 col-lg-2">
                     <div class="card p-3 text-center shadow-sm border-0 h-100">
                         <div class="h3 mb-1 fw-bold" style="color: #ff6b6b;">0</div>
