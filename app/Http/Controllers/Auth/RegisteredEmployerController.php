@@ -55,7 +55,7 @@ class RegisteredEmployerController extends Controller
             'gender' => $request->gender, 
         ]);
 
-        event(new Registered($employer));
+
 
         // 3. 🚨 SỬA: Chuyển hướng về trang login của Employer sau khi đăng ký thành công.
         // Đây là luồng chuẩn: đăng ký -> thông báo thành công -> đăng nhập
