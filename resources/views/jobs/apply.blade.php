@@ -4,7 +4,7 @@
 <div class="container py-5">
     <h2>Apply for {{ $job->title }}</h2>
     <p><strong>Company:</strong> {{ $job->company_name }}</p>
-    <p><strong>Location:</strong> {{ $job->location }}</p>
+    <p><strong>Location:</strong> {{ optional($job->locationItem)->value ?? 'N/A' }}</p>
     <hr>
 
     <form action="{{ route('jobs.apply', ['id' => $job->id]) }}" method="POST" enctype="multipart/form-data">

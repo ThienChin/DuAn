@@ -11,7 +11,13 @@ class User extends Authenticatable
     use HasFactory;
 
     protected $fillable = [
-        'name', 'email', 'password', 'cv_path',
+        'name', 
+        'email', 
+        'password', 
+        'cv_path',
+        
+        // ✨ THÊM CỘT LAST_LOGIN_AT VÀO ĐÂY ✨
+        'last_login_at',
     ];
 
     protected $hidden = [

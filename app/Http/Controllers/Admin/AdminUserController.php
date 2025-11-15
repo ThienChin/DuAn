@@ -59,27 +59,31 @@ class AdminUserController extends Controller
         $totalApplications = JobApplication::where('user_id', $user->id)->count();
         $totalUploads = Upload::where('user_id', $user->id)->count();
 
-        // 2. Lấy lần hoạt động cuối
-        // Giả định 'updated_at' của User là chỉ báo tốt nhất cho hoạt động chung
-        $lastActivity = $user->updated_at 
-            ? Carbon::parse($user->updated_at)->diffForHumans() 
-            : 'Mới đăng ký';
-
+        // 2. LẤY LẦN HOẠT ĐỘNG CUỐI (SỬA ĐỔI ĐỂ DÙNG last_login_at)
+        $lastLogin = $user->last_login_at;
+        
+        $lastActivity = $lastLogin 
+            ? Carbon::parse($lastLogin)->diffForHumans() 
+            : 'Chưa từng đăng nhập'; // Đổi từ 'Mới đăng ký' thành 'Chưa từng đăng nhập'
+            
+        // 3. Lấy lịch sử ứng tuyển
         $applications = JobApplication::with('job')
             ->where('user_id', $user->id)
             ->orderBy('created_at', 'desc')
             ->paginate(10);
-        // 3. Chuẩn bị mảng thống kê để truyền qua view
+            
+        // 4. Chuẩn bị mảng thống kê để truyền qua view
         $stats = [
             'total_applications' => $totalApplications,
+            // Giả định 'total_created_cvs' bị mất, có thể thay bằng $user->resumes()->count() nếu có Resume Model
             'total_files_uploaded' => $totalUploads,
-            'last_activity' => $lastActivity,
+            'last_activity' => $lastActivity, // Dùng giá trị đã được tính toán
         ];
         
-        // 4. Trả về view với dữ liệu User và Thống kê
+        // 5. Trả về view với dữ liệu User và Thống kê
         return view('admin.users.candidate_detail', [
             'user' => $user,
-            'stats' => $stats, // Truyền biến stats
+            'stats' => $stats, 
             'applications' => $applications,
         ]);
     }

@@ -77,10 +77,10 @@
                             <li class="mb-2"><strong>Tiêu đề:</strong> {{ $job->title }}</li>
                             <li class="mb-2"><strong>Công ty:</strong> {{ $job->company_name }}</li>
                             
-                            <li class="mb-2"><strong>Địa điểm:</strong> 
-                                {{ optional($job->locationItem)->value ?? 'N/A' }}
-                                <small class="text-muted">({{ $job->remote ? 'Remote' : 'Tại văn phòng' }})</small>
-                            </li>
+                                <li class="mb-2"><strong>Địa điểm:</strong> 
+                                    {{ optional($job->locationItem)->value ?? 'N/A' }}
+                                    <small class="text-muted">({{ $job->remote ? 'Remote' : 'Tại văn phòng' }})</small>
+                                </li>
                             
                             {{-- SỬA: Lấy giá trị từ quan hệ remoteTypeItem --}}
                             <li class="mb-2"><strong>Loại hình:</strong> 
