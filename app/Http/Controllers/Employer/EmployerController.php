@@ -344,21 +344,24 @@ class EmployerController extends Controller
         return view('Employer.history', compact('applications'));
     }
 
-    /**
-     * [GET] Hiển thị form nhập chi tiết (hẹn giờ PV hoặc tin nhắn từ chối)
-     */
     public function showApplicationForm(JobApplication $application, $action)
     {
-        // 0. Kiểm tra quyền và trạng thái JobApplication (Chỉ pending mới được xử lý)
-        if ($application->status !== 'pending' || $application->job->employer_id !== Auth::guard('employer')->id()) {
+
+        $application->load(['job.locationItem']); 
+
+        $currentStatus = strtolower(trim($application->status ?? 'pending'));
+
+        $employerId = Auth::guard('employer')->id();
+
+        // 0. Kiểm tra quyền và trạng thái JobApplication
+        // Nếu trạng thái đã được xử lý (KHÁC 'pending') HOẶC Employer không có quyền, thì chặn.
+        if ($currentStatus !== 'pending' || $application->job->employer_id !== $employerId) {
             return redirect()->route('employer.history')->with('error', 'Đơn ứng tuyển này đã được xử lý hoặc bạn không có quyền.');
         }
 
         if (!in_array($action, ['accepted', 'rejected'])) {
             return redirect()->route('employer.history')->with('error', 'Hành động không hợp lệ.');
         }
-        
-        $application->load('job');
         
         // 1. Trả về view form chuyên dụng
         return view('Employer.application_form', compact('application', 'action'));
@@ -367,60 +370,88 @@ class EmployerController extends Controller
     /**
      * [PUT] Xử lý form gửi quyết định và Email (Hẹn giờ/Từ chối)
      */
-    public function sendDecisionEmail(Request $request, JobApplication $application)
-    {
-        // 0. Kiểm tra quyền
-        if ($application->job->employer_id !== Auth::guard('employer')->id()) {
-            return redirect()->back()->with('error', 'Bạn không có quyền xử lý đơn này.');
-        }
+// FILE: EmployerController.php (trong hàm public function sendDecision)
 
-        // 1. Validation
-        $commonRules = [
-            'status' => 'required|in:accepted,rejected',
-            'message' => 'nullable|string|max:2000',
-        ];
+// FILE: EmployerController.php (Trong hàm sendDecision)
 
-        if ($request->input('status') === 'accepted') {
-            $specificRules = [
-                'interview_date' => 'required|date|after_or_equal:today',
-                'interview_time' => 'required|date_format:H:i',
-                'interview_location' => 'required|string|max:500',
-            ];
-            $request->validate(array_merge($commonRules, $specificRules));
-        } else {
-            $request->validate($commonRules);
-        }
+public function sendDecision(Request $request, JobApplication $application)
+{
+    // Load employer kiểm tra quyền
+    $application->load(['job.employer']);
 
-        // 2. Cập nhật trạng thái
-        $application->status = $request->input('status');
+    if ($application->job->employer_id !== Auth::guard('employer')->id()) {
+        return redirect()->route('employer.history')
+            ->with('error', 'Bạn không có quyền xử lý ứng viên này.');
+    }
+
+    // Lấy status được gửi từ form: accepted | rejected
+    $status = $request->status;
+
+    // ============================
+    // 🎯 1. NẾU ACCEPTED
+    // ============================
+    if ($status === 'accepted') {
+
+        // Validate thông tin phỏng vấn
+        $request->validate([
+            'interview_date' => 'required|date',
+            'interview_time' => 'required',
+            'interview_location' => 'required|string',
+        ]);
+
+        // Update trạng thái trong DB
+        $application->status = 'accepted';
+        $application->interview_date = $request->interview_date;
+        $application->interview_time = $request->interview_time;
+        $application->interview_location = $request->interview_location;
         $application->save();
 
-        // 3. Chuẩn hóa dữ liệu trước khi gửi mail
-        try {
-            if ($application->status === 'accepted') {
-                $details = $request->only(['interview_date','interview_time','interview_location','message']);
-                $details['customMessage'] = $details['message'] ?? '';
-                unset($details['message']);
+        // Gửi email ACCEPTED
+        Mail::to($application->email)->send(
+            new ApplicationAcceptedMail(
+                candidateName: $application->name,
+                companyName: $application->job->company_name,
+                jobTitle: $application->job->title,
+                customMessage: $request->message,
+                interviewDate: $request->interview_date,
+                interviewTime: $request->interview_time,
+                interviewLocation: $request->interview_location
+            )
+        );
 
-                // Queue mail để tránh treo
-                Mail::to($application->email)->queue(new ApplicationAcceptedMail($application, $details));
-
-                $msg = "Đã gửi thư mời phỏng vấn thành công!";
-            } else { // rejected
-                $customMessage = $request->input('message') ?? '';
-
-                Mail::to($application->email)->queue(new ApplicationRejectedMail($application, $customMessage));
-
-                $msg = "Đã gửi thông báo từ chối thành công.";
-            }
-
-            return redirect()->route('employer.history')->with('success', $msg);
-
-        } catch (\Exception $e) {
-            \Log::error("Lỗi gửi mail quyết định: ".$e->getMessage(), ['application_id'=>$application->id]);
-            return redirect()->back()->with('error','Có lỗi khi gửi mail. Vui lòng kiểm tra cấu hình mail.');
-        }
+        return redirect()->route('employer.history')
+            ->with('success', 'Đã chấp nhận và gửi thư mời phỏng vấn.');
     }
+
+    // ============================
+    // 🎯 2. NẾU REJECTED
+    // ============================
+    if ($status === 'rejected') {
+
+        // Không cần validate nhiều
+        $application->status = 'rejected';
+        $application->save();
+
+        // Gửi email REJECTED
+        Mail::to($application->email)->send(
+            new ApplicationRejectedMail(
+                candidateName: $application->name,
+                companyName: $application->job->company_name,
+                jobTitle: $application->job->title,
+                customMessage: $request->message,
+            )
+        );
+
+        return redirect()->route('employer.history')
+            ->with('success', 'Đã từ chối và gửi email thông báo.');
+    }
+
+    // ============================
+    // 🎯 Trạng thái không hợp lệ
+    // ============================
+    return back()->with('error', 'Trạng thái xử lý không hợp lệ.');
+}
+
 
     public function saveCandidate(Request $request, \App\Models\User $user) 
     {
@@ -432,7 +463,7 @@ class EmployerController extends Controller
         
         // 1. Kiểm tra xem ứng viên đã được lưu chưa
         if ($employer->savedCandidates()->where('user_id', $user->id)->exists()) {
-            // Nếu đã lưu, xóa khỏi danh sách (Toggle function)
+            // Nếu đã lưu, xóa khỏi danh sách (Toggle function) 
             $employer->savedCandidates()->detach($user->id);
             $message = 'Đã hủy lưu hồ sơ ứng viên ' . $user->name . '.';
         } else {

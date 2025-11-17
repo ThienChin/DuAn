@@ -3,7 +3,7 @@
 @section('title', 'Application History')
 
 @section('content')
-<div class="container-fluid py-4" style="max-width: 1400px;">
+<div class="container mt-5 pt-5" style="max-width: 1400px;">
     <div class="row">
         {{-- COL 1: SIDEBAR MENU --}}
         <div class="col-lg-3">
@@ -31,16 +31,11 @@
             </div>
         </div>
             
-            {{-- PROMOTION CARD --}}
-            <div class="card bg-info text-white rounded-3 shadow-sm p-4">
-                <h6 class="fw-bold mb-1"><i class="bi bi-megaphone me-2"></i> Exclusive Offer!</h6>
-                <p class="small mb-2">Upgrade your plan to unlock more features and reach 50% more candidates.</p>
-                <a href="#" class="btn btn-sm btn-light fw-bold">VIEW DETAILS</a>
-            </div>
-        </div>
-
         {{-- COL-LG-9: MAIN CONTENT --}}
         <div class="col-lg-9">
+            
+            {{-- PROMOTION CARD - ĐÃ CHUYỂN VÀO ĐÂY --}}
+            
             <div class="card shadow-lg border-0">
                 <div class="card-header bg-white border-bottom p-4">
                     <h2 class="fw-bold text-primary mb-1">
@@ -83,7 +78,9 @@
                                     <td>
                                         {{-- Current Status Badge --}}
                                         @php
-                                            $badgeClass = match ($application->status) {
+                                            // ✨ FIX: Dùng strtolower(trim()) và toán tử ?? 'pending' cho logic badge
+                                            $cleanedStatus = strtolower(trim($application->status ?? 'pending'));
+                                            $badgeClass = match ($cleanedStatus) { 
                                                 'pending' => 'bg-warning text-dark',
                                                 'accepted' => 'bg-success',
                                                 'rejected' => 'bg-danger',
@@ -94,6 +91,7 @@
                                             {{ ucfirst($application->status) }}
                                         </span>
                                     </td>
+
                                     <td class="text-start">
                                         {{-- Action Buttons --}}
                                         
@@ -102,7 +100,8 @@
                                             <i class="fas fa-eye"></i> View CV
                                         </a>
 
-                                        @if ($application->status === 'pending')
+                                        {{-- ✨ FIX: Dùng strtolower(trim()) và toán tử ?? 'pending' để chấp nhận trạng thái rỗng/null ✨ --}}
+                                        @if (strtolower(trim($application->status ?? 'pending')) === 'pending') 
                                             {{-- 2. Accept Button --}}
                                             <a href="{{ route('employer.application_form', ['application' => $application->id, 'action' => 'accepted']) }}" class="btn btn-sm btn-success mb-1" title="Accept/Invite">
                                                 <i class="fas fa-check"></i> Accept
@@ -116,6 +115,7 @@
                                         
                                         {{-- Nút Lưu hồ sơ ĐÃ BỊ XÓA --}}
                                     </td>
+
                                 </tr>
                                 @empty
                                 <tr>

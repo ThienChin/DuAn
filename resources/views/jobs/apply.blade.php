@@ -15,7 +15,7 @@
                         <i class="bi bi-building me-1"></i> <strong>Company:</strong> {{ $job->company_name ?? 'N/A' }}
                     </p>
                     <p class="mb-0 text-muted">
-                        <i class="bi bi-geo-alt me-1"></i> <strong>Location:</strong> {{ optional($job->locationItem)->value ?? 'N/A' }}
+                        <i class="bi bi-geo-alt me-1" ></i> <strong>Location:</strong> {{ optional($job->locationItem)->value ?? 'N/A' }}
                     </p>
                 </div>
             </div>

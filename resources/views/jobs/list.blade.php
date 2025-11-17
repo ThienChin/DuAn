@@ -179,7 +179,7 @@
                                     <div class="d-flex align-items-center"> 
                                         <p class="job-location">
                                             <i class="custom-icon bi-geo-alt me-1"></i>
-                                            {{ optional($job->locationItem)->value ?? 'N/A' }}
+                                             {{ optional($job->locationItem)->value ?? 'N/A' }}
                                         </p>
                                         <p class="job-date">
                                             <i class="custom-icon bi-clock me-1"></i>

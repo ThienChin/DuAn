@@ -41,8 +41,7 @@ use App\Http\Controllers\Employer\EmployerController;
         ->name('application_form'); 
 
     // [PUT] Xử lý gửi form và gửi email (Dùng chung cho cả accepted/rejected)
-    Route::put('applications/{application}/send-decision', [EmployerController::class, 'sendDecisionEmail'])
-        ->name('send_decision');
+    Route::put('/applications/{application}/send-decision', [EmployerController::class, 'sendDecision'])->name('send_decision');
 
         // ✅ 2. Xem/Tải CV
         // Sử dụng route model binding cho JobApplication

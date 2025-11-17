@@ -25,9 +25,7 @@ Bạn đã lọt vào vòng tiếp theo: **Phỏng Vấn**.
 
 Vui lòng xác nhận lại email này nếu bạn có bất kỳ thay đổi nào về lịch hẹn hoặc cần hỗ trợ thêm.
 
-<x-mail::button :url="route('home')">
-Truy cập Website Công ty
-</x-mail::button>
+
 
 Trân trọng,
 

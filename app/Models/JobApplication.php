@@ -20,6 +20,9 @@ class JobApplication extends Model
         'status',
         'is_viewed_by_employer', // Nếu bạn thêm cột này vào DB
         'viewed_at', // Hoặc cột timestamp
+        'interview_date',
+        'interview_time',
+        'interview_location',
     ];
 
     public function job()
