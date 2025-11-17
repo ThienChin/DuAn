@@ -97,4 +97,29 @@ class UserController extends Controller
 
         return redirect()->route('profile.personal')->with('success', 'CV đã được xóa thành công! Vui lòng tải lên CV mới nếu cần.');
     }
+    
+    public function update(Request $request)
+    {
+        $user = Auth::user(); // Lấy người dùng hiện tại
+
+        if (!$user) {
+            return redirect()->route('profile.personal')->with('error', 'Bạn cần đăng nhập để cập nhật thông tin.');
+        }
+
+        // Validate dữ liệu
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255|unique:users,email,' . $user->id,
+            'phone' => 'nullable|string|max:20',
+        ]);
+
+        // Cập nhật thông tin
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->phone = $request->phone;
+        $user->save();
+
+        return redirect()->route('profile.personal')->with('success', 'Thông tin cá nhân đã được cập nhật!');
+    }
+
 }

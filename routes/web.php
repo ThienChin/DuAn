@@ -68,11 +68,11 @@ Route::middleware(['auth'])->group(function () {
 
     Route::delete('/profile/cv/{id}', [UserController::class, 'deleteCv'])->name('create_cv.delete');
     Route::get('/profile/cv/delete-confirm/{id}', [UserController::class, 'confirmDeleteCv'])->name('cv.delete.confirm.view');
+    // Cập nhật thông tin user
+
+    Route::put('/user/update', [App\Http\Controllers\User\UserController::class, 'update'])->name('user.update');
+
+
 });
-
-
-
-Route::get('lang/{locale}', [LanguageController::class, 'switchLanguage'])
-    ->name('language.switch');
 
 
