@@ -1,42 +1,54 @@
 @extends('layouts.employer')
 
-@section('title', 'Tất Cả Tuyển Dụng')
+@section('title', 'All Posted Jobs')
 
 @section('content')
 <div class="container-fluid py-4" style="max-width: 1400px;">
     <div class="row">
         
-        {{-- COL 1: SIDEBAR MENU (Lấy từ Dashboard/Create) --}}
+        {{-- COL 1: SIDEBAR MENU --}}
         <div class="col-lg-3">
             <div class="list-group shadow-sm bg-white rounded-3 p-3 mb-4">
-                <h5 class="mb-3 text-muted">QUẢN LÝ CHUNG</h5>
-                <a href="{{ route('employer.dashboard') }}" class="list-group-item list-group-item-action @if(Route::is('employer.dashboard')) active @endif"><i class="bi bi-house-door-fill me-2"></i> Trang chủ Dashboard</a> 
-                <a href="{{ route('employer.create') }}" class="list-group-item list-group-item-action @if(Route::is('employer.create')) active @endif"><i class="bi bi-upload me-2"></i> Đăng tin tuyển dụng</a>
-                {{-- Đánh dấu ACTIVE cho menu này --}}
-                <a href="{{ route('employer.myJobs') }}" class="list-group-item list-group-item-action @if(Route::is('employer.myJobs')) active @endif "><i class="bi bi-list-task me-2"></i> Tất cả tuyển dụng</a>
+                <h5 class="mb-3 text-muted">GENERAL MANAGEMENT</h5>
+                <a href="{{ route('employer.dashboard') }}" class="list-group-item list-group-item-action @if(Route::is('employer.dashboard')) active @endif"><i class="bi bi-house-door-fill me-2"></i> Dashboard Home</a> 
+                <a href="{{ route('employer.create') }}" class="list-group-item list-group-item-action @if(Route::is('employer.create')) active @endif"><i class="bi bi-upload me-2"></i> Post New Job</a>
+                <a href="{{ route('employer.myJobs') }}" class="list-group-item list-group-item-action @if(Route::is('employer.myJobs')) active @endif"><i class="bi bi-list-task me-2"></i> All Job Postings</a>
 
-                <h5 class="mt-4 mb-3 text-muted">ỨNG VIÊN & HỒ SƠ</h5>
-                <a href="{{ route('employer.history') }}" class="list-group-item list-group-item-action @if(Route::is('employer.history')) active @endif"><i class="bi bi-person-lines-fill me-2"></i> Hồ sơ ứng tuyển</a>
-
+                <h5 class="mt-4 mb-3 text-muted">CANDIDATES & APPLICATIONS</h5>
+                <a href="{{ route('employer.history') }}" class="list-group-item list-group-item-action @if(Route::is('employer.history')) active @endif"><i class="bi bi-person-lines-fill me-2"></i> Application History</a>
                 
-                <h5 class="mt-4 mb-3 text-muted">CÀI ĐẶT</h5>
-                <a href="" class="list-group-item list-group-item-action"><i class="bi bi-building me-2"></i> Thông tin công ty</a>
-                <a href="#" class="list-group-item list-group-item-action"><i class="bi bi-gear-fill me-2"></i> Cài đặt tài khoản</a>
-                <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="list-group-item list-group-item-action text-danger">
-                    <i class="bi bi-box-arrow-right me-2"></i> Đăng xuất
+                <h5 class="mt-4 mb-3 text-muted">SETTINGS</h5>
+                <a href="{{ route('employer.companyInfo') }}" class="list-group-item list-group-item-action"><i class="bi bi-building me-2"></i> Company Info</a>
+                <a href="{{ route('employer.accountSettings') }}" class="list-group-item list-group-item-action"><i class="bi bi-gear-fill me-2"></i> Account Settings</a>
+                <a href="{{ route('employer.logout') }}" 
+                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();" 
+                    class="list-group-item list-group-item-action text-danger">
+                    <i class="bi bi-box-arrow-right me-2"></i> Logout
                 </a>
+
+                <form id="logout-form" action="{{ route('employer.logout') }}" method="POST" class="d-none">
+                    @csrf
+                </form>
             </div>
         </div>
 
-        {{-- COL 2: NỘI DUNG CHÍNH --}}
+        {{-- COL 2: MAIN CONTENT --}}
         <div class="col-lg-9">
-            <div class="card shadow-sm border-0">
-                <div class="card-header bg-white border-bottom d-flex justify-content-between align-items-center">
-                    <h4 class="card-title mb-0">
-                        <i class="bi bi-list-task me-2 text-primary"></i> Danh Sách Tin Tuyển Dụng Đã Đăng
+            
+            {{-- THÊM: KHỐI CHÀO MỪNG NHỎ (TRANG TRÍ) --}}
+            <div class="card shadow-sm border-0 mb-4 p-3" style="background-color: #f5f7ff; border-left: 4px solid var(--gotto-primary) !important;">
+                 <h5 class="fw-bold mb-0 text-dark">
+                    <i class="bi bi-list-task me-2 text-primary"></i> Managing All Your Posted Jobs
+                </h5>
+            </div>
+            
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-white border-bottom d-flex justify-content-between align-items-center p-3">
+                    <h4 class="card-title mb-0 fw-bold">
+                        Job Postings List
                     </h4>
-                    <a href="{{ route('employer.create') }}" class="btn btn-sm btn-success">
-                        <i class="bi bi-plus-circle-fill me-1"></i> Đăng tin mới
+                    <a href="{{ route('employer.create') }}" class="btn btn-sm btn-primary">
+                        <i class="bi bi-plus-circle-fill me-1"></i> Post New Job
                     </a>
                 </div>
 
@@ -49,47 +61,56 @@
                         <table class="table table-hover table-striped mb-0">
                             <thead class="bg-light">
                                 <tr>
-                                    <th style="width: 30%;">Tiêu đề</th>
-                                    <th>Mức lương</th>
-                                    <th>Cấp bậc</th>
-                                    <th>Ngày đăng</th>
-                                    <th>Trạng thái</th>
-                                    <th class="text-center">Hành động</th>
+                                    <th style="width: 35%;">Title & Location</th>
+                                    <th style="width: 15%;">Salary</th>
+                                    <th style="width: 15%;">Level</th>
+                                    <th style="width: 15%;">Date Posted</th>
+                                    <th style="width: 10%;">Status</th>
+                                    <th class="text-center" style="width: 10%;">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach($jobs as $job)
                                 <tr>
                                     <td>
-                                        <div class="fw-bold">{{ $job->title }}</div>
-                                        <div class="small text-muted">{{ $job->locationItem->value ?? 'N/A' }}</div>
+                                        <div class="fw-bold text-dark">{{ $job->title }}</div>
+                                        <div class="small text-muted">
+                                            <i class="bi bi-geo-alt me-1"></i>{{ $job->locationItem->value ?? 'N/A' }}
+                                        </div>
                                     </td>
-                                    <td>{{ number_format($job->salary) }} đ</td>
-                                    <td>{{ $job->levelItem->value ?? 'N/A' }}</td>
+                                    <td class="fw-semibold text-success">{{ number_format($job->salary) }} VND</td>
+                                    <td>
+                                        <span class="badge bg-secondary">{{ $job->levelItem->value ?? 'N/A' }}</span>
+                                    </td>
                                     <td>{{ \Carbon\Carbon::parse($job->posted_at)->format('d/m/Y') }}</td>
                                     
                                     <td>
-                                        {{-- Hiển thị trạng thái bằng Badge --}}
+                                        {{-- Display status badge --}}
                                         @if($job->status == 'pending')
-                                            <span class="badge bg-warning text-dark">Chờ duyệt</span>
+                                            <span class="badge bg-warning text-dark">Pending</span>
                                         @elseif($job->status == 'approved')
-                                            <span class="badge bg-success">Đã duyệt</span>
+                                            <span class="badge bg-success">Approved</span>
                                         @else
-                                            <span class="badge bg-danger">Bị từ chối</span>
+                                            <span class="badge bg-danger">Rejected</span>
                                         @endif
                                     </td>
 
                                     <td class="text-center">
-                                        {{-- Nút Hành động --}}
-                                        <a href="" class="btn btn-sm btn-info text-white me-1" title="Xem Ứng Tuyển">
-                                            <i class="bi bi-people-fill"></i> (0)
-                                        </a>
-                                        <a href="" class="btn btn-sm btn-warning me-1" title="Chỉnh Sửa">
+                                        
+                                        {{-- Edit Button --}}
+                                        <a href="{{ route('employer.editJob', $job->id) }}" class="btn btn-sm btn-warning me-1" title="Edit">
                                             <i class="bi bi-pencil-square"></i>
                                         </a>
-                                        <button class="btn btn-sm btn-danger" title="Xóa">
-                                            <i class="bi bi-trash"></i>
-                                        </button>
+
+                                        {{-- Delete Button (Form) --}}
+                                        <form action="{{ route('employer.destroyJob', $job->id) }}" method="POST" class="d-inline"
+                                            onsubmit="return confirm('Are you sure you want to delete the job: {{ $job->title }}?');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-sm btn-danger" title="Delete">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </form>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -97,15 +118,15 @@
                                 @if($jobs->isEmpty())
                                     <tr>
                                         <td colspan="6" class="text-center text-muted p-4">
-                                            Bạn chưa đăng tin tuyển dụng nào.
-                                            <a href="{{ route('employer.create') }}" class="btn btn-sm btn-link">Đăng ngay!</a>
+                                            <i class="bi bi-info-circle me-2"></i> You have not posted any job listings yet. 
+                                            <a href="{{ route('employer.create') }}" class="btn btn-sm btn-link fw-semibold">Post now!</a>
                                         </td>
                                     </tr>
                                 @endif
                             </tbody>
                         </table>
                     </div>
-                    {{-- Thêm phân trang nếu $jobs là đối tượng phân trang: {{ $jobs->links() }} --}}
+                    {{-- Pagination links: {{ $jobs->links() }} --}}
                 </div>
             </div>
         </div>

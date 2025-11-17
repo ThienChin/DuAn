@@ -5,36 +5,46 @@
     <div class="col-12">
         <div class="card shadow-sm">
             <div class="card-header bg-white border-bottom">
-                <h3 class="card-title text-dark mb-0"><i class="mdi mdi-bank me-2 text-info"></i> Danh Sách Nhà Tuyển Dụng</h3>
+                <h3 class="card-title text-dark mb-0 fw-bold">
+                    <i class="mdi mdi-bank me-2 text-info"></i> Danh Sách Nhà Tuyển Dụng
+                </h3>
             </div>
             
-            <div class="card-body">
-                <div class="table-responsive mt-4">
-                    <table class="table table-hover table-striped">
-                        <thead class="bg-dark text-white">
-                            <tr>
-                                <th>ID</th>
-                                <th>Công ty</th>
-                                <th>Email</th>
-                                <th>Vị trí (Người đăng)</th>
-                                <th>Số điện thoại</th>
-                                <th>Website</th>
-                                <th class="text-center">Xem chi tiết</th>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover table-striped table-borderless mb-0">
+                        <thead style="background-color: #343a40;">
+                            <tr class="text-white">
+                                <th style="width: 5%;">ID</th>
+                                <th style="width: 25%;">Công ty</th>
+                                <th style="width: 25%;">Email</th>
+                                <th style="width: 15%;">Số điện thoại</th>
+                                <th style="width: 25%;">Website</th>
+                                <th class="text-center" style="width: 5%;">Chi tiết</th>
+                                {{-- Cột "Vị trí (Người đăng)" đã được loại bỏ --}}
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($employers as $employer)
                                 <tr>
-                                    <td>{{ $employer->id }}</td>
-                                    <td>{{ $employer->company_name }}</td>
-                                    <td>{{ $employer->email }}</td>
-                                    <td>{{ $employer->position ?? 'N/A' }}</td>
-                                    <td>{{ $employer->phone ?? 'N/A' }}</td>
+                                    <td class="fw-bold text-muted">{{ $employer->id }}</td>
+                                    <td>
+                                        <div class="fw-semibold text-primary">{{ $employer->company_name }}</div>
+                                        <div class="small text-muted">{{ $employer->name }} (Người đại diện)</div>
+                                    </td>
+                                    <td>
+                                        <i class="mdi mdi-email-outline me-1 text-info"></i>
+                                        {{ $employer->email }}
+                                    </td>
+                                    
+                                    <td><i class="mdi mdi-phone-in-talk me-1 text-secondary"></i> {{ $employer->phone ?? 'N/A' }}</td>
                                     <td>
                                         @if ($employer->website)
-                                            <a href="{{ $employer->website }}" target="_blank" class="text-primary small">{{ Str::limit($employer->website, 30) }}</a>
+                                            <a href="{{ $employer->website }}" target="_blank" class="text-success small fw-semibold">
+                                                <i class="mdi mdi-web me-1"></i> {{ Str::limit($employer->website, 30) }}
+                                            </a>
                                         @else
-                                            N/A
+                                            <span class="text-muted">N/A</span>
                                         @endif
                                     </td>
                                     <td class="text-center">
@@ -45,12 +55,15 @@
                                 </tr>
                             @endforeach
                             @if($employers->isEmpty())
-                                <tr><td colspan="7" class="text-center text-muted p-3">Không có nhà tuyển dụng nào.</td></tr>
+                                <tr><td colspan="6" class="text-center text-muted p-3">Không có nhà tuyển dụng nào.</td></tr>
                             @endif
                         </tbody>
                     </table>
                 </div>
-                <div class="d-flex justify-content-center mt-3">{{ $employers->links() }}</div>
+                {{-- Phân trang --}}
+                <div class="card-footer d-flex justify-content-center">
+                    {{ $employers->links() }}
+                </div>
             </div>
         </div>
     </div>

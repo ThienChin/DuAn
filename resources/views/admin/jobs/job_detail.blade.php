@@ -84,7 +84,7 @@
                             
                             {{-- SỬA: Lấy giá trị từ quan hệ remoteTypeItem --}}
                             <li class="mb-2"><strong>Loại hình:</strong> 
-                                <span class="badge bg-info">
+                                <span>
                                     {{ optional($job->remoteTypeItem)->value ?? 'N/A' }}
                                 </span>
                             </li>
@@ -101,11 +101,6 @@
                             </li>
                             <li class="mb-2"><strong>Ngày đăng:</strong> 
                                 {{ $job->posted_at ? \Carbon\Carbon::parse($job->posted_at)->format('d/m/Y H:i') : 'Chưa đăng' }}
-                            </li>
-                            <li class="mb-2"><strong>Nổi bật:</strong> 
-                                <span class="badge bg-{{ $job->is_featured ? 'success' : 'secondary' }}">
-                                    {{ $job->is_featured ? 'Có' : 'Không' }}
-                                </span>
                             </li>
                         </ul>
                     </div>

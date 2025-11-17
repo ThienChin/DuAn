@@ -6,8 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\JobApplication;
 use App\Models\Employer;
 use App\Models\User;
-// Cần import Category vì các quan hệ khác đang dùng nó
 use App\Models\Category; 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Support\Carbon;
 
 class Job extends Model
 {

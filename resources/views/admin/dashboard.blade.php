@@ -149,7 +149,7 @@
                                         <h6 class="font-medium">{{ Str::limit($job->title, 40) }}</h6>
                                         <span class="m-b-15 d-block text-muted">{{ $job->company_name }} tại {{ $job->locationItem->value ?? 'N/A' }}</span>
                                         <div class="comment-footer">
-                                            <span class="text-muted float-right">{{ $job->created_at->diffForHumans() }}</span> 
+                                            <span class="text-muted float-right">{{ $job->posted_at?->diffForHumans() }}</span> 
                                             
                                             {{-- NÚT HÀNH ĐỘNG MỚI: Duyệt Nhanh --}}
                                             <button 

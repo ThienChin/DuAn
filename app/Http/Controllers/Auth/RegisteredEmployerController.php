@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Auth; // ✨ ĐÃ THÊM: Import Auth Facade
 
 class RegisteredEmployerController extends Controller
 {
@@ -56,10 +57,13 @@ class RegisteredEmployerController extends Controller
         ]);
 
 
+        // 3. ✨ THAY ĐỔI LỚN: Tự động đăng nhập Employer ngay sau khi đăng ký
+        Auth::guard('employer')->login($employer); 
+        // ----------------------------------------------------------------------
 
-        // 3. 🚨 SỬA: Chuyển hướng về trang login của Employer sau khi đăng ký thành công.
-        // Đây là luồng chuẩn: đăng ký -> thông báo thành công -> đăng nhập
-        return redirect()->route('employer.intro')
-                         ->with('status', 'Đăng ký nhà tuyển dụng thành công! Vui lòng đăng nhập.');
+
+        // 4. Chuyển hướng đến Dashboard của Employer
+        return redirect()->route('employer.dashboard')
+                         ->with('success', 'Đăng ký thành công! Bạn đã được đăng nhập.');
     }
 }

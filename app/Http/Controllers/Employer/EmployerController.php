@@ -195,6 +195,129 @@ class EmployerController extends Controller
             ->with('success', 'Tin tuyển dụng đã được gửi đi và đang chờ duyệt!');
     }
 
+    /**
+     * [GET] Hiển thị form để chỉnh sửa tin tuyển dụng đã đăng.
+     */
+    public function edit(\App\Models\Job $job)
+    {
+        // 1. Kiểm tra quyền sở hữu
+        if ($job->employer_id !== Auth::guard('employer')->id()) {
+            return redirect()->route('employer.myJobs')->with('error', 'Bạn không có quyền chỉnh sửa tin tuyển dụng này.');
+        }
+
+        // 2. Tải lại dữ liệu danh mục (giống như hàm create)
+        $categoriesData = Category::all()->groupBy('key');
+        
+        $data = [
+            'job' => $job, // Tin tuyển dụng hiện tại
+            'locations' => $categoriesData->get('location', collect())->sortBy('order'),
+            'levels' => $categoriesData->get('level', collect())->sortBy('order'),
+            'categories' => $categoriesData->get('category', collect())->sortBy('order'),
+            'remote_types' => $categoriesData->get('remote_type', collect())->sortBy('order'),
+            'experiences' => $categoriesData->get('experience', collect())->sortBy('order'),
+            'degrees' => $categoriesData->get('degree', collect())->sortBy('order'),
+            'genders' => $categoriesData->get('gender', collect())->sortBy('order'),
+        ];
+
+        return view('Employer.edit', $data);
+    }
+
+
+    /**
+     * [PUT] Xử lý cập nhật tin tuyển dụng.
+     */
+    public function update(Request $request, \App\Models\Job $job)
+    {
+        // 1. Kiểm tra quyền sở hữu
+        if ($job->employer_id !== Auth::guard('employer')->id()) {
+            return redirect()->route('employer.myJobs')->with('error', 'Bạn không có quyền cập nhật tin tuyển dụng này.');
+        }
+
+        // 2. Validation (Sử dụng lại rules từ hàm store)
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'company_name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+
+            'category_id' => 'required|integer|exists:categories,id',
+            'location_id' => 'required|integer|exists:categories,id',
+            'level_id' => 'required|integer|exists:categories,id',
+            'remote_type_id' => 'required|integer|exists:categories,id',
+            
+            'experience_id' => 'nullable|integer|exists:categories,id',
+            'degree_id' => 'nullable|integer|exists:categories,id',
+            'gender_id' => 'nullable|integer|exists:categories,id',
+
+            'salary' => 'nullable|numeric|min:0',
+            'remote' => 'nullable|boolean',
+            'age' => 'nullable|string|max:50',
+            'required_skills' => 'nullable|string',
+            'company_description' => 'nullable|string',
+            'website' => 'nullable|url|max:255',
+            'phone' => 'nullable|string|max:20',
+
+            // Cho phép upload file mới (hoặc để trống)
+            'company_logo_url_new' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'jobs_images_new' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+
+        // 3. Xử lý Upload File MỚI
+        $data = $request->except(['_token', '_method', 'company_logo_url_new', 'jobs_images_new']);
+        
+        if ($request->hasFile('jobs_images_new')) {
+            // Xóa file cũ nếu tồn tại
+            if ($job->jobs_images) {
+                Storage::disk('public')->delete($job->jobs_images);
+            }
+            $data['jobs_images'] = $request->file('jobs_images_new')->store('jobs', 'public');
+        }
+        
+        if ($request->hasFile('company_logo_url_new')) {
+             // Xóa file cũ nếu tồn tại
+            if ($job->company_logo_url) {
+                Storage::disk('public')->delete($job->company_logo_url);
+            }
+            $data['company_logo_url'] = $request->file('company_logo_url_new')->store('logos', 'public');
+        }
+
+        // 4. Cập nhật Job
+        $job->update($data);
+
+        return redirect()
+            ->route('employer.myJobs')
+            ->with('success', 'Tin tuyển dụng đã được cập nhật thành công!');
+    }
+
+    /**
+     * [DELETE] Xử lý xóa tin tuyển dụng.
+     */
+    public function destroy(\App\Models\Job $job)
+    {
+        // 1. Kiểm tra quyền sở hữu
+        if ($job->employer_id !== Auth::guard('employer')->id()) {
+            return redirect()->route('employer.myJobs')->with('error', 'Bạn không có quyền xóa tin tuyển dụng này.');
+        }
+
+        try {
+            // Xóa các file liên quan trước (logo, jobs_images)
+            if ($job->jobs_images) {
+                Storage::disk('public')->delete($job->jobs_images);
+            }
+            if ($job->company_logo_url) {
+                Storage::disk('public')->delete($job->company_logo_url);
+            }
+            
+            // Xóa bản ghi
+            $job->delete();
+
+            return redirect()->route('employer.myJobs')->with('success', 'Tin tuyển dụng đã được xóa thành công!');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Không thể xóa tin tuyển dụng: ' . $e->getMessage());
+        }
+    }
+
     public function showApplication()
     {
         // Kiểm tra xem Employer đã đăng nhập chưa
@@ -416,4 +539,100 @@ class EmployerController extends Controller
         }
     }
 
+    // ... (Các methods hiện tại) ...
+
+    /**
+     * [GET] Hiển thị form chỉnh sửa thông tin công ty.
+     */
+    public function showCompanyInfo()
+    {
+        $employer = Auth::guard('employer')->user();
+        return view('Employer.settings.companyInfo', compact('employer'));
+    }
+
+    /**
+     * [PUT] Xử lý cập nhật thông tin công ty.
+     */
+    public function updateCompanyInfo(Request $request)
+    {
+        $employer = Auth::guard('employer')->user();
+
+        // 1. Validation (Sử dụng lại rules từ hàm store/register)
+        $request->validate([
+            'company_name' => 'required|string|max:255',
+            'website' => 'nullable|url|max:255',
+            'address' => 'nullable|string|max:255',
+            'description' => 'nullable|string',
+            'company_logo_url_new' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        // 2. Xử lý Upload Logo MỚI
+        $logoPathForDB = $employer->company_logo_url;
+
+        if ($request->hasFile('company_logo_url_new')) {
+            // Xóa file cũ nếu tồn tại
+            if ($employer->company_logo_url) {
+                Storage::disk('public')->delete($employer->company_logo_url);
+            }
+            $logoPathForDB = $request->file('company_logo_url_new')->store('logos', 'public');
+        }
+        
+        // 3. Cập nhật Employer
+        $employer->update([
+            'company_name' => $request->company_name,
+            'website' => $request->website,
+            'address' => $request->address,
+            'description' => $request->description,
+            'company_logo_url' => $logoPathForDB,
+        ]);
+
+        return redirect()->route('employer.companyInfo')->with('success', 'Thông tin công ty đã được cập nhật thành công!');
+    }
+
+
+    /**
+     * [GET] Hiển thị form chỉnh sửa thông tin tài khoản cá nhân (Recruiter).
+     */
+    public function showAccountSettings()
+    {
+        $employer = Auth::guard('employer')->user();
+        return view('Employer.settings.accountSettings', compact('employer'));
+    }
+
+    /**
+     * [PUT] Xử lý cập nhật thông tin tài khoản cá nhân và mật khẩu.
+     */
+    public function updateAccountSettings(Request $request)
+    {
+        $employer = Auth::guard('employer')->user();
+        
+        // 1. Validation
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255|unique:employers,email,' . $employer->id,
+            'phone' => 'nullable|string|max:20',
+            'gender' => 'required|in:Nam,Nữ',
+            
+            // Validation Mật khẩu (nếu người dùng muốn đổi)
+            'current_password' => 'nullable|required_with:password_new|current_password:employer', // Check password cũ
+            'password_new' => 'nullable|min:6|confirmed', // password_new_confirmation
+        ]);
+
+        // 2. Cập nhật thông tin cơ bản
+        $employer->name = $request->name;
+        $employer->email = $request->email;
+        $employer->phone = $request->phone;
+        $employer->gender = $request->gender;
+        
+        // 3. Cập nhật mật khẩu nếu có
+        if ($request->filled('password_new')) {
+            $employer->password = Hash::make($request->password_new);
+        }
+
+        $employer->save();
+
+        // 4. Chuyển hướng
+        return redirect()->route('employer.accountSettings')->with('success', 'Cài đặt tài khoản đã được cập nhật thành công!');
+    }
 }
+

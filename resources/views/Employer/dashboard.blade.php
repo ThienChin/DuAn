@@ -1,29 +1,28 @@
 @extends('layouts.employer')
 
-@section('title', 'Bảng Điều Khiển Nhà Tuyển Dụng')
+@section('title', 'Employer Dashboard')
 
 @section('content')
 <div class="container my-5">
     <div class="row">
-        {{-- COL 1: SIDEBAR MENU (Lấy từ Dashboard/Create) --}}
+        {{-- COL 1: SIDEBAR MENU --}}
         <div class="col-lg-3">
             <div class="list-group shadow-sm bg-white rounded-3 p-3 mb-4">
-                <h5 class="mb-3 text-muted">QUẢN LÝ CHUNG</h5>
-                <a href="{{ route('employer.dashboard') }}" class="list-group-item list-group-item-action @if(Route::is('employer.dashboard')) active @endif"><i class="bi bi-house-door-fill me-2"></i> Trang chủ Dashboard</a> 
-                <a href="{{ route('employer.create') }}" class="list-group-item list-group-item-action @if(Route::is('employer.create')) active @endif"><i class="bi bi-upload me-2"></i> Đăng tin tuyển dụng</a>
-                {{-- Đánh dấu ACTIVE cho menu này --}}
-                <a href="{{ route('employer.myJobs') }}" class="list-group-item list-group-item-action @if(Route::is('employer.myJobs')) active @endif"></i> Tất cả tuyển dụng</a>
+                <h5 class="mb-3 text-muted">GENERAL MANAGEMENT</h5>
+                <a href="{{ route('employer.dashboard') }}" class="list-group-item list-group-item-action @if(Route::is('employer.dashboard')) active @endif"><i class="bi bi-house-door-fill me-2"></i> Dashboard Home</a> 
+                <a href="{{ route('employer.create') }}" class="list-group-item list-group-item-action @if(Route::is('employer.create')) active @endif"><i class="bi bi-upload me-2"></i> Post New Job</a>
+                <a href="{{ route('employer.myJobs') }}" class="list-group-item list-group-item-action @if(Route::is('employer.myJobs')) active @endif"><i class="bi bi-list-task me-2"></i> All Job Postings</a>
 
-                <h5 class="mt-4 mb-3 text-muted">ỨNG VIÊN & HỒ SƠ</h5>
-                <a href="{{ route('employer.history') }}" class="list-group-item list-group-item-action @if(Route::is('employer.history')) active @endif"><i class="bi bi-person-lines-fill me-2"></i> Hồ sơ ứng tuyển</a>
+                <h5 class="mt-4 mb-3 text-muted">CANDIDATES & APPLICATIONS</h5>
+                <a href="{{ route('employer.history') }}" class="list-group-item list-group-item-action @if(Route::is('employer.history')) active @endif"><i class="bi bi-person-lines-fill me-2"></i> Application History</a>
                 
-                <h5 class="mt-4 mb-3 text-muted">CÀI ĐẶT</h5>
-                <a href="" class="list-group-item list-group-item-action"><i class="bi bi-building me-2"></i> Thông tin công ty</a>
-                <a href="" class="list-group-item list-group-item-action"><i class="bi bi-gear-fill me-2"></i> Cài đặt tài khoản</a>
+                <h5 class="mt-4 mb-3 text-muted">SETTINGS</h5>
+                <a href="{{ route('employer.companyInfo') }}" class="list-group-item list-group-item-action"><i class="bi bi-building me-2"></i> Company Info</a>
+                <a href="{{ route('employer.accountSettings') }}" class="list-group-item list-group-item-action"><i class="bi bi-gear-fill me-2"></i> Account Settings</a>
                 <a href="{{ route('employer.logout') }}" 
                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();" 
                     class="list-group-item list-group-item-action text-danger">
-                    <i class="bi bi-box-arrow-right me-2"></i> Đăng xuất
+                    <i class="bi bi-box-arrow-right me-2"></i> Logout
                 </a>
 
                 <form id="logout-form" action="{{ route('employer.logout') }}" method="POST" class="d-none">
@@ -32,72 +31,89 @@
             </div>
         </div>
 
+        {{-- COL 2: DASHBOARD CONTENT --}}
         <div class="col-lg-9">
-            <div class="p-3 mb-4 text-center rounded-3 text-white fw-bold" style="background-color: #ff7675;">
-                <h4 class="mb-0">CHỐT NGAY COMBO TUYỂN DỤNG GIÁ ƯU ĐÃI</h4>
-                <a href="#" class="btn btn-warning mt-2 fw-bold text-dark">CLICK NGAY!!</a>
+            
+            {{-- WELCOME BLOCK --}}
+            <div class="card shadow-sm border-0 mb-4 p-4 p-md-5" style="background-color: #e6f7ff; border-left: 5px solid #007bff !important;">
+                <h3 class="fw-bold mb-2 text-dark">Welcome, {{ Auth::guard('employer')->user()->company_name ?? 'Employer' }}!</h3>
+                <p class="text-muted mb-0">This is your recruitment dashboard. Track key metrics and manage candidate applications here.</p>
             </div>
 
+
+            {{-- DASHBOARD STATS ROW --}}
             <div class="row g-3 mb-4">
-                <div class="col-md-4 col-lg-2">
+                <div class="col-md-4 col-lg-3">
                     <div class="card p-3 text-center shadow-sm border-0 h-100">
-                        {{-- Thay 0 bằng biến $postedJobsCount --}}
+                        <i class="bi bi-briefcase-fill h4 mb-2" style="color: #4834d4;"></i>
                         <div id="count-jobs" class="h3 mb-1 fw-bold" style="color: #4834d4;">{{ $postedJobsCount ?? 0 }}</div> 
-                        <p class="text-muted mb-0">Việc làm đã đăng</p>
+                        <p class="text-muted mb-0">Jobs Posted</p>
                     </div>
                 </div>
 
-                <div class="col-md-4 col-lg-2">
+                <div class="col-md-4 col-lg-3">
                     <div class="card p-3 text-center shadow-sm border-0 h-100">
+                        <i class="bi bi-file-earmark-person-fill h4 mb-2" style="color: #ff7675;"></i>
                         <div id="count-applications" class="h3 mb-1 fw-bold" style="color: #ff7675;">{{ $applicationsCount ?? 0 }}</div>
-                        <p class="text-muted mb-0">Hồ sơ ứng tuyển</p>
+                        <p class="text-muted mb-0">Applications Received</p>
                     </div>
                 </div>
 
-                <div class="col-md-4 col-lg-2">
+                <div class="col-md-4 col-lg-3">
                     <div class="card p-3 text-center shadow-sm border-0 h-100">
+                        <i class="bi bi-eye-fill h4 mb-2" style="color: #ff6b6b;"></i>
                         <div id="count-viewed-applications" class="h3 mb-1 fw-bold" style="color: #ff6b6b;">{{ $viewedApplicationsCount ?? 0 }}</div>
-                        <p class="text-muted mb-0">Lượt xem hồ sơ</p>
+                        <p class="text-muted mb-0">Applications Reviewed</p>
+                    </div>
+                </div>
+                
+                {{-- STATIC DECORATIVE BLOCK --}}
+                <div class="col-md-4 col-lg-3">
+                    <div class="card p-3 text-center shadow-sm border-0 h-100" style="background-color: #e3fcf0;">
+                        <i class="bi bi-shield-fill-check h4 mb-2 text-success"></i>
+                        <div id="static-account-status" class="h3 mb-1 fw-bold text-success">Active</div>
+                        <p class="text-muted mb-0">Account Status</p>
                     </div>
                 </div>
 
             </div>
 
+            {{-- ACTION GUIDANCE BLOCK --}}
             <div class="card shadow-sm border-0 mb-4 p-4">
-                <h5 class="card-title mb-3 fw-bold">Danh sách dịch vụ</h5>
                 <div class="row align-items-center">
                     <div class="col-md-8">
-                        <div class="text-center mb-3 mb-md-0">
-                            <img src="https://via.placeholder.com/300x200/e8f0ff/6c63ff?text=Quản+Lý+Dịch+Vụ" class="img-fluid rounded-3" alt="Service Illustration">
-                            <p class="mt-3 text-muted">Quý khách chưa đăng ký gói dịch vụ nào.</p>
-                            <p class="small text-muted">Click vào đây để biết thêm chi tiết hoặc vui lòng liên hệ chuyên viên hỗ trợ, tư vấn.</p>
-                            <a href="#" class="btn btn-outline-primary btn-sm">Mua dịch vụ ngay</a>
+                        <h5 class="card-title mb-3 fw-bold"><i class="bi bi-arrow-right-circle-fill me-2 text-primary"></i> Required Actions</h5>
+                        <p class="text-muted mb-3">Start recruiting quickly by posting a job or reviewing newly submitted applications.</p>
+                        <div class="d-flex gap-3">
+                            <a href="{{ route('employer.create') }}" class="btn btn-primary fw-bold">
+                                <i class="bi bi-send-plus me-1"></i> Post New Job
+                            </a>
+                            <a href="{{ route('employer.history') }}" class="btn btn-outline-secondary fw-bold">
+                                <i class="bi bi-person-lines-fill me-1"></i> View Applications
+                            </a>
                         </div>
                     </div>
-                    <div class="col-md-4">
-                         <div class="p-3 rounded-3" style="background-color: #f7e1e6;">
-                            <h6 class="fw-bold mb-2 text-danger">Tin tuyển dụng nổi bật</h6>
-                            <p class="small mb-2 text-muted">Thanh toán khác nhau có thể mua các ngành nghề khác nhau trong cùng một lần tuyển dụng.</p>
-                            <a href="#" class="btn btn-sm text-decoration-none fw-bold" style="background-color: #ff6b6b; color: white;">Xem chi tiết</a>
-                        </div>
+                    <div class="col-md-4 text-center mt-4 mt-md-0">
+                         <i class="bi bi-bullseye display-4 text-secondary opacity-50"></i>
                     </div>
                 </div>
             </div>
 
+            {{-- LATEST APPLICATIONS BLOCK --}}
             <div class="card shadow-sm border-0">
                 <div class="card-header bg-white border-0 pt-4 pb-0">
-                    <h5 class="card-title fw-bold d-inline-block">Hồ sơ ứng tuyển mới nhất</h5>
-                    <a href="#" class="float-end text-primary text-decoration-none fw-semibold small">Xem hết tất cả >></a>
+                    <h5 class="card-title fw-bold d-inline-block">Latest Applications Received</h5>
+                    <a href="{{ route('employer.history') }}" class="float-end text-primary text-decoration-none fw-semibold small">View All >></a>
                 </div>
                 <div class="card-body p-0">
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item d-flex fw-bold text-white" style="background-color: var(--gotto-primary);">
-                            <div class="col-4">Hồ sơ</div>
-                            <div class="col-4">Vị trí ứng tuyển</div>
-                            <div class="col-4">Ngày nộp</div>
+                            <div class="col-4">Candidate Profile</div>
+                            <div class="col-4">Applied Position</div>
+                            <div class="col-4">Date Submitted</div>
                         </li>
                         <li class="list-group-item text-center text-muted py-4">
-                            Không có dữ liệu phù hợp...
+                            No suitable data...
                         </li>
                     </ul>
                 </div>

@@ -183,7 +183,7 @@
                                         </p>
                                         <p class="job-date">
                                             <i class="custom-icon bi-clock me-1"></i>
-                                            {{ $job->created_at->diffForHumans() }}
+                                            {{ $job->posted_at?->diffForHumans() }}
                                         </p>
                                     </div>
                                     

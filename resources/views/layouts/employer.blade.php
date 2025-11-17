@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -80,15 +80,23 @@
         </button>
 
         <div class="collapse navbar-collapse" id="navbarNav">
+            
+            {{-- ✨ MENU ĐÃ SỬA: CHỈ CÓ INTRO, JOBS, CONTACT --}}
             <ul class="navbar-nav mx-auto fw-semibold">
-                <li class="nav-item"><a class="nav-link text-dark" href="{{ route('employer.intro') }}">GIỚI THIỆU</a></li>
-                <li class="nav-item"><a class="nav-link text-dark" href="#">VIỆC LÀM</a></li>
-                <li class="nav-item"><a class="nav-link text-dark" href="#">ỨNG VIÊN</a></li>
-                <li class="nav-item"><a class="nav-link text-dark" href="#">BẢNG GIÁ</a></li>
+                
+                {{-- 1. MỤC INTRO (GIỮ LẠI) --}}
+                <li class="nav-item"><a class="nav-link text-dark" href="{{ route('employer.intro') }}">INTRO</a></li>
+                
+                {{-- 2. MỤC JOBS (LẤY TỪ MAIN.BLADE.PHP) --}}
+                <li class="nav-item"><a class="nav-link text-dark" href="{{ route('jobs.list') }}">JOBS</a></li>
+                
+                {{-- 3. MỤC CONTACT (LẤY TỪ MAIN.BLADE.PHP) --}}
+                <li class="nav-item"><a class="nav-link text-dark" href="{{ route('emails.contact') }}">CONTACT</a></li>
             </ul>
+            {{-- ✨ KẾT THÚC MENU ĐÃ SỬA --}}
+
 
             <ul class="navbar-nav align-items-center">
-                {{-- SỬA: CHỈ KIỂM TRA GUARD 'employer' --}}
                 @auth('employer')
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle d-flex align-items-center text-decoration-none"
@@ -98,17 +106,15 @@
                                  class="rounded-circle me-2"
                                  style="width: 35px; height: 35px; object-fit: cover;"
                                  onerror="this.src='{{ asset('page/images/avatar-default.jpg') }}'">
-                            {{-- SỬA: DÙNG auth('employer')->user() --}}
                             <span class="fw-semibold text-dark">{{ auth('employer')->user()->name }}</span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarUser">
-                            <li><a class="dropdown-item" href="{{ route('employer.dashboard') }}">Hồ sơ công ty</a></li> 
+                            <li><a class="dropdown-item" href="{{ route('employer.dashboard') }}">Company Profile</a></li> 
                             <li><hr class="dropdown-divider"></li>
                             <li>
-                                {{-- SỬA: DÙNG ROUTE LOGOUT RIÊNG CỦA EMPLOYER --}}
                                 <form action="{{ route('employer.logout') }}" method="POST" class="d-inline">
                                     @csrf
-                                    <button type="submit" class="dropdown-item text-danger">Đăng xuất</button>
+                                    <button type="submit" class="dropdown-item text-danger">Logout</button>
                                 </form>
                             </li>
                         </ul>
@@ -118,7 +124,6 @@
                         <a class="nav-link text-dark fw-semibold" href="{{ route('employer.register') }}">Register</a>
                     </li>
                     <li class="nav-item ms-2">
-                        {{-- Dùng route login riêng của Employer --}}
                         <a class="btn btn-primary px-4 py-2 fw-semibold"
                            href="{{ route('employer.login') }}"
                            style="background-color: #5a47d1; border-color: #5a47d1; border-radius: 8px;">
@@ -137,9 +142,10 @@
 </main>
 
 <footer>
-    <p>© 2025 Gotto Online Job Portal — Nền tảng kết nối nhà tuyển dụng & ứng viên hàng đầu.</p>
+    <p>© 2025 Gotto Online Job Portal — Leading platform connecting employers & candidates.</p>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+@yield('scripts')
 </body>
 </html>

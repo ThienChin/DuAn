@@ -1,200 +1,301 @@
 @extends('layouts.main')
 
-{{-- NHÚNG CSS TRỰC TIẾP VÀO BLADE ĐỂ GHI ĐÈ BỐ CỤC NGANG --}}
+{{-- CSS to ensure the layout is not overwhelmed and refine UL/LI --}}
 @section('styles')
 <style>
-    /*---------------------------------------
-      CUSTOM STYLES TO FORCE HORIZONTAL LAYOUT (GHI ĐÈ)
-    -----------------------------------------*/
-    /* ... (CSS giữ nguyên) ... */
+    /* CSS for layout overrides (if layouts.main is not full width) */
+    .job-section .container-fluid,
+    .cta-section .container-fluid,
+    .site-footer .container-fluid {
+        /* Limit maximum width for clean layout */
+        max-width: 1400px;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    
+    /* Styling for Requirements and Benefits lists */
+    .job-thumb-detail ul {
+        list-style: none;
+        padding-left: 0;
+        margin-top: 15px;
+    }
+    .job-thumb-detail ul li {
+        margin-bottom: 8px;
+        line-height: 1.6;
+        padding-left: 20px;
+        position: relative;
+    }
+    /* Custom checkmark icon */
+    .job-thumb-detail ul li::before {
+        content: "\f26a"; /* Bootstrap icon: bi-check2 */
+        font-family: 'bootstrap-icons';
+        position: absolute;
+        left: 0;
+        color: #28a745; /* Green color */
+        font-weight: 700;
+        top: 2px;
+    }
+
+    /* Title styling for detailed content */
+    .job-thumb-detail h4, .job-thumb-detail h5 {
+        color: #007bff; /* Primary color */
+        border-bottom: 2px solid #007bff40; /* Light underline */
+        padding-bottom: 5px;
+        margin-top: 30px !important;
+    }
+    
+    /* Remove unnecessary CSS Grid rules */
+    .job-details-grid, .job-info-list.info-columns {
+        display: block !important;
+        grid-template-columns: none !important;
+        gap: 0 !important;
+    }
 </style>
 @endsection
 
 @section('content')
     <main>
+
+        {{-- HEADER --}}
         <header class="site-header">
             <div class="section-overlay"></div>
-            <div class="container-fluid">
+
+            <div class="container-fluid" style="max-width: 1400px;"> 
                 <div class="row">
+                    
                     <div class="col-lg-12 col-12 text-center">
-                        <h1 class="text-white">{{ $job->title }}</h1>
+                        {{-- DYNAMIC TITLE --}}
+                        <h1 class="text-white">⭐ {{ $job->title ?? 'Job Details' }}</h1>
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb justify-content-center">
                                 <li class="breadcrumb-item"><a href="{{ route('page.index') }}">Home</a></li>
-                                <li class="breadcrumb-item"><a href="{{ route('jobs.list') }}">Job Listings</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">{{ $job->title }}</li>
+                                <li class="breadcrumb-item active" aria-current="page">{{ $job->title ?? 'Job Details' }}</li>
                             </ol>
                         </nav>
                     </div>
+
                 </div>
             </div>
         </header>
 
-        <section class="job-section section-padding">
-            <div class="container-fluid px-5" style="max-width: 1400px;">
+        ---
+
+        {{-- JOB DETAIL SECTION (8/4 Layout - BLOCK LAYOUT) --}}
+        <section class="job-section section-padding pb-0">
+            <div class="container-fluid" style="max-width: 1400px;"> 
                 <div class="row">
-                    
-                    {{-- Cột Nội dung Chính: col-lg-9 --}}
-                    <div class="col-lg-9 col-12 order-lg-1 order-2">
-                        <div class="job-thumb job-thumb-box shadow-lg border-0 mb-4 bg-white p-0" style="width: 100% !important;">
-                            
-                            {{-- 1. HEADER CÔNG VIỆC: Thông tin Chung & Logo --}}
-                            <div class="d-flex p-4 align-items-center border-bottom">
-                                <div class="job-image-wrap me-4">
-                                    <img src="{{ asset('storage/' . $job->company_logo_url) }}" class="img-fluid rounded-circle" alt="{{ $job->company_name }}" style="width: 80px; height: 80px; object-fit: contain; border: 1px solid #eee;">
-                                </div>
-                                
-                                <div class="job-header-info flex-grow-1">
-                                    <h2 class="job-title text-primary mb-1">{{ $job->title }}</h2>
-                                    <p class="mb-2 fw-bold text-dark">{{ $job->company_name ?? 'Unknown Company' }}</p>
-                                    
-                                    <div class="d-flex align-items-center small text-muted">
-                                        {{-- ✨ Dùng locationItem --}}
-                                        <p class="mb-0 me-3"><i class="bi bi-geo-alt me-1"></i> {{ $job->locationItem->value ?? 'N/A' }}</p>
-                                        <p class="mb-0"><i class="bi bi-clock me-1"></i> Ngày đăng: {{ $job->posted_at ? (is_string($job->posted_at) ? \Carbon\Carbon::parse($job->posted_at)->format('d/m/Y') : $job->posted_at->format('d/m/Y')) : 'N/A' }}</p>
-                                    </div>
-                                </div>
 
-                                <div class="job-actions ms-auto d-flex flex-column align-items-end">
-                                    <a href="#" class="bi-bookmark text-secondary fs-5 mb-2" title="Save Job"></a>
-                                    <a href="#" class="bi-heart text-danger fs-5" title="Favorite"></a>
+                    {{-- Column 8: Job Details (Block Layout) --}}
+                    <div class="col-lg-8 col-12">
+                        <h2 class="job-title mb-0 text-dark">{{ $job->title ?? 'Technical Lead' }}</h2>
+
+                        <div class="job-thumb job-thumb-detail">
+                            
+                            {{-- CORE INFO --}}
+                            <div class="d-flex flex-wrap align-items-center border-bottom pt-lg-3 pt-2 pb-3 mb-4">
+                                
+                                {{-- LOCATION --}}
+                                <p class="job-location mb-0 me-3 text-muted">
+                                    <i class="custom-icon bi-geo-alt me-1 text-primary"></i>
+                                    {{ optional($job->locationItem)->value ?? 'Kuala, Malaysia' }}
+                                </p>
+
+                                {{-- POSTED AT --}}
+                                <p class="job-date mb-0 me-3 text-muted">
+                                    <i class="custom-icon bi-clock me-1 text-primary"></i>
+                                    {{ $job->posted_at ? \Carbon\Carbon::parse($job->posted_at)->diffForHumans() : '10 hours ago' }}
+                                </p>
+
+                                {{-- SALARY --}}
+                                <p class="job-price mb-0 me-3 text-success fw-bold">
+                                    <i class="custom-icon bi-cash me-1"></i>
+                                    {{ isset($job->salary) && $job->salary > 0 ? number_format($job->salary, 0) . ' VND' : '$20k (Negotiable)' }}
+                                </p>
+
+                                <div class="d-flex">
+                                    {{-- LEVEL --}}
+                                    <p class="mb-0 me-2">
+                                        <a href="{{ route('jobs.list', ['level' => $job->level_id]) }}" class="badge bg-primary text-white">{{ optional($job->levelItem)->value ?? 'Internship' }}</a>
+                                    </p>
+                                    {{-- TYPE --}}
+                                    <p class="mb-0">
+                                        <a href="{{ route('jobs.list', ['type' => $job->remote_type_id]) }}" class="badge bg-secondary text-white">{{ optional($job->remoteTypeItem)->value ?? 'Freelance' }}</a>
+                                    </p>
                                 </div>
                             </div>
+
+                            {{-- JOB DESCRIPTION --}}
+                            <h4 class="mt-4 mb-2">📄 Job Description</h4>
+                            <p style="white-space: pre-line;">{!! nl2br(e($job->description ?? 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.')) !!}</p>
+
+                            {{-- BENEFITS / ROLE --}}
+                            <h5 class="mt-4 mb-3">💰 Benefits & Perks</h5>
+                            @if(isset($job->benefits) && is_string($job->benefits))
+                                <p class="mb-1"><strong>Benefits:</strong> {!! nl2br(e($job->benefits)) !!}</p>
+                            @else
+                                <p class="mb-1"><strong>General Benefits:</strong> Health insurance, performance bonus, company travel.</p>
+                            @endif
+                            <p><strong>Salary Information:</strong> {{ $job->salary_note ?? 'Competitive salary, negotiable based on experience.' }}</p>
+
+                            {{-- REQUIREMENTS --}}
+                            <h5 class="mt-4 mb-3">🎯 Candidate Requirements</h5>
                             
-                            <div class="job-body p-4">
-                                
-                                {{-- 2. JOB DETAILS & REQUIREMENTS (SỬ DỤNG CSS GRID CHIA 2 CỘT LỚN) --}}
-                                <div class="job-details-grid border-bottom pb-4 mb-4">
-                                    
-                                    {{-- Chi Tiết Công Việc --}}
-                                    <div class="job-details-item col-lg-6 border-end">
-                                        <h4 class="mb-3 text-secondary border-bottom pb-2">💼 Chi Tiết Công Việc</h4>
-                                        <ul class="job-info-list info-columns">
-                                            <li><i class="bi bi-cash-stack text-primary"></i> <strong>Lương:</strong> 
-                                                @if ($job->salary > 0) {{ number_format($job->salary, 0) }} VND @else Thương Lượng @endif
-                                            </li>
-                                            {{-- ✨ Dùng levelItem --}}
-                                            <li><i class="bi bi-briefcase-fill text-primary"></i> <strong>Cấp Bậc:</strong> {{ $job->levelItem->value ?? 'N/A' }}</li>
-                                            {{-- ✨ Dùng remoteTypeItem --}}
-                                            <li><i class="bi bi-clock-fill text-primary"></i> <strong>Loại Hình:</strong> {{ $job->remoteTypeItem->value ?? 'N/A' }}</li>
-                                            {{-- ✨ Dùng categoryItem --}}
-                                            <li><i class="bi bi-tag-fill text-primary"></i> <strong>Ngành Nghề:</strong> {{ $job->categoryItem->value ?? 'N/A' }}</li>
-                                            <li><i class="bi bi-globe text-primary"></i> <strong>Từ Xa:</strong> {{ $job->remote ? 'Có' : 'Không' }}</li>
-                                        </ul>
-                                    </div>
-
-                                    {{-- Yêu Cầu Ứng Viên --}}
-                                    <div class="job-details-item col-lg-6 ps-lg-4">
-                                        <h4 class="mb-3 text-secondary border-bottom pb-2">🎯 Yêu Cầu Ứng Viên</h4>
-                                        <ul class="job-info-list info-columns">
-                                            {{-- ✨ Dùng experienceItem --}}
-                                            <li><i class="bi bi-puzzle-fill text-success"></i> <strong>Kinh nghiệm:</strong> {{ $job->experienceItem->value ?? 'Không yêu cầu' }}</li>
-                                            {{-- ✨ Dùng degreeItem --}}
-                                            <li><i class="bi bi-mortarboard-fill text-success"></i> <strong>Bằng cấp:</strong> {{ $job->degreeItem->value ?? 'Không yêu cầu' }}</li>
-                                            {{-- ✨ Dùng genderItem --}}
-                                            <li><i class="bi bi-person-fill text-success"></i> <strong>Giới tính:</strong> {{ $job->genderItem->value ?? 'Không yêu cầu' }}</li>
-                                            <li><i class="bi bi-calendar-check-fill text-success"></i> <strong>Độ tuổi:</strong> {{ $job->age ?? 'N/A' }}</li>
-                                        </ul>
-                                    </div>
-                                </div>
-
-                                {{-- 3. Mô Tả Chi Tiết Công Việc --}}
-                                <div class="job-details mb-5">
-                                    <h4 class="mb-3 text-secondary border-bottom pb-2">📝 Mô Tả Công Việc</h4>
-                                    <p style="white-space: pre-line;">{{ $job->description ?? 'No description available' }}</p>
-                                </div>
-                                
-                                {{-- 4. Kỹ Năng Yêu Cầu Khác --}}
-                                @if ($job->required_skills)
-                                <div class="job-details mb-5">
-                                    <h4 class="mb-3 text-secondary border-bottom pb-2">🔑 Kỹ Năng Yêu Cầu Khác</h4>
-                                    <p style="white-space: pre-line;">{{ $job->required_skills }}</p>
-                                </div>
+                            <ul>
+                                <li>
+                                    <strong><i class="bi bi-person-badge me-2"></i>Job Level:</strong> 
+                                    {{ optional($job->levelItem)->value ?? 'N/A' }}
+                                </li>
+                                <li>
+                                    <strong><i class="bi bi-hammer me-2"></i>Experience:</strong> 
+                                    {{ optional($job->experienceItem)->value ?? 'None required' }}
+                                </li>
+                                <li>
+                                    <strong><i class="bi bi-mortarboard me-2"></i>Degree:</strong> 
+                                    {{ optional($job->degreeItem)->value ?? 'None required' }}
+                                </li>
+                                <li>
+                                    <strong><i class="bi bi-gender-ambiguous me-2"></i>Gender:</strong> 
+                                    {{ optional($job->genderItem)->value ?? 'Any' }}
+                                </li>
+                                <li>
+                                    <strong><i class="bi bi-calendar-check me-2"></i>Age:</strong> 
+                                    {{ $job->age ?? 'N/A' }}
+                                </li>
+                                @if(isset($job->required_skills))
+                                    <li class="mt-3">
+                                        <strong><i class="bi bi-code-slash me-2"></i>Additional Skills:</strong> 
+                                        {!! nl2br(e($job->required_skills)) !!}
+                                    </li>
                                 @endif
+                            </ul>
+                            
 
-                                {{-- 5. Thông Tin Công Ty & Ảnh --}}
-                                <div class="job-details pt-4 border-top">
-                                    <h4 class="mb-3 text-secondary border-bottom pb-2">🏢 Thông Tin Công Ty</h4>
-                                    
-                                    @if ($job->jobs_images)
-                                    <img src="{{ asset('storage/' . $job->jobs_images) }}" class="img-fluid mb-4 rounded shadow-sm" alt="Job Image" style="max-height: 250px; object-fit: cover; width: 100%;">
-                                    @endif
-                                    
-                                    <ul class="list-unstyled job-info-list small row g-2">
-                                        <li class="col-md-6"><i class="bi bi-building-fill me-2 text-info"></i> <strong>Tên Công Ty:</strong> {{ $job->company_name }}</li>
-                                        <li class="col-md-6"><i class="bi bi-at me-2 text-info"></i> <strong>Email:</strong> <a href="mailto:{{ $job->email }}">{{ $job->email ?? 'N/A' }}</a></li>
-                                        <li class="col-md-6"><i class="bi bi-telephone-fill me-2 text-info"></i> <strong>Điện Thoại:</strong> {{ $job->phone ?? 'N/A' }}</li>
-                                        <li class="col-md-6"><i class="bi bi-link-45deg me-2 text-info"></i> <strong>Website:</strong> <a href="{{ $job->website }}" target="_blank">{{ $job->website ?? 'N/A' }}</a></li>
-                                    </ul>
-                                    <p class="small text-muted mt-3">{{ $job->company_description ?? 'No description available' }}</p>
+                            {{-- ACTIONS & SHARE BUTTONS --}}
+                            <div class="d-flex justify-content-center flex-wrap mt-5 border-top pt-4">
+                                <a href="{{ route('jobs.apply.form', $job->id) }}" class="custom-btn btn mt-2 btn-lg">Apply now</a>
+
+                                <a href="#" class="custom-btn custom-border-btn btn mt-2 ms-lg-4 ms-3">Save this job</a>
+
+                                <div class="job-detail-share d-flex align-items-center">
+                                    <p class="mb-0 me-lg-4 me-3">Share:</p>
+                                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ url()->current() }}" target="_blank" class="bi-facebook text-primary fs-5"></a>
+                                    <a href="https://twitter.com/intent/tweet?url={{ url()->current() }}" target="_blank" class="bi-twitter mx-3 text-info fs-5"></a>
+                                    <a href="#" class="bi-share text-secondary fs-5"></a>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    
-                    {{-- Cột Sidebar: col-lg-3 (Giữ nguyên) --}}
-                    <div class="col-lg-3 col-12 order-lg-2 order-1 mb-4 mb-lg-0">
-                        <div class="job-sidebar bg-white p-4 shadow-sm rounded position-sticky" style="top: 20px;">
-                            <h4 class="mb-3 text-center text-primary">Ứng Tuyển Ngay</h4>
-                            <p class="text-center small">Quan tâm công việc này? Nhấn nút bên dưới.</p>
-                            
-                            <div class="d-grid gap-2 mb-4">
-                                <a href="{{ route('jobs.apply.form', $job->id) }}" class="btn btn-primary btn-lg fw-bold">
-                                    <i class="bi bi-send-fill me-2"></i> Apply Now
-                                </a>
+
+                    {{-- Column 4: Company Sidebar --}}
+                    <div class="col-lg-4 col-12 mt-5 mt-lg-0">
+                        <div class="job-thumb job-thumb-detail-box bg-white shadow-lg p-4">
+                            <div class="d-flex align-items-center mb-3 border-bottom pb-3">
+                                <div class="job-image-wrap d-flex align-items-center mb-0">
+                                    @php
+                                        // Use asset('storage/...') for logo path
+                                        $logoUrl = $job->company_logo_url ? asset('storage/' . $job->company_logo_url) : asset('images/logos/google.png');
+                                    @endphp
+                                    <img src="{{ $logoUrl }}" class="job-image me-3 img-fluid rounded-circle" alt="{{ $job->company_name ?? 'Company Logo' }}" style="width: 50px; height: 50px; object-fit: contain;">
+
+                                    <p class="mb-0 fw-bold">{{ $job->company_name ?? 'Google' }}</p>
+                                </div>
+
+                                <a href="#" class="bi-bookmark ms-auto me-2 text-secondary fs-5"></a>
+                                <a href="#" class="bi-heart text-danger fs-5"></a>
                             </div>
 
-                            <h5 class="mb-3 border-top pt-3 text-center">Chia Sẻ Công Việc</h5>
-                            <div class="social-share d-flex justify-content-center gap-3">
-                                <a href="https://www.facebook.com/sharer/sharer.php?u={{ url()->current() }}" target="_blank" class="bi-facebook text-primary fs-5"></a>
-                                <a href="https://twitter.com/intent/tweet?url={{ url()->current() }}&title=Apply%20for%20{{ urlencode($job->title) }}" target="_blank" class="bi-twitter text-info fs-5"></a>
-                                <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ url()->current() }}&title={{ urlencode($job->title) }}" target="_blank" class="bi-linkedin text-secondary fs-5"></a>
-                                <a href="mailto:?subject=Job%20Opportunity:%20{{ urlencode($job->title) }}&body=Check%20out%20this%20job%20at:%20{{ url()->current() }}" class="bi-envelope text-warning fs-5"></a>
-                            </div>
+                            <h6 class="mt-3 mb-2 text-primary">🏢 About the Company</h6>
+                            <p class="small">{{ $job->company_description ?? 'Lorem ipsum dolor sit amet, consectetur elit sed do eiusmod tempor incididunt labore.' }}</p>
+
+                            <h6 class="mt-4 mb-3 text-primary">📞 Contact Information</h6>
+
+                            <p class="mb-2 small">
+                                <i class="custom-icon bi-globe me-1 text-secondary"></i>
+                                <a href="{{ $job->website ?? '#' }}" class="site-footer-link" target="_blank">
+                                    {{ $job->website ?? 'www.jobbportal.com' }}
+                                </a>
+                            </p>
+
+                            <p class="mb-2 small">
+                                <i class="custom-icon bi-telephone me-1 text-secondary"></i>
+                                <a href="tel: {{ $job->phone ?? '305-240-9671' }}" class="site-footer-link">
+                                    {{ $job->phone ?? '305-240-9671' }}
+                                </a>
+                            </p>
+
+                            <p class="small">
+                                <i class="custom-icon bi-envelope me-1 text-secondary"></i>
+                                <a href="mailto:{{ $job->email ?? 'info@yourgmail.com' }}" class="site-footer-link">
+                                    {{ $job->email ?? 'info@jobportal.co' }}
+                                </a>
+                            </p>
                         </div>
                     </div>
+
                 </div>
             </div>
         </section>
 
-        {{-- Similar Jobs Section (Giữ nguyên cấu trúc) --}}
+        ---
+
+        {{-- SIMILAR JOBS SECTION --}}
         <section class="job-section section-padding bg-light">
-            <div class="container-fluid px-5" style="max-width: 1400px;">
+            <div class="container-fluid" style="max-width: 1400px;">
                 <div class="row align-items-center">
+
                     <div class="col-lg-6 col-12 mb-lg-4">
-                        <h3>Công Việc Tương Tự</h3>
-                        <p class="text-muted"><strong>Hơn 10k công việc đang mở</strong> trong các lĩnh vực tương tự, đừng bỏ lỡ cơ hội!</p>
-                    </div>
-                    <div class="col-lg-4 col-12 d-flex ms-auto mb-5 mb-lg-4">
-                        <a href="{{ route('jobs.list') }}" class="custom-btn custom-border-btn btn ms-lg-auto">Xem Tất Cả Công Việc</a>
+                        <h3>Similar Jobs</h3>
+                        <p><strong>Over 10k opening jobs</strong> Lorem Ipsum dolor sit amet, consectetur adipsicing kengan omeg kohm tokito adipcingi elit eismuod larehai</p>
                     </div>
 
-                    {{-- LƯU Ý: ĐOẠN NÀY DÙNG TRUY VẤN CŨ VỚI CỘT STRING, CẦN CẬP NHẬT TRUY VẤN THEO ID --}}
-                    @foreach (\App\Models\Job::where('category_id', $job->category_id)->where('id', '!=', $job->id)->take(3)->get() as $similarJob)
-                        <div class="col-lg-4 col-md-6 col-12 mb-4">
-                            <div class="job-thumb job-thumb-box shadow-sm border-0">
-                                <div class="job-body p-3">
-                                    <h5 class="job-title mb-2">
-                                        <a href="{{ route('jobs.show', $similarJob->id) }}" class="job-title-link text-primary">{{ $similarJob->title }}</a>
-                                    </h5>
-                                    
-                                    <div class="d-flex align-items-center mb-2">
-                                        <p class="mb-0 small me-3">
-                                            {{-- ✨ Dùng levelItem --}}
-                                            <a href="{{ route('jobs.list') }}?job-level={{ $similarJob->level_id }}" class="badge bg-info text-white">{{ $similarJob->levelItem->value ?? 'N/A' }}</a>
+                    <div class="col-lg-4 col-12 d-flex ms-auto mb-5 mb-lg-4">
+                        <a href="{{ route('jobs.list') }}" class="custom-btn custom-border-btn btn ms-lg-auto">Browse Job Listings</a>
+                    </div>
+
+                    {{-- Loop for similar jobs --}}
+                    @foreach (\App\Models\Job::where('category_id', $job->category_id ?? 1)->where('id', '!=', $job->id)->take(3)->get() as $similarJob)
+                        <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-0">
+                            <div class="job-thumb job-thumb-box shadow-sm">
+                                <div class="job-image-box-wrap">
+                                    <a href="{{ route('jobs.show', $similarJob->id) }}">
+                                        {{-- Use similar job image if available, otherwise default --}}
+                                        <img src="{{ $similarJob->jobs_images ? asset('storage/' . $similarJob->jobs_images) : asset('images/jobs/it-professional-works-startup-project.jpg') }}" class="job-image img-fluid" alt="{{ $similarJob->title }}">
+                                    </a>
+
+                                    <div class="job-image-box-wrap-info d-flex align-items-center">
+                                        <p class="mb-0">
+                                            <span class="badge bg-primary">{{ optional($similarJob->levelItem)->value ?? 'N/A' }}</span>
                                         </p>
-                                        <p class="mb-0 small">
-                                            {{-- ✨ Dùng remoteTypeItem --}}
-                                            <a href="{{ route('jobs.list') }}?job-remote={{ $similarJob->remote_type_id }}" class="badge bg-secondary text-white">{{ $similarJob->remoteTypeItem->value ?? 'N/A' }}</a>
+
+                                        <p class="mb-0">
+                                            <span class="badge bg-secondary">{{ optional($similarJob->remoteTypeItem)->value ?? 'N/A' }}</span>
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="job-body p-3">
+                                    <h4 class="job-title">
+                                        <a href="{{ route('jobs.show', $similarJob->id) }}" class="job-title-link text-dark">{{ $similarJob->title }}</a>
+                                    </h4>
+
+                                    <div class="d-flex align-items-center pt-2">
+                                        <p class="job-location small text-muted me-3">
+                                            <i class="custom-icon bi-geo-alt me-1"></i>
+                                            {{ optional($similarJob->locationItem)->value ?? 'N/A' }}
+                                        </p>
+                                        <p class="job-date small text-muted">
+                                            <i class="custom-icon bi-clock me-1"></i>
+                                            {{ \Carbon\Carbon::parse($similarJob->posted_at)->diffForHumans() }}
                                         </p>
                                     </div>
                                     
-                                    <div class="d-flex align-items-center pt-2 border-top">
+                                    <div class="d-flex align-items-center border-top pt-3 mt-3">
                                         <p class="job-price mb-0 fw-bold text-success">
                                             <i class="custom-icon bi-cash me-1"></i>
-                                            {{ number_format($similarJob->salary, 0) }} VND
+                                            {{ number_format($similarJob->salary ?? 0, 0) }} VND
                                         </p>
-                                        <a href="{{ route('jobs.show', $similarJob->id) }}" class="custom-btn btn ms-auto btn-sm">Xem chi tiết</a>
+
+                                        <a href="{{ route('jobs.show', $similarJob->id) }}" class="custom-btn btn ms-auto btn-sm">Apply now</a>
                                     </div>
                                 </div>
                             </div>
@@ -203,19 +304,30 @@
                 </div>
             </div>
         </section>
-        
+
+        {{-- CTA SECTION --}}
         <section class="cta-section">
             <div class="section-overlay"></div>
+
             <div class="container-fluid" style="max-width: 1400px;">
                 <div class="row">
                     <div class="col-lg-6 col-10">
-                        <h2 class="text-white mb-2">Hơn 10k công việc đang mở</h2>
-                        <p class="text-white">Hãy tạo tài khoản ngay để nhận được các thông báo việc làm mới nhất và phù hợp nhất!</p>
+                        <h2 class="text-white mb-2">Over 10k opening jobs</h2>
+                        <p class="text-white">Gotto Job is a leading recruitment platform. Create an account now to not miss out on the best job opportunities.</p>
                     </div>
+                    
                     <div class="col-lg-4 col-12 ms-auto">
                         <div class="custom-border-btn-wrap d-flex align-items-center mt-lg-4 mt-2">
-                            <a href="{{ route('register') }}" class="custom-btn custom-border-btn btn me-4">Tạo Tài Khoản</a>
-                            <a href="{{ route('create_cv.upload') }}" class="custom-link">Đăng Tin Tuyển Dụng</a>
+                            <a href="{{ route('create_cv.contract') }}" class="custom-btn custom-border-btn btn me-4">Create resume</a>
+
+                            {{-- Form và nút Upload CV --}}
+                            <form id="cvUploadForm" action="{{ route('create_cv.upload') }}" method="POST" enctype="multipart/form-data" style="display: none;">
+                                @csrf
+                                <input type="file" name="pdfFile" id="pdfFileInput" accept=".pdf" onchange="document.getElementById('cvUploadForm').submit()">
+                            </form>
+                            <button type="button" class="custom-btn custom-border-btn btn me-4" onclick="document.getElementById('pdfFileInput').click()">
+                                Post your CV
+                            </button>
                         </div>
                     </div>
                 </div>

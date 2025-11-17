@@ -17,6 +17,19 @@ use App\Http\Controllers\Employer\EmployerController;
             Route::post('/store', [EmployerController::class, 'store'])->name('store');
             Route::get('/my-jobs', [EmployerController::class, 'myJobs'])->name('myJobs');
             Route::get('/dasboard', [EmployerController::class, 'dashboard'])->name('dashboard');
+
+            // ✨ ROUTE CHỈNH SỬA VÀ CẬP NHẬT TIN TUYỂN DỤNG ✨
+            Route::get('/jobs/{job}/edit', [EmployerController::class, 'edit'])->name('editJob');
+            Route::put('/jobs/{job}', [EmployerController::class, 'update'])->name('updateJob');
+            // ✨ ROUTE XÓA (Cần thiết cho nút hành động trong myJobs) ✨
+            Route::delete('/jobs/{job}', [EmployerController::class, 'destroy'])->name('destroyJob');
+
+            // ✨ ROUTE MỚI: CÀI ĐẶT
+            Route::get('/settings/company', [EmployerController::class, 'showCompanyInfo'])->name('companyInfo');
+            Route::put('/settings/company', [EmployerController::class, 'updateCompanyInfo'])->name('updateCompanyInfo');
+
+            Route::get('/settings/account', [EmployerController::class, 'showAccountSettings'])->name('accountSettings');
+            Route::put('/settings/account', [EmployerController::class, 'updateAccountSettings'])->name('updateAccountSettings');
         });
     });
     Route::middleware(['auth:employer'])->prefix('employer')->name('employer.')->group(function () {
